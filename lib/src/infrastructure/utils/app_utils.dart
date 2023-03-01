@@ -9,17 +9,17 @@ class AppUtils {
   static const double largeSize = mediumSize * 2;
   static const double xLargeSize = mediumSize * 4;
 
-  ///returns a SizedBox of height "size" with a default of AppUtils.mediumSize
-  static Widget verticalSpacer({double size = mediumSize}) => SizedBox(
+  ///returns a SizedBox of height [size] with a default of AppUtils.mediumSize
+  static Widget verticalSpacer({final double size = mediumSize}) => SizedBox(
         height: size,
       );
 
-  ///returns a SizedBox of width "size" with a default of AppUtils.mediumSize
-  static Widget horizontalSpacer({double size = mediumSize}) => SizedBox(
+  ///returns a SizedBox of width [size] with a default of AppUtils.mediumSize
+  static Widget horizontalSpacer({final double size = mediumSize}) => SizedBox(
         width: size,
       );
 
-  static Future<void> fakeDelay({int seconds = 2}) async {
+  static Future<void> fakeDelay({final int seconds = 2}) async {
     await Future.delayed(Duration(seconds: seconds));
   }
 }
