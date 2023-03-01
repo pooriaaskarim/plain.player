@@ -1,30 +1,29 @@
 import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 
 class AppStorageService {
-  static final Future<Box> storage = Hive.openBox(
-    'commaStorage',
-    path: './.data',
-  );
+  static Future<Box> get storage async => Hive.openBox(
+        'commaStorage',
+        path:
+            '${await getApplicationDocumentsDirectory().then((final value) => value.path)}/.data',
+      );
 
-  static Future<void> put<T>({required String key, required T value}) async {
-    return (await storage).put(key, value);
-  }
+  static Future<void> put<T>({
+    required final String key,
+    required final T value,
+  }) async =>
+      (await storage).put(key, value);
 
   static Future<T> get<T>({
-    required String key,
-  }) async {
-    return (await storage).get(key);
-  }
+    required final String key,
+  }) async =>
+      (await storage).get(key);
 
-  static Future<int> clear() async {
-    return (await storage).clear();
-  }
+  static Future<int> clear() async => (await storage).clear();
 
-  static Future<void> delete({required String key}) async {
-    return (await storage).delete(key);
-  }
+  static Future<void> delete({required final String key}) async =>
+      (await storage).delete(key);
 
-  static Future<void> deleteAll({required List<String> key}) async {
-    return (await storage).deleteAll(key);
-  }
+  static Future<void> deleteAll({required final List<String> key}) async =>
+      (await storage).deleteAll(key);
 }
