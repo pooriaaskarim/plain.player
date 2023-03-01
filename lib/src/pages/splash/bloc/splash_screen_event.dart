@@ -17,10 +17,10 @@ class OnLoad extends SplashScreenEvent {
 }
 
 class OnSuccess extends SplashScreenEvent {
-  final ThemeData themeData;
   OnSuccess({
     required this.themeData,
   });
+  final ThemeData themeData;
   @override
   List<Object?> get props => [
         themeData,
@@ -28,6 +28,11 @@ class OnSuccess extends SplashScreenEvent {
 }
 
 class OnError extends SplashScreenEvent {
+  OnError({required this.error});
+  final String error;
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [
+        error,
+      ];
 }

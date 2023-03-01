@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import '../views/widgets/gooshi.dart';
 
 abstract class SplashScreenState extends Equatable {
-  final Gooshi logoWidget;
-  final Widget loadingWidget;
   const SplashScreenState({
     this.logoWidget = const Gooshi(),
     this.loadingWidget = const SizedBox.shrink(),
   });
+  final Gooshi logoWidget;
+  final Widget loadingWidget;
   @override
   List<Object?> get props => [logoWidget, loadingWidget];
 }

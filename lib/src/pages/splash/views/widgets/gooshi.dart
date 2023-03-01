@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class Gooshi extends StatelessWidget {
-  final Color color;
-  final double size;
   const Gooshi({
     this.color = const Color(0xFF547980),
     this.size = 300,
     super.key,
   });
+  final Color color;
+  final double size;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     const String string = '''
 <svg width="230" vgSheight="118" viewBox="0 0 230 118" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M6.9674 73.0464C6.9674 73.0464 6.9786 73.0465 7.00142 73.0551C6.97888 73.0521 6.9674 73.0464 6.9674 73.0464Z" fill="#547980"/>

@@ -1,8 +1,9 @@
-import 'package:pood/src/infrastructure/utils/app_utils.dart';
 import 'package:flutter/material.dart';
 
+import '../../../infrastructure/utils/app_utils.dart';
+
 class Unknown extends StatefulWidget {
-  const Unknown({Key? key}) : super(key: key);
+  const Unknown({super.key});
 
   @override
   State<Unknown> createState() => _UnknownState();
@@ -10,22 +11,21 @@ class Unknown extends StatefulWidget {
 
 class _UnknownState extends State<Unknown> {
   @override
-  Widget build(final BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Unknown',
-          style: Theme.of(context).textTheme.titleMedium,
+  Widget build(final BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Unknown',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
         ),
-      ),
-      body: Container(
+        body: Container(
           alignment: Alignment.center,
           margin: const EdgeInsetsDirectional.all(AppUtils.tinySize),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(
-                (Icons.info),
+                Icons.info,
                 size: AppUtils.xLargeSize * 2,
               ),
               Text(
@@ -33,7 +33,7 @@ class _UnknownState extends State<Unknown> {
                 style: Theme.of(context).textTheme.headlineMedium,
               )
             ],
-          )),
-    );
-  }
+          ),
+        ),
+      );
 }

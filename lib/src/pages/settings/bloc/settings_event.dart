@@ -8,8 +8,8 @@ abstract class SettingsEvent extends Equatable {
 }
 
 class OnLoadSettings extends SettingsEvent {
-  final ThemeData themeData;
   const OnLoadSettings({required this.themeData});
+  final ThemeData themeData;
   @override
   List<Object> get props => [
         themeData,
