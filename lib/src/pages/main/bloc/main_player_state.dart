@@ -3,40 +3,40 @@ import 'package:just_audio/just_audio.dart';
 
 abstract class MainPlayerState extends Equatable {
   const MainPlayerState({
-    required this.audiPlayer,
+    required this.audioPlayer,
   });
-  final AudioPlayer audiPlayer;
+  final AudioPlayer audioPlayer;
 
   @override
   List<Object> get props => [
-        audiPlayer,
+        audioPlayer,
       ];
 }
 
 class InitialState extends MainPlayerState {
-  const InitialState({required super.audiPlayer});
+  const InitialState({required super.audioPlayer});
 }
 
 class PlayState extends MainPlayerState {
-  const PlayState({required super.audiPlayer});
+  const PlayState({required super.audioPlayer});
 }
 
 class StopState extends MainPlayerState {
-  const StopState({required super.audiPlayer});
+  const StopState({required super.audioPlayer});
 }
 
 class PauseState extends MainPlayerState {
-  const PauseState({required super.audiPlayer});
+  const PauseState({required super.audioPlayer});
 }
 
 class LoadingState extends MainPlayerState {
-  const LoadingState({required super.audiPlayer});
+  const LoadingState({required super.audioPlayer});
 }
 
 class IdleState extends MainPlayerState {
-  const IdleState({required super.audiPlayer});
+  const IdleState({required super.audioPlayer});
 }
 
 class CompletedState extends MainPlayerState {
-  const CompletedState({required super.audiPlayer});
+  const CompletedState({required super.audioPlayer});
 }

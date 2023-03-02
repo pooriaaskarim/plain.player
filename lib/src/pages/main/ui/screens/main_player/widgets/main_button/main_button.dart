@@ -23,10 +23,9 @@ class MainButton extends StatefulWidget {
 class MainButtonState extends State<MainButton>
     with SingleTickerProviderStateMixin {
   late ButtonStyle buttonStyle;
-  late Color backgroundColor;
-  late double elevation;
-  late double size;
-  late AudioPlayer _audioPlayer;
+  late Color _backgroundColor;
+  late double _elevation;
+  late double _size;
 
   late final AnimationController _animationController;
   final Duration _animationDuration = const Duration(
@@ -35,7 +34,6 @@ class MainButtonState extends State<MainButton>
 
   @override
   void initState() {
-    _audioPlayer = widget.audioPlayer;
     _animationController = AnimationController(
       vsync: this,
       duration: _animationDuration,
@@ -48,16 +46,16 @@ class MainButtonState extends State<MainButton>
 
   @override
   void didChangeDependencies() {
-    backgroundColor = widget.backGroundColor ?? Theme.of(context).primaryColor;
-    size = widget.size ?? 100.0;
-    elevation = widget.elevation ?? 1;
+    _backgroundColor = widget.backGroundColor ?? Theme.of(context).primaryColor;
+    _size = widget.size ?? 100.0;
+    _elevation = widget.elevation ?? 1;
 
     buttonStyle = ButtonStyle(
       alignment: Alignment.center,
       animationDuration: Duration.zero,
-      backgroundColor: MaterialStateProperty.all(backgroundColor),
-      elevation: MaterialStateProperty.all(elevation),
-      fixedSize: MaterialStateProperty.all(Size(size, size)),
+      backgroundColor: MaterialStateProperty.all(_backgroundColor),
+      elevation: MaterialStateProperty.all(_elevation),
+      fixedSize: MaterialStateProperty.all(Size(_size, _size)),
       overlayColor: MaterialStateProperty.all(Colors.transparent),
       shape: MaterialStateProperty.all(const CircleBorder()),
     );
@@ -76,19 +74,20 @@ class MainButtonState extends State<MainButton>
     final GlobalKey<TooltipState> tooltipKey = GlobalKey<TooltipState>();
 
     return StreamBuilder<PlayerState>(
-      stream: _audioPlayer.playerStateStream,
+      stream: widget.audioPlayer.playerStateStream,
       builder: (final context, final snapshot) {
-        final MainButtonWidget widget = MainButtonWidget(_audioPlayer);
+        final MainButtonWidget mainButtonWidget =
+            MainButtonWidget(widget.audioPlayer);
         return Tooltip(
           key: tooltipKey,
-          message: widget.tooltipMessage,
+          message: mainButtonWidget.tooltipMessage,
           triggerMode: TooltipTriggerMode.manual,
           preferBelow: false,
           child: ElevatedButton(
             onPressed: () {
-              widget
+              mainButtonWidget
                   .onPressed(
-                    audioPlayer: _audioPlayer,
+                    audioPlayer: widget.audioPlayer,
                     parentAnimationController: _animationController,
                   )
                   ?.call();
@@ -96,9 +95,9 @@ class MainButtonState extends State<MainButton>
             },
             onLongPress: () {
               tooltipKey.currentState?.ensureTooltipVisible();
-              widget
+              mainButtonWidget
                   .onLongPressed(
-                    audioPlayer: _audioPlayer,
+                    audioPlayer: widget.audioPlayer,
                     parentAnimationController: _animationController,
                   )
                   ?.call();
@@ -110,7 +109,7 @@ class MainButtonState extends State<MainButton>
                 child: child,
               ),
               animation: _animationController,
-              child: widget.create(context),
+              child: mainButtonWidget.create(context),
             ),
           ),
         );

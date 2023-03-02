@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../bloc/main_player_bloc.dart';
-import '../../bloc/main_player_event.dart';
-import '../../bloc/main_player_state.dart';
+import '../../../bloc/main_player_bloc.dart';
+import '../../../bloc/main_player_event.dart';
+import '../../../bloc/main_player_state.dart';
 import 'widgets/main_button/main_button.dart';
+import 'widgets/seeking_bar/seeking_bar.dart';
 
 class MainPlayer extends StatelessWidget {
   const MainPlayer({super.key});
@@ -23,8 +25,9 @@ class MainPlayer extends StatelessWidget {
           children: [
             MainButton(
               key: mainButtonKey,
-              audioPlayer: state.audiPlayer,
-            )
+              audioPlayer: state.audioPlayer,
+            ),
+            SeekingBar(audioPlayer: state.audioPlayer),
           ],
         ),
       ),

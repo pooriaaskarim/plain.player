@@ -17,6 +17,7 @@ dependencies:
   flutter_svg: ^2.0.2
   just_audio: ^0.9.31
   path_provider: ^2.0.13
+  just_waveform: ^0.0.4
 
 dev_dependencies:
   flutter_test:

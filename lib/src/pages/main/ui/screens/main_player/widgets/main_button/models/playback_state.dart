@@ -87,7 +87,7 @@ class BufferingPaused implements MainButtonWidget {
     required final AudioPlayer audioPlayer,
     required final AnimationController parentAnimationController,
   }) =>
-      () {};
+      null;
 
   @override
   void Function()? onPressed({
@@ -96,7 +96,6 @@ class BufferingPaused implements MainButtonWidget {
   }) =>
       () {
         audioPlayer.play();
-        // _replayAnimation();
       };
 
   @override
@@ -125,7 +124,7 @@ class BufferingPlaying implements MainButtonWidget {
     required final AudioPlayer audioPlayer,
     required final AnimationController parentAnimationController,
   }) =>
-      () {};
+      null;
 
   @override
   void Function()? onPressed({
@@ -134,7 +133,6 @@ class BufferingPlaying implements MainButtonWidget {
   }) =>
       () {
         audioPlayer.pause();
-        // _replayAnimation();
       };
 
   @override
@@ -161,9 +159,8 @@ class Completed implements MainButtonWidget {
   void Function()? onLongPressed({
     required final AudioPlayer audioPlayer,
     required final AnimationController parentAnimationController,
-  }) {
-    throw UnimplementedError();
-  }
+  }) =>
+      null;
 
   @override
   void Function()? onPressed({
@@ -175,7 +172,6 @@ class Completed implements MainButtonWidget {
           Duration.zero,
           index: audioPlayer.effectiveIndices!.first,
         );
-        // _replayAnimation();
       };
 
   @override
@@ -194,16 +190,14 @@ class Idle implements MainButtonWidget {
     required final AudioPlayer audioPlayer,
     required final AnimationController parentAnimationController,
   }) =>
-      () {};
+      null;
 
   @override
   void Function()? onPressed({
     required final AudioPlayer audioPlayer,
     required final AnimationController parentAnimationController,
   }) =>
-      () {
-        audioPlayer.play();
-      };
+      null;
 
   @override
   Widget create(final BuildContext context) => Icon(
@@ -258,7 +252,7 @@ class LoadingPlaying implements MainButtonWidget {
     required final AudioPlayer audioPlayer,
     required final AnimationController parentAnimationController,
   }) =>
-      () {};
+      null;
 
   @override
   void Function()? onPressed({
@@ -296,7 +290,11 @@ class Paused implements MainButtonWidget {
     required final AudioPlayer audioPlayer,
     required final AnimationController parentAnimationController,
   }) =>
-      () {};
+      () {
+        audioPlayer
+          ..stop()
+          ..seek(const Duration(seconds: 0));
+      };
 
   @override
   void Function()? onPressed({
@@ -325,11 +323,9 @@ class Playing implements MainButtonWidget {
     required final AnimationController parentAnimationController,
   }) =>
       () {
-        // await audioPlayer.seek(const Duration(seconds: 0));
         audioPlayer
           ..stop()
           ..seek(const Duration(seconds: 0));
-        // _replayAnimation();
       };
 
   @override
@@ -358,7 +354,7 @@ class Stopped implements MainButtonWidget {
     required final AudioPlayer audioPlayer,
     required final AnimationController parentAnimationController,
   }) =>
-      () {};
+      null;
 
   @override
   void Function()? onPressed({
@@ -369,7 +365,6 @@ class Stopped implements MainButtonWidget {
         audioPlayer
           ..seek(Duration.zero)
           ..play();
-        // _replayAnimation();
       };
 
   @override

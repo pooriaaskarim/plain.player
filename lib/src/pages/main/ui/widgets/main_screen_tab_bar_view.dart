@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/main_player_bloc.dart';
 import '../../bloc/main_player_state.dart';
-import '../screens/main_player.dart';
+import '../screens/main_player/main_player.dart';
 
 class MainScreenTabBarView extends StatelessWidget {
   const MainScreenTabBarView({
@@ -18,6 +18,7 @@ class MainScreenTabBarView extends StatelessWidget {
   Widget build(final BuildContext context) => TabBarView(
         controller: _tabController,
         dragStartBehavior: DragStartBehavior.start,
+        physics: const NeverScrollableScrollPhysics(),
         children: [
           Container(
             height: MediaQuery.of(context).size.height,
