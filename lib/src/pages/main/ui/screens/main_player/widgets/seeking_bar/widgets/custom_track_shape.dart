@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
 class CustomTrackShape extends SliderTrackShape {
+  /// The Track is divided into three segments:
+  /// ACTIVE and INACTIVE which get painted on Canvas by
+  /// [paintLeftSegment] and [paintRightSegment] based on TextDirection of context,
+  /// and a BUFFER that is painted if [hasBuffer] is true
+  /// BUFFER's position is calculated from the nullable [secondaryValue]
+
   const CustomTrackShape({
     required this.hasBuffer,
     required this.max,
@@ -57,7 +63,7 @@ class CustomTrackShape extends SliderTrackShape {
       isDiscrete: isDiscrete,
     );
 
-    paintLeftTrack(
+    paintLeftSegment(
       enableAnimation: enableAnimation,
       canvas: context.canvas,
       thumbCenter: thumbCenter,
@@ -66,7 +72,7 @@ class CustomTrackShape extends SliderTrackShape {
       textDirection: textDirection,
     );
     if (hasBuffer) {
-      paintBufferTrack(
+      paintBufferSegment(
         canvas: context.canvas,
         thumbCenter: thumbCenter,
         trackRectangle: trackRectangle,
@@ -74,7 +80,7 @@ class CustomTrackShape extends SliderTrackShape {
         textDirection: textDirection,
       );
     }
-    paintRightTrack(
+    paintRightSegment(
       enableAnimation: enableAnimation,
       canvas: context.canvas,
       thumbCenter: thumbCenter,
@@ -82,6 +88,30 @@ class CustomTrackShape extends SliderTrackShape {
       sliderThemeData: sliderTheme,
       textDirection: textDirection,
     );
+  }
+
+  Paint getActiveSegmentPaint({
+    required final SliderThemeData sliderThemeData,
+    required final Animation<double> enableAnimation,
+  }) {
+    final ColorTween activeTrackColorTween = ColorTween(
+      begin: sliderThemeData.disabledActiveTrackColor,
+      end: sliderThemeData.activeTrackColor,
+    );
+
+    return Paint()..color = activeTrackColorTween.evaluate(enableAnimation)!;
+  }
+
+  Paint getInactiveSegmentPaint({
+    required final SliderThemeData sliderThemeData,
+    required final Animation<double> enableAnimation,
+  }) {
+    final ColorTween inactiveTrackColorTween = ColorTween(
+      begin: sliderThemeData.disabledInactiveTrackColor,
+      end: sliderThemeData.inactiveTrackColor,
+    );
+
+    return Paint()..color = inactiveTrackColorTween.evaluate(enableAnimation)!;
   }
 
   Rect getBufferSegment({
@@ -96,13 +126,13 @@ class CustomTrackShape extends SliderTrackShape {
         bufferSegment = Rect.fromLTRB(
           thumbCenter.dx,
           trackRectangle.top + verticalPadding,
-          (getBufferedPositionFromRight() ?? 0) * (trackRectangle.longestSide),
+          (getBufferedToDurationRatio() ?? 0) * (trackRectangle.longestSide),
           trackRectangle.bottom - verticalPadding,
         );
         break;
       case TextDirection.rtl:
         bufferSegment = Rect.fromLTRB(
-          (getBufferedPositionFromRight() ?? 0) * (trackRectangle.longestSide),
+          (getBufferedToDurationRatio() ?? 0) * (trackRectangle.longestSide),
           trackRectangle.top + verticalPadding,
           thumbCenter.dx,
           trackRectangle.bottom - verticalPadding,
@@ -110,6 +140,77 @@ class CustomTrackShape extends SliderTrackShape {
         break;
     }
     return bufferSegment;
+  }
+
+  Paint getBufferSegmentPaint({
+    required final SliderThemeData sliderThemeData,
+  }) {
+    final Color bufferingTrackColor =
+        sliderThemeData.secondaryActiveTrackColor!;
+
+    return Paint()..color = bufferingTrackColor;
+  }
+
+  void paintBufferSegment({
+    required final Canvas canvas,
+    required final Offset thumbCenter,
+    required final Rect trackRectangle,
+    required final SliderThemeData sliderThemeData,
+    required final TextDirection textDirection,
+    final int verticalPadding = 5,
+  }) =>
+      canvas.drawRect(
+        getBufferSegment(
+          thumbCenter: thumbCenter,
+          trackRectangle: trackRectangle,
+          textDirection: textDirection,
+        ),
+        getBufferSegmentPaint(sliderThemeData: sliderThemeData),
+      );
+
+  Rect getLeftSegment({
+    required final Rect trackRectangle,
+    required final Offset thumbCenter,
+  }) =>
+      Rect.fromLTRB(
+        trackRectangle.left,
+        trackRectangle.top,
+        thumbCenter.dx,
+        trackRectangle.bottom,
+      );
+
+  void paintLeftSegment({
+    required final Animation<double> enableAnimation,
+    required final Canvas canvas,
+    required final Offset thumbCenter,
+    required final Rect trackRectangle,
+    required final SliderThemeData sliderThemeData,
+    required final TextDirection textDirection,
+  }) {
+    final Rect leftSegment = getLeftSegment(
+      trackRectangle: trackRectangle,
+      thumbCenter: thumbCenter,
+    );
+    switch (textDirection) {
+      case TextDirection.ltr:
+        canvas.drawRect(
+          leftSegment,
+          getActiveSegmentPaint(
+            sliderThemeData: sliderThemeData,
+            enableAnimation: enableAnimation,
+          ),
+        );
+        break;
+      case TextDirection.rtl:
+        canvas.drawRect(
+          leftSegment,
+          getInactiveSegmentPaint(
+            sliderThemeData: sliderThemeData,
+            enableAnimation: enableAnimation,
+          ),
+        );
+        break;
+    }
   }
 
   Rect getRightSegment({
@@ -123,18 +224,7 @@ class CustomTrackShape extends SliderTrackShape {
         trackRectangle.bottom,
       );
 
-  Rect getLeftTrackSegment({
-    required final Rect trackRectangle,
-    required final Offset thumbCenter,
-  }) =>
-      Rect.fromLTRB(
-        trackRectangle.left,
-        trackRectangle.top,
-        thumbCenter.dx,
-        trackRectangle.bottom,
-      );
-
-  void paintRightTrack({
+  void paintRightSegment({
     required final Animation<double> enableAnimation,
     required final Canvas canvas,
     required final Offset thumbCenter,
@@ -150,7 +240,7 @@ class CustomTrackShape extends SliderTrackShape {
       case TextDirection.ltr:
         canvas.drawRect(
           rightSegment,
-          getInactiveTrackPaint(
+          getInactiveSegmentPaint(
             sliderThemeData: sliderThemeData,
             enableAnimation: enableAnimation,
           ),
@@ -159,7 +249,7 @@ class CustomTrackShape extends SliderTrackShape {
       case TextDirection.rtl:
         canvas.drawRect(
           rightSegment,
-          getActiveTrackPaint(
+          getActiveSegmentPaint(
             sliderThemeData: sliderThemeData,
             enableAnimation: enableAnimation,
           ),
@@ -168,91 +258,7 @@ class CustomTrackShape extends SliderTrackShape {
     }
   }
 
-  void paintLeftTrack({
-    required final Animation<double> enableAnimation,
-    required final Canvas canvas,
-    required final Offset thumbCenter,
-    required final Rect trackRectangle,
-    required final SliderThemeData sliderThemeData,
-    required final TextDirection textDirection,
-  }) {
-    final Rect leftSegment = getLeftTrackSegment(
-      trackRectangle: trackRectangle,
-      thumbCenter: thumbCenter,
-    );
-    switch (textDirection) {
-      case TextDirection.ltr:
-        canvas.drawRect(
-          leftSegment,
-          getActiveTrackPaint(
-            sliderThemeData: sliderThemeData,
-            enableAnimation: enableAnimation,
-          ),
-        );
-        break;
-      case TextDirection.rtl:
-        canvas.drawRect(
-          leftSegment,
-          getInactiveTrackPaint(
-            sliderThemeData: sliderThemeData,
-            enableAnimation: enableAnimation,
-          ),
-        );
-        break;
-    }
-  }
-
-  void paintBufferTrack({
-    required final Canvas canvas,
-    required final Offset thumbCenter,
-    required final Rect trackRectangle,
-    required final SliderThemeData sliderThemeData,
-    required final TextDirection textDirection,
-    final int verticalPadding = 5,
-  }) =>
-      canvas.drawRect(
-        getBufferSegment(
-          thumbCenter: thumbCenter,
-          trackRectangle: trackRectangle,
-          textDirection: textDirection,
-        ),
-        getBufferTrackPaint(sliderThemeData: sliderThemeData),
-      );
-
-  Paint getActiveTrackPaint({
-    required final SliderThemeData sliderThemeData,
-    required final Animation<double> enableAnimation,
-  }) {
-    final ColorTween activeTrackColorTween = ColorTween(
-      begin: sliderThemeData.disabledActiveTrackColor,
-      end: sliderThemeData.activeTrackColor,
-    );
-
-    return Paint()..color = activeTrackColorTween.evaluate(enableAnimation)!;
-  }
-
-  Paint getBufferTrackPaint({
-    required final SliderThemeData sliderThemeData,
-  }) {
-    final Color bufferingTrackColor =
-        sliderThemeData.secondaryActiveTrackColor!;
-
-    return Paint()..color = bufferingTrackColor;
-  }
-
-  Paint getInactiveTrackPaint({
-    required final SliderThemeData sliderThemeData,
-    required final Animation<double> enableAnimation,
-  }) {
-    final ColorTween inactiveTrackColorTween = ColorTween(
-      begin: sliderThemeData.disabledInactiveTrackColor,
-      end: sliderThemeData.inactiveTrackColor,
-    );
-
-    return Paint()..color = inactiveTrackColorTween.evaluate(enableAnimation)!;
-  }
-
-  num? getBufferedPositionFromRight() {
+  num? getBufferedToDurationRatio() {
     if (secondaryValue != null) {
       return (secondaryValue!) / max;
     }
