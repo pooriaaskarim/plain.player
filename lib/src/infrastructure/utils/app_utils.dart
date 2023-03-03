@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:just_audio/just_audio.dart';
 
 class AppUtils {
   static const double zero = 0;
@@ -21,5 +22,23 @@ class AppUtils {
 
   static Future<void> fakeDelay({final int seconds = 2}) async {
     await Future.delayed(Duration(seconds: seconds));
+  }
+
+  static void debugPrintAudioPlayerDetails(
+    final AudioPlayer audioPlayer,
+  ) {
+    debugPrint('''
+    
+    
+     -----------------------------------------
+     Duration: ${audioPlayer.duration}
+     Position: ${audioPlayer.position}
+     BufferedPosition: ${audioPlayer.bufferedPosition}
+     ProcessingState: ${audioPlayer.processingState}
+     Events: ${audioPlayer.playbackEvent}
+     ------------------------------------------
+     
+     
+     ''');
   }
 }
