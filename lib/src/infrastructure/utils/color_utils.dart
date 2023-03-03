@@ -32,7 +32,7 @@ class ColorUtils {
     surface: Color(0xFFFCFCFF),
     surfaceTint: Color(0xFF547980),
     surfaceVariant: Color(0xFFDEE3EB),
-    tertiary: Color(0xFF8AB895),
+    tertiary: Color(0xFF619B6D),
     tertiaryContainer: Color(0xFFCADFCF),
   );
 
@@ -67,7 +67,7 @@ class ColorUtils {
     surface: Color(0xFF1A1C1E),
     surfaceTint: Color(0xFF87A1A6),
     surfaceVariant: Color(0xFF42474E),
-    tertiary: Color(0xFFCADFCF),
+    tertiary: Color(0xFF8AB895),
     tertiaryContainer: Color(0xFF486A4E),
   );
 }
