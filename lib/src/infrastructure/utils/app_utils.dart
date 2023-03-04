@@ -24,6 +24,8 @@ class AppUtils {
     await Future.delayed(Duration(seconds: seconds));
   }
 
+  static Widget get emtyWidget => const SizedBox.shrink();
+
   static void debugPrintAudioPlayerDetails(
     final AudioPlayer audioPlayer,
   ) {
