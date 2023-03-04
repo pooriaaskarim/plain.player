@@ -5,7 +5,6 @@ import 'infrastructure/routes/route_names.dart';
 import 'infrastructure/routes/routes.dart';
 import 'pages/settings/bloc/settings_bloc.dart';
 import 'pages/settings/bloc/settings_state.dart';
-import 'pages/splash/bloc/splash_screen_bloc.dart';
 import 'pages/splash/views/splash_screen.dart';
 
 void main() async {
@@ -25,16 +24,8 @@ class PoodApp extends StatelessWidget {
         GlobalKey<State<MaterialApp>>();
     final GlobalKey splashScreenKey = GlobalKey();
 
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (final context) => SettingsBloc()),
-        BlocProvider(
-          create: (final context) => SplashScreenBloc(
-            settingsBloc: BlocProvider.of<SettingsBloc>(context),
-            navigatorState: Navigator.of(splashScreenKey.currentContext!),
-          ),
-        ),
-      ],
+    return BlocProvider(
+      create: (final context) => SettingsBloc(),
       child: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (final context, final settingsState) => MaterialApp(
           key: appKey,

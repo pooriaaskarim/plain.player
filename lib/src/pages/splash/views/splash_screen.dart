@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../infrastructure/theme/app_theme.dart';
 import '../../../infrastructure/utils/app_utils.dart';
+import '../../settings/bloc/settings_bloc.dart';
 import '../bloc/splash_screen_bloc.dart';
 import '../bloc/splash_screen_event.dart';
 import '../bloc/splash_screen_state.dart';
@@ -13,8 +14,10 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => BlocProvider(
-        create: (final context) => BlocProvider.of<SplashScreenBloc>(context)
-          ..add(
+        create: (final context) => SplashScreenBloc(
+          settingsBloc: BlocProvider.of<SettingsBloc>(context),
+          navigatorState: Navigator.of(context),
+        )..add(
             OnInit(
               themeData: AppTheme.lightTheme,
             ),
