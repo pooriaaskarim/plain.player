@@ -20,25 +20,33 @@ class PoodApp extends StatelessWidget {
   });
 
   @override
-  Widget build(final BuildContext context) => MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (final context) => SettingsBloc()),
-          BlocProvider(
-            create: (final context) => SplashScreenBloc(
-              settingsBloc: BlocProvider.of<SettingsBloc>(context),
-            ),
-          ),
-        ],
-        child: BlocBuilder<SettingsBloc, SettingsState>(
-          builder: (final context, final settingsState) => MaterialApp(
-            home: const SplashScreen(),
-            title: 'just Pood',
-            theme: settingsState.themeData,
-            onGenerateRoute: (final routeSettings) => AppRoutes.getRoute(
-              routeSettings.name ?? AppRouteNames.unknownPage,
-            ),
-            debugShowCheckedModeBanner: false,
+  Widget build(final BuildContext context) {
+    final GlobalKey<State<MaterialApp>> appKey =
+        GlobalKey<State<MaterialApp>>();
+    final GlobalKey splashScreenKey = GlobalKey();
+
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (final context) => SettingsBloc()),
+        BlocProvider(
+          create: (final context) => SplashScreenBloc(
+            settingsBloc: BlocProvider.of<SettingsBloc>(context),
+            navigatorState: Navigator.of(splashScreenKey.currentContext!),
           ),
         ),
-      );
+      ],
+      child: BlocBuilder<SettingsBloc, SettingsState>(
+        builder: (final context, final settingsState) => MaterialApp(
+          key: appKey,
+          home: SplashScreen(key: splashScreenKey),
+          title: 'just Pood',
+          theme: settingsState.themeData,
+          onGenerateRoute: (final routeSettings) => AppRoutes.getRoute(
+            routeSettings.name ?? AppRouteNames.unknownPage,
+          ),
+          debugShowCheckedModeBanner: false,
+        ),
+      ),
+    );
+  }
 }

@@ -1,43 +1,74 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-import '../views/widgets/gooshi.dart';
+import '../views/splash_screen.dart';
 
 abstract class SplashScreenState extends Equatable {
+  /// Every [SplashScreenState] has a [themeData] to theme the [SplashScreen]
+  /// and a [statusWidget] \[which default's to [SizedBox.shrink()]\] to
+  /// be built on [SplashScreen].
   const SplashScreenState({
-    this.logoWidget = const Gooshi(),
-    this.loadingWidget = const SizedBox.shrink(),
+    required this.themeData,
+    required this.statusWidget,
   });
-  final Gooshi logoWidget;
-  final Widget loadingWidget;
+
+  /// Current [SplashScreenState]'s theme
+  final ThemeData themeData;
+
+  /// Current [SplashScreenState]'s [statusWidget]
+  final Widget statusWidget;
+
   @override
-  List<Object?> get props => [logoWidget, loadingWidget];
+  List<Object?> get props => [
+        themeData,
+        statusWidget,
+      ];
 }
 
 class InitialState extends SplashScreenState {
   const InitialState({
-    super.logoWidget,
-    super.loadingWidget,
+    required super.themeData,
+    required super.statusWidget,
   });
+  @override
+  List<Object?> get props => [
+        themeData,
+        statusWidget,
+      ];
 }
 
 class LoadState extends SplashScreenState {
   const LoadState({
-    super.logoWidget,
-    super.loadingWidget,
+    required super.themeData,
+    required super.statusWidget,
   });
+  @override
+  List<Object?> get props => [
+        themeData,
+        statusWidget,
+      ];
 }
 
 class SuccessState extends SplashScreenState {
   const SuccessState({
-    super.logoWidget,
-    super.loadingWidget,
+    required super.themeData,
+    required super.statusWidget,
   });
+  @override
+  List<Object?> get props => [
+        themeData,
+        statusWidget,
+      ];
 }
 
 class ErrorState extends SplashScreenState {
   const ErrorState({
-    super.logoWidget,
-    super.loadingWidget,
+    required super.themeData,
+    required super.statusWidget,
   });
+  @override
+  List<Object?> get props => [
+        themeData,
+        statusWidget,
+      ];
 }
