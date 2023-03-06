@@ -73,6 +73,7 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
     );
     await AppUtils.fakeDelay(seconds: fakeDelay);
     final ThemeData themeData = await _getTheme();
+    // add(OnError(errorMessage: 'e.toString()'));
     add(OnSuccess(themeData: themeData));
   }
 

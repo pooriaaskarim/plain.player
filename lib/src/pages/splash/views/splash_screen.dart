@@ -7,7 +7,7 @@ import '../../settings/bloc/settings_bloc.dart';
 import '../bloc/splash_screen_bloc.dart';
 import '../bloc/splash_screen_event.dart';
 import '../bloc/splash_screen_state.dart';
-import 'widgets/logo.dart';
+import 'widgets/loading_widget.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({
@@ -33,7 +33,6 @@ class SplashScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
-                AppUtils.verticalSpacer(size: AppUtils.xLargeSize),
                 buildLogo(state, context),
                 AppUtils.verticalSpacer(size: AppUtils.xLargeSize),
                 buildTooltip(state),
@@ -44,8 +43,9 @@ class SplashScreen extends StatelessWidget {
         ),
       );
 
-  Logo buildLogo(final SplashScreenState state, final BuildContext context) =>
-      Logo(
+  LoadingWidget buildLogo(
+          final SplashScreenState state, final BuildContext context) =>
+      LoadingWidget(
         themeData: state.themeData,
         screenWidth: MediaQuery.of(context).size.width,
         scaleDownFactor: logoScaleDownFactor,
