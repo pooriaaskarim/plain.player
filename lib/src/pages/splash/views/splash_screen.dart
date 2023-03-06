@@ -10,7 +10,11 @@ import '../bloc/splash_screen_state.dart';
 import 'widgets/logo.dart';
 
 class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
+  const SplashScreen({
+    this.logoScaleDownFactor = 2.1,
+    super.key,
+  });
+  final double logoScaleDownFactor;
 
   @override
   Widget build(final BuildContext context) => BlocProvider(
@@ -24,27 +28,45 @@ class SplashScreen extends StatelessWidget {
           ),
         child: BlocBuilder<SplashScreenBloc, SplashScreenState>(
           builder: (final context, final state) => Scaffold(
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  AppUtils.verticalSpacer(size: AppUtils.xLargeSize),
-                  Logo(
-                    dotColor: state.themeData.colorScheme.tertiary,
-                    logoColor: state.themeData.colorScheme.primary,
-                  ),
-                  AppUtils.verticalSpacer(size: AppUtils.xLargeSize),
-                  SizedBox(
-                    height: AppUtils.xLargeSize,
-                    width: AppUtils.xLargeSize,
-                    child: state.statusWidget,
-                  ),
-                  AppUtils.verticalSpacer(size: AppUtils.xLargeSize),
-                ],
-              ),
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                AppUtils.verticalSpacer(size: AppUtils.xLargeSize),
+                buildLogo(state, context),
+                AppUtils.verticalSpacer(size: AppUtils.xLargeSize),
+                buildTooltip(state),
+                AppUtils.verticalSpacer(size: AppUtils.xLargeSize),
+              ],
             ),
           ),
+        ),
+      );
+
+  Logo buildLogo(final SplashScreenState state, final BuildContext context) =>
+      Logo(
+        themeData: state.themeData,
+        screenWidth: MediaQuery.of(context).size.width,
+        scaleDownFactor: logoScaleDownFactor,
+      );
+
+  Tooltip buildTooltip(final SplashScreenState state) => Tooltip(
+        message: state.statusWidgetTooltip ?? '',
+        preferBelow: false,
+        verticalOffset: AppUtils.largeSize,
+        enableFeedback: true,
+        textStyle: state.themeData.textTheme.labelSmall?.copyWith(
+          color: state.themeData.colorScheme.onError,
+        ),
+        decoration: BoxDecoration(
+          color: state.themeData.colorScheme.error,
+          shape: BoxShape.rectangle,
+        ),
+        child: SizedBox(
+          height: AppUtils.xLargeSize,
+          width: AppUtils.xLargeSize,
+          child: state.statusWidget ?? AppUtils.emtyWidget,
         ),
       );
 }

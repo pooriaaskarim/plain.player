@@ -44,16 +44,14 @@ class OnSuccess extends SplashScreenEvent {
 }
 
 class OnError extends SplashScreenEvent {
-  /// Shows [errorTooltip] as tooltip on the errorState's stateWidget.
+  /// Shows [errorMessage] as tooltip on the errorState's stateWidget.
   const OnError({
-    required this.errorTooltip,
+    required this.errorMessage,
   });
 
   /// Tooltip message on the errorState's stateWidget.
-  final String errorTooltip;
+  final String errorMessage;
 
   @override
-  List<Object> get props => [
-        errorTooltip,
-      ];
+  List<Object> get props => [];
 }

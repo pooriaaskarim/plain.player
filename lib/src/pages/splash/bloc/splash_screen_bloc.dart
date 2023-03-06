@@ -15,6 +15,7 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
   SplashScreenBloc({
     required this.settingsBloc,
     required this.navigatorState,
+    this.fakeDelay = 2,
   }) : super(
           InitialState(
             themeData: AppTheme.lightTheme,
@@ -46,6 +47,7 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
       ),
     );
   }
+  final int fakeDelay;
   final SettingsBloc settingsBloc;
   final NavigatorState navigatorState;
 
@@ -53,8 +55,10 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
     required final Emitter<SplashScreenState> emit,
     required final OnInit event,
   }) async {
-    await AppUtils.fakeDelay(seconds: 15);
-    add(const OnLoad());
+    await AppUtils.fakeDelay(seconds: fakeDelay);
+    if (!isClosed) {
+      add(const OnLoad());
+    }
   }
 
   Future<void> _load({
@@ -64,20 +68,11 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
     emit(
       LoadState(
         themeData: state.themeData,
-        statusWidget: const CircularProgressIndicator(),
+        statusWidget: AppUtils.emtyWidget,
       ),
     );
+    await AppUtils.fakeDelay(seconds: fakeDelay);
     final ThemeData themeData = await _getTheme();
-    await AppUtils.fakeDelay();
-    emit(
-      SuccessState(
-        themeData: themeData,
-        statusWidget: const Icon(
-          Icons.check,
-          size: AppUtils.xLargeSize,
-        ),
-      ),
-    );
     add(OnSuccess(themeData: themeData));
   }
 
@@ -88,7 +83,7 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
       theme = await AppStorageService.get(key: 'theme');
     } catch (e, s) {
       add(
-        OnError(errorTooltip: e.toString()),
+        OnError(errorMessage: e.toString()),
       );
       Exception(s);
     }
@@ -107,8 +102,14 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
     required final Emitter<SplashScreenState> emit,
     required final OnSuccess event,
   }) async {
+    emit(
+      SuccessState(
+        themeData: event.themeData,
+        statusWidget: AppUtils.emtyWidget,
+      ),
+    );
     settingsBloc.add(OnLoadSettings(themeData: event.themeData));
-    await AppUtils.fakeDelay(seconds: 3);
+    await AppUtils.fakeDelay(seconds: fakeDelay);
     await navigatorState.popAndPushNamed(AppRouteNames.homePage);
   }
 
@@ -118,16 +119,13 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
   }) async {
     emit(
       ErrorState(
-        themeData: state.themeData,
-        statusWidget: Tooltip(
-          message: event.errorTooltip,
-          child: Icon(
+          themeData: state.themeData,
+          statusWidget: Icon(
             Icons.error,
             size: AppUtils.xLargeSize,
             color: ColorUtils.lightColorScheme.error,
           ),
-        ),
-      ),
+          statusWidgetTooltip: event.errorMessage),
     );
   }
 }
