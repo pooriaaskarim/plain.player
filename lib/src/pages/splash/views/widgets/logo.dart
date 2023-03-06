@@ -4,51 +4,64 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../bloc/splash_screen_bloc.dart';
 import '../../bloc/splash_screen_state.dart';
-import 'logo_custom_paint.dart';
+import '../../models/splash_screen_status.dart';
+import 'bar_painter/bar_painter.dart';
+import 'dot_painter/dot_painter.dart';
 
 class Logo extends StatefulWidget {
   const Logo({
     required this.screenWidth,
     required this.themeData,
-    required this.splashScreenBloc,
+    this.scaleDownFactor = 2.1,
     super.key,
   });
+  final double scaleDownFactor;
   final ThemeData themeData;
   final double screenWidth;
-  final SplashScreenBloc splashScreenBloc;
   @override
   State<Logo> createState() => _LogoState();
 }
 
-class _LogoState extends State<Logo> with SingleTickerProviderStateMixin {
-  late Size _logoSize;
-  final double _logoToScreenWidthScaleDownFactor = 2.1;
+class _LogoState extends State<Logo> with TickerProviderStateMixin {
+  Size get _logoSize => Size(
+        widget.screenWidth / widget.scaleDownFactor,
+        widget.screenWidth / (widget.scaleDownFactor * 2),
+      );
+  Size get _boxSize => Size(widget.screenWidth, _logoSize.height);
+
   late AnimationController _loadingAnimationController;
-  late Animation<double> _onInitLoading;
+  late AnimationController _dotAnimationController;
+  final Duration _animationDuration = const Duration(
+    seconds: 1,
+  );
+  SplashScreenStatus splashScreenState = SplashScreenStatus.initializing;
+
   @override
   void initState() {
     super.initState();
-    _logoSize = Size(
-      widget.screenWidth / _logoToScreenWidthScaleDownFactor,
-      widget.screenWidth / (_logoToScreenWidthScaleDownFactor * 2),
-    );
+
     _loadingAnimationController = AnimationController(
-      duration: const Duration(
-        seconds: 3,
-      ),
+      duration: _animationDuration,
       vsync: this,
+      upperBound: 1.0,
+      lowerBound: 0.0,
+      animationBehavior: AnimationBehavior.preserve,
       value: 0,
-      animationBehavior: AnimationBehavior.normal,
-      lowerBound: 0,
-      upperBound: 1,
     );
-    _onInitLoading = CurvedAnimation(
-        parent: _loadingAnimationController, curve: Curves.easeIn);
+    _dotAnimationController = AnimationController(
+      duration: _animationDuration,
+      vsync: this,
+      upperBound: 1.0,
+      lowerBound: 0.0,
+      animationBehavior: AnimationBehavior.preserve,
+      value: 0,
+    );
   }
 
   @override
   void dispose() {
     _loadingAnimationController.dispose();
+    _dotAnimationController.dispose();
     super.dispose();
   }
 
@@ -67,36 +80,9 @@ class _LogoState extends State<Logo> with SingleTickerProviderStateMixin {
         </svg>''';
 
     return BlocListener<SplashScreenBloc, SplashScreenState>(
-      listener: (final context, final state) {
-        setState(() {
-          if (state is InitialState) {
-            _loadingAnimationController.animateTo(
-              0.3,
-              curve: Curves.easeIn,
-            );
-          }
-          if (state is LoadState) {
-            _loadingAnimationController.animateTo(
-              0.5,
-              curve: Curves.easeIn,
-            );
-          }
-          if (state is SuccessState) {
-            _loadingAnimationController.animateTo(
-              .10,
-              curve: Curves.easeIn,
-            );
-          }
-          if (state is ErrorState) {
-            _loadingAnimationController.animateTo(
-              .8,
-              curve: Curves.easeIn,
-            );
-          }
-          _loadingAnimationController.addListener(() {
-            setState(() {});
-          });
-        });
+      listener: (final context, final state) async {
+        splashScreenState = state.status;
+        await _resetLoadingAnimation();
       },
       child: Stack(
         fit: StackFit.passthrough,
@@ -105,11 +91,25 @@ class _LogoState extends State<Logo> with SingleTickerProviderStateMixin {
           AnimatedBuilder(
             animation: _loadingAnimationController,
             builder: (final context, final child) => CustomPaint(
-              size: Size(widget.screenWidth, _logoSize.height),
-              painter: LogoCustomPainter(
-                  loadingAnimation: _loadingAnimationController,
-                  themeData: widget.themeData,
-                  logoSize: _logoSize),
+              size: _boxSize,
+              painter: BarPainter.state(
+                splashScreenState,
+                loadingAnimationController: _loadingAnimationController,
+                logoSize: _logoSize,
+                themeData: widget.themeData,
+              ),
+            ),
+          ),
+          AnimatedBuilder(
+            animation: _dotAnimationController,
+            builder: (final context, final child) => CustomPaint(
+              size: _boxSize,
+              painter: DotPainter.state(
+                splashScreenState,
+                dotAnimationController: _dotAnimationController,
+                logoSize: _logoSize,
+                themeData: widget.themeData,
+              ),
             ),
           ),
           SvgPicture.string(
@@ -121,5 +121,10 @@ class _LogoState extends State<Logo> with SingleTickerProviderStateMixin {
         ],
       ),
     );
+  }
+
+  Future<void> _resetLoadingAnimation() async {
+    _loadingAnimationController.reset();
+    await _loadingAnimationController.forward();
   }
 }
