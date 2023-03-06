@@ -44,7 +44,9 @@ class SplashScreen extends StatelessWidget {
       );
 
   LoadingWidget buildLogo(
-          final SplashScreenState state, final BuildContext context) =>
+    final SplashScreenState state,
+    final BuildContext context,
+  ) =>
       LoadingWidget(
         themeData: state.themeData,
         screenWidth: MediaQuery.of(context).size.width,

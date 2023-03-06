@@ -120,13 +120,14 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
   }) async {
     emit(
       ErrorState(
-          themeData: state.themeData,
-          statusWidget: Icon(
-            Icons.error,
-            size: AppUtils.xLargeSize,
-            color: ColorUtils.lightColorScheme.error,
-          ),
-          statusWidgetTooltip: event.errorMessage),
+        themeData: state.themeData,
+        statusWidget: Icon(
+          Icons.error,
+          size: AppUtils.xLargeSize,
+          color: ColorUtils.lightColorScheme.error,
+        ),
+        statusWidgetTooltip: event.errorMessage,
+      ),
     );
   }
 }

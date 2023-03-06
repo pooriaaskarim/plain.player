@@ -104,8 +104,9 @@ class _LoadingWidgetState extends State<LoadingWidget>
               ),
             ),
             Logo(
-                logoSize: _logoSize,
-                color: widget.themeData.colorScheme.primary),
+              logoSize: _logoSize,
+              color: widget.themeData.colorScheme.primary,
+            ),
           ],
         ),
       );
