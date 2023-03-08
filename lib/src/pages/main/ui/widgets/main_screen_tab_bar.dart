@@ -16,11 +16,11 @@ class MainScreenTabBar extends StatelessWidget {
         controller: _tabController,
         dragStartBehavior: DragStartBehavior.start,
         tabs: [
-          const Tab(icon: Icon(Icons.playlist_play)),
+          // const Tab(icon: Icon(Icons.playlist_play)),
           const Tab(icon: Icon(Icons.play_circle_fill)),
-          const Tab(icon: Icon(Icons.file_present_rounded)),
-          const Tab(icon: Icon(Icons.person)),
-          const Tab(icon: Icon(Icons.disc_full)),
+          // const Tab(icon: Icon(Icons.file_present_rounded)),
+          // const Tab(icon: Icon(Icons.person)),
+          // const Tab(icon: Icon(Icons.disc_full)),
           PopupMenuButton(
             onSelected: (final _) => Navigator.pop(context),
             icon: const Icon(Icons.more_vert),

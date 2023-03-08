@@ -3,20 +3,22 @@ import 'package:flutter/material.dart';
 class CustomTrackShape extends SliderTrackShape {
   /// The Track is divided into three segments:
   /// ACTIVE and INACTIVE which get painted on Canvas by
-  /// [paintLeftSegment] and [paintRightSegment] based on TextDirection of context,
+  /// [paintLeftSegment] and [paintRightSegment] based on
+  /// TextDirection of context,
   /// and a BUFFER that is painted if [hasBuffer] is true
   /// BUFFER's position is calculated from the nullable [secondaryValue]
 
   const CustomTrackShape({
     required this.hasBuffer,
-    required this.max,
     required this.min,
+    this.max,
     this.secondaryValue,
   });
   final bool hasBuffer;
   final double min;
-  final double max;
+  final double? max;
   final double? secondaryValue;
+  final Color _secondaryActiveTrackColorFallBack = Colors.indigo;
 
   @override
   Rect getPreferredRect({
@@ -126,13 +128,15 @@ class CustomTrackShape extends SliderTrackShape {
         bufferSegment = Rect.fromLTRB(
           thumbCenter.dx,
           trackRectangle.top + verticalPadding,
-          (getBufferedToDurationRatio() ?? 0) * (trackRectangle.longestSide),
+          (getBufferedPositionToDurationRatio() ?? 0) *
+              (trackRectangle.longestSide),
           trackRectangle.bottom - verticalPadding,
         );
         break;
       case TextDirection.rtl:
         bufferSegment = Rect.fromLTRB(
-          (getBufferedToDurationRatio() ?? 0) * (trackRectangle.longestSide),
+          (getBufferedPositionToDurationRatio() ?? 0) *
+              (trackRectangle.longestSide),
           trackRectangle.top + verticalPadding,
           thumbCenter.dx,
           trackRectangle.bottom - verticalPadding,
@@ -146,7 +150,8 @@ class CustomTrackShape extends SliderTrackShape {
     required final SliderThemeData sliderThemeData,
   }) {
     final Color bufferingTrackColor =
-        sliderThemeData.secondaryActiveTrackColor!;
+        sliderThemeData.secondaryActiveTrackColor ??
+            _secondaryActiveTrackColorFallBack;
 
     return Paint()..color = bufferingTrackColor;
   }
@@ -258,10 +263,8 @@ class CustomTrackShape extends SliderTrackShape {
     }
   }
 
-  num? getBufferedToDurationRatio() {
-    if (secondaryValue != null) {
-      return (secondaryValue!) / max;
-    }
-    return null;
-  }
+  num? getBufferedPositionToDurationRatio() =>
+      (max == null || secondaryValue == null)
+          ? null
+          : secondaryValue! / (max! - min);
 }

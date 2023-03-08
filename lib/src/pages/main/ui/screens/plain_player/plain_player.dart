@@ -5,16 +5,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../bloc/main_player_bloc.dart';
 import '../../../bloc/main_player_event.dart';
 import '../../../bloc/main_player_state.dart';
-import 'widgets/main_button/main_button.dart';
+import 'widgets/main_button/plain_button_widget.dart';
 import 'widgets/seeking_bar/seeking_bar.dart';
 
-class MainPlayer extends StatelessWidget {
-  const MainPlayer({super.key});
+class PlainPlayer extends StatelessWidget {
+  const PlainPlayer({super.key});
 
   @override
   Widget build(final BuildContext context) {
-    final GlobalKey<MainButtonState> mainButtonKey =
-        GlobalKey<MainButtonState>();
+    final GlobalKey<PlainButtonWidgetState> mainButtonKey =
+        GlobalKey<PlainButtonWidgetState>();
     return BlocProvider(
       create: (final context) =>
           BlocProvider.of<MainPlayerBloc>(context)..add(const OnInit()),
@@ -23,9 +23,9 @@ class MainPlayer extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            MainButton(
+            PlainButtonWidget.playback(
+              state.audioPlayer,
               key: mainButtonKey,
-              audioPlayer: state.audioPlayer,
             ),
             SeekingBar(audioPlayer: state.audioPlayer),
           ],

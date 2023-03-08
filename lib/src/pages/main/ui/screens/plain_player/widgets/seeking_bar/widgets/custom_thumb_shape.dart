@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 
+import 'drag_cancel_painter.dart';
+
 class CustomThumbShape extends SliderComponentShape {
   CustomThumbShape({
-    required this.parentContext,
     required this.isTouched,
-    required this.max,
     required this.min,
+    this.max,
     this.thumbWidth = 5,
   });
-  final double thumbWidth;
-  final BuildContext parentContext;
-  final double min;
-  final double max;
+
   bool isTouched;
+  final double min;
+  final double? max;
+  final double thumbWidth;
+
+  final Color _thumbColorFallBack = Colors.blue;
+  final double _trackHeightFallBack = 20.0;
   @override
   Size getPreferredSize(final bool isEnabled, final bool isDiscrete) =>
       Size.fromRadius(thumbWidth);
@@ -34,12 +38,12 @@ class CustomThumbShape extends SliderComponentShape {
   }) {
     final Canvas canvas = context.canvas;
     final paint = Paint()
-      ..color = Theme.of(parentContext).primaryColor //Thumb Background Color
-      ..style = PaintingStyle.fill
+      ..color = sliderTheme.thumbColor ?? _thumbColorFallBack
+      ..style = PaintingStyle.stroke
       ..strokeWidth = thumbWidth;
 
     final TextSpan textSpan = TextSpan(
-      style: Theme.of(parentContext).textTheme.labelLarge,
+      style: sliderTheme.valueIndicatorTextStyle,
       text: getValue(value),
     );
     labelPainter
@@ -49,16 +53,20 @@ class CustomThumbShape extends SliderComponentShape {
       ..layout();
     final Offset textOffset = Offset(
       center.dx - (labelPainter.width / 2),
-      center.dy - (sliderTheme.trackHeight! * 0.8),
+      center.dy - ((sliderTheme.trackHeight ?? _trackHeightFallBack) * 0.8),
+    );
+    final Offset dragCancelOffset = Offset(
+      center.dx,
+      center.dy + ((sliderTheme.trackHeight ?? _trackHeightFallBack) * 0.8),
     );
 
     final Offset p1 = Offset(
       center.dx,
-      center.dy + sliderTheme.trackHeight! / 2,
+      center.dy + (sliderTheme.trackHeight ?? _trackHeightFallBack) / 2,
     );
     final Offset p2 = Offset(
       center.dx,
-      center.dy - sliderTheme.trackHeight! / 2,
+      center.dy - (sliderTheme.trackHeight ?? _trackHeightFallBack) / 2,
     );
 
     canvas.drawLine(p1, p2, paint);
@@ -67,6 +75,8 @@ class CustomThumbShape extends SliderComponentShape {
         canvas,
         textOffset,
       );
+      DragCancelPainter(offset: dragCancelOffset)
+          .paint(canvas, const Size(20, 20));
     }
   }
 

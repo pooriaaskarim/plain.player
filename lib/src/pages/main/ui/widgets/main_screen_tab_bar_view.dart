@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/main_player_bloc.dart';
 import '../../bloc/main_player_state.dart';
-import '../screens/main_player/main_player.dart';
+import '../screens/plain_player/plain_player.dart';
 
 class MainScreenTabBarView extends StatelessWidget {
   const MainScreenTabBarView({
@@ -20,30 +20,31 @@ class MainScreenTabBarView extends StatelessWidget {
         dragStartBehavior: DragStartBehavior.start,
         physics: const NeverScrollableScrollPhysics(),
         children: [
-          Container(
-            height: MediaQuery.of(context).size.height,
-            color: Colors.blue,
-          ),
+          // Container(
+          //   height: MediaQuery.of(context).size.height,
+          //   color: Colors.blue,
+          // ),
           BlocConsumer<MainPlayerBloc, MainPlayerState>(
             listener: (final context, final state) {},
-            builder: (final context, final state) => const MainPlayer(),
+            builder: (final context, final state) => const PlainPlayer(),
           ),
-          Container(
-            height: MediaQuery.of(context).size.height,
-            color: Colors.amber,
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height,
-            color: Colors.white,
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height,
-            color: Colors.pink,
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height,
-            color: Colors.black,
-          ),
+          // Container(
+          //   height: MediaQuery.of(context).size.height,
+          //   color: Colors.amber,
+          // ),
+          // Container(
+          //   height: MediaQuery.of(context).size.height,
+          //   color: Colors.white,
+          // ),
+          // Container(
+          //   height: MediaQuery.of(context).size.height,
+          //   color: Colors.pink,
+          // ),
+          // Container(
+          //   height: MediaQuery.of(context).size.height,
+          //   color: Colors.black,
+          // ),
+          const SizedBox.shrink(),
         ],
       );
 }
