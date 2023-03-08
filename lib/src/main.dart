@@ -30,7 +30,7 @@ class PoodApp extends StatelessWidget {
         builder: (final context, final settingsState) => MaterialApp(
           key: appKey,
           home: SplashScreen(key: splashScreenKey),
-          title: 'just Pood',
+          title: 'just Plain',
           theme: settingsState.themeData,
           onGenerateRoute: (final routeSettings) => AppRoutes.getRoute(
             routeSettings.name ?? AppRouteNames.unknownPage,

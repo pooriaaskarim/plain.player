@@ -1,4 +1,4 @@
-package com.example.pood
+package com.example.plain
 
 import io.flutter.embedding.android.FlutterActivity
 

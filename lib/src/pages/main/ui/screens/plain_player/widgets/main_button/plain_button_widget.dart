@@ -4,8 +4,7 @@ import 'package:just_audio/just_audio.dart';
 import 'plain_button/plain_button.dart';
 
 class PlainButtonWidget extends StatefulWidget {
-  const PlainButtonWidget._({
-    required this.plainButton,
+  const PlainButtonWidget({
     required this.audioPlayer,
     this.backgroundColor,
     this.elevation,
@@ -13,38 +12,6 @@ class PlainButtonWidget extends StatefulWidget {
     super.key,
   });
 
-  factory PlainButtonWidget.playback(
-    final AudioPlayer audioPlayer, {
-    final Color? backgroundColor,
-    final double? elevation,
-    final double? size,
-    final Key? key,
-  }) =>
-      PlainButtonWidget._(
-        plainButton: PlainButton.playback(audioPlayer),
-        audioPlayer: audioPlayer,
-        backgroundColor: backgroundColor,
-        size: size,
-        elevation: elevation,
-        key: key,
-      );
-  factory PlainButtonWidget.next(
-    final AudioPlayer audioPlayer, {
-    final Color? backgroundColor,
-    final double? elevation,
-    final double? size,
-    final Key? key,
-  }) =>
-      PlainButtonWidget._(
-        plainButton: PlainButton.next(),
-        audioPlayer: audioPlayer,
-        backgroundColor: backgroundColor,
-        size: size,
-        elevation: elevation,
-        key: key,
-      );
-
-  final PlainButton plainButton;
   final AudioPlayer audioPlayer;
   final Color? backgroundColor;
   final double? elevation;
@@ -109,41 +76,46 @@ class PlainButtonWidgetState extends State<PlainButtonWidget>
 
     return StreamBuilder<PlayerState>(
       stream: widget.audioPlayer.playerStateStream,
-      builder: (final context, final snapshot) => Tooltip(
-        key: tooltipKey,
-        message: widget.plainButton.tooltipMessage,
-        triggerMode: TooltipTriggerMode.manual,
-        preferBelow: false,
-        child: ElevatedButton(
-          onPressed: () {
-            widget.plainButton
-                .onPressed(
-                  audioPlayer: widget.audioPlayer,
-                  parentAnimationController: _animationController,
-                )
-                ?.call();
-            _replayAnimation(_animationController);
-          },
-          onLongPress: () {
-            tooltipKey.currentState?.ensureTooltipVisible();
-            widget.plainButton
-                .onLongPressed(
-                  audioPlayer: widget.audioPlayer,
-                  parentAnimationController: _animationController,
-                )
-                ?.call();
-          },
-          style: buttonStyle,
-          child: AnimatedBuilder(
-            builder: (final context, final child) => Opacity(
-              opacity: _animationController.value,
-              child: child,
+      builder: (final context, final snapshot) {
+        final PlainButton plainButton =
+            PlainButton.playback(widget.audioPlayer);
+
+        return Tooltip(
+          key: tooltipKey,
+          message: plainButton.tooltipMessage,
+          triggerMode: TooltipTriggerMode.manual,
+          preferBelow: false,
+          child: ElevatedButton(
+            onPressed: () {
+              plainButton
+                  .onPressed(
+                    audioPlayer: widget.audioPlayer,
+                    parentAnimationController: _animationController,
+                  )
+                  ?.call();
+              _replayAnimation(_animationController);
+            },
+            onLongPress: () {
+              tooltipKey.currentState?.ensureTooltipVisible();
+              plainButton
+                  .onLongPressed(
+                    audioPlayer: widget.audioPlayer,
+                    parentAnimationController: _animationController,
+                  )
+                  ?.call();
+            },
+            style: buttonStyle,
+            child: AnimatedBuilder(
+              builder: (final context, final child) => Opacity(
+                opacity: _animationController.value,
+                child: child,
+              ),
+              animation: _animationController,
+              child: plainButton.widget(context),
             ),
-            animation: _animationController,
-            child: widget.plainButton.widget(context),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 

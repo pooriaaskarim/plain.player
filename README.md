@@ -1,6 +1,6 @@
-# pood
+# plain
 
-Pood Music Player
+Plain Music Player
 
 ## Getting Started
 

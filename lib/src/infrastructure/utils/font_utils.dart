@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class FontUtils {
-  ///Pood Text Theme Data
+  ///Plain Text Theme Data
   static const TextTheme textTheme = TextTheme(
     displayLarge: TextStyle(
       fontFamily: FontUtils.fontFamily,
