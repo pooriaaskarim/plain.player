@@ -15,9 +15,6 @@ abstract class SplashScreenState extends Equatable {
     this.statusWidgetTooltip,
   });
 
-  /// returns [SplashScreenStatus]
-  SplashScreenStatus get status;
-
   /// Current [SplashScreenState]'s [themeData]
   final ThemeData themeData;
 
@@ -44,9 +41,6 @@ class InitialState extends SplashScreenState {
         themeData,
         statusWidget,
       ];
-
-  @override
-  SplashScreenStatus get status => SplashScreenStatus.initializing;
 }
 
 class LoadState extends SplashScreenState {
@@ -60,8 +54,6 @@ class LoadState extends SplashScreenState {
         themeData,
         statusWidget,
       ];
-  @override
-  SplashScreenStatus get status => SplashScreenStatus.loading;
 }
 
 class SuccessState extends SplashScreenState {
@@ -75,8 +67,6 @@ class SuccessState extends SplashScreenState {
         themeData,
         statusWidget,
       ];
-  @override
-  SplashScreenStatus get status => SplashScreenStatus.success;
 }
 
 class ErrorState extends SplashScreenState {
@@ -90,6 +80,4 @@ class ErrorState extends SplashScreenState {
         themeData,
         statusWidget,
       ];
-  @override
-  SplashScreenStatus get status => SplashScreenStatus.error;
 }
