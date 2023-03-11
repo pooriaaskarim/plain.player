@@ -2,13 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:just_audio/just_audio.dart';
 
 class AppUtils {
-  static const double zero = 0;
-  static const double tinySize = mediumSize / 8;
-  static const double xSmallSize = mediumSize / 4;
-  static const double smallSize = mediumSize / 2;
-  static const double mediumSize = 16.0;
-  static const double largeSize = mediumSize * 2;
-  static const double xLargeSize = mediumSize * 4;
+  AppUtils._();
+
+  static const double _baseSize = 8.0;
+  static const double zero = 0.0;
+  static const double tinySize = _baseSize / 2;
+  static const double smallSize = _baseSize;
+  static const double mediumSize = _baseSize * 2;
+  static const double largeSize = _baseSize * 3;
+  static const double xLargeSize = _baseSize * 4;
+  static const double xxLargeSize = _baseSize * 6;
+  static const double xxxLargeSize = _baseSize * 8;
 
   ///returns a SizedBox of height [size] with a default of AppUtils.mediumSize
   static Widget verticalSpacer({final double size = mediumSize}) => SizedBox(
@@ -38,6 +42,7 @@ class AppUtils {
      BufferedPosition: ${audioPlayer.bufferedPosition}
      ProcessingState: ${audioPlayer.processingState}
      Events: ${audioPlayer.playbackEvent}
+     Events: ${audioPlayer.audioSource}
      ------------------------------------------
      
      
