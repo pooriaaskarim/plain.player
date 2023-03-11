@@ -34,9 +34,9 @@ class SplashScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               children: [
                 buildLogo(state, context),
-                AppUtils.verticalSpacer(size: AppUtils.xLargeSize),
+                AppUtils.verticalSpacer(size: AppUtils.xxxLargeSize),
                 buildTooltip(state),
-                AppUtils.verticalSpacer(size: AppUtils.xLargeSize),
+                AppUtils.verticalSpacer(size: AppUtils.xxxLargeSize),
               ],
             ),
           ),
