@@ -2,49 +2,98 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../infrastructure/routes/route_names.dart';
+import '../../../../infrastructure/utils/app_utils.dart';
 
-class MainScreenTabBar extends StatelessWidget {
-  const MainScreenTabBar({
-    required final TabController tabController,
+class MainPageTabBar extends StatefulWidget {
+  const MainPageTabBar({
+    required this.tabController,
     super.key,
-  }) : _tabController = tabController;
+  });
 
-  final TabController _tabController;
+  final TabController tabController;
 
   @override
-  Widget build(final BuildContext context) => TabBar(
-        controller: _tabController,
-        dragStartBehavior: DragStartBehavior.start,
-        tabs: [
-          // const Tab(icon: Icon(Icons.playlist_play)),
-          const Tab(icon: Icon(Icons.play_circle_fill)),
-          // const Tab(icon: Icon(Icons.file_present_rounded)),
-          // const Tab(icon: Icon(Icons.person)),
-          // const Tab(icon: Icon(Icons.disc_full)),
-          PopupMenuButton(
-            onSelected: (final _) => Navigator.pop(context),
-            icon: const Icon(Icons.more_vert),
+  State<MainPageTabBar> createState() => MainPageTabBarState();
+}
+
+class MainPageTabBarState extends State<MainPageTabBar> {
+  late int _activeTab;
+
+  @override
+  void initState() {
+    super.initState();
+    _activeTab = widget.tabController.index;
+  }
+
+  @override
+  Widget build(final BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    const double activeTabHeight = AppUtils.xLargeSize;
+    const double activeIconSize = activeTabHeight;
+    const double inactiveTabHeight = AppUtils.largeSize;
+    const double inactiveIconSize = inactiveTabHeight;
+
+    return SizedBox(
+      width: screenWidth,
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(
+            width: screenWidth - (1.5 * activeIconSize),
+            child: TabBar(
+              indicatorSize: TabBarIndicatorSize.tab,
+              // onTap: (_) => updateActiveTab(),
+              physics: const NeverScrollableScrollPhysics(),
+              controller: widget.tabController,
+              dragStartBehavior: DragStartBehavior.start,
+              tabs: [
+                Tab(
+                  icon: Icon(
+                    Icons.play_circle_fill,
+                    size: _isActive(0) ? activeIconSize : inactiveIconSize,
+                  ),
+                  height: _isActive(0) ? activeTabHeight : inactiveTabHeight,
+                ),
+                Tab(
+                  icon: Icon(
+                    Icons.folder,
+                    size: _isActive(1) ? activeIconSize : inactiveIconSize,
+                  ),
+                  height: _isActive(1) ? activeTabHeight : inactiveTabHeight,
+                ),
+              ],
+            ),
+          ),
+          PopupMenuButton<String>(
+            padding: EdgeInsets.zero,
+            icon: const Icon(
+              Icons.more_vert,
+              size: activeIconSize,
+            ),
+            onSelected: (final value) {
+              Navigator.of(context).pushNamed(value);
+            },
             itemBuilder: (final context) => [
-              PopupMenuItem(
-                child: MaterialButton(
-                  child: const Text('Settings'),
-                  onPressed: () => Navigator.popAndPushNamed(
-                    context,
-                    AppRouteNames.settingsPage,
-                  ),
-                ),
+              PopupMenuItem<String>(
+                value: AppRouteNames.settingsPage,
+                child: const Text('Settings'),
               ),
-              PopupMenuItem(
-                child: MaterialButton(
-                  child: const Text('Unknown'),
-                  onPressed: () => Navigator.popAndPushNamed(
-                    context,
-                    AppRouteNames.unknownPage,
-                  ),
-                ),
+              PopupMenuItem<String>(
+                value: AppRouteNames.unknownPage,
+                child: const Text('Unknown'),
               ),
             ],
           )
         ],
-      );
+      ),
+    );
+  }
+
+  bool _isActive(final int currentIndex) =>
+      widget.tabController.index == currentIndex;
+
+  void updateActiveTab() => setState(() {
+        _activeTab = widget.tabController.index;
+      });
 }

@@ -8,6 +8,11 @@ import 'pages/settings/bloc/settings_state.dart';
 import 'pages/splash/views/splash_screen.dart';
 
 void main() async {
+  // await JustAudioBackground.init(
+  //   androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
+  //   androidNotificationChannelName: 'Audio playback',
+  //   androidNotificationOngoing: true,
+  // );
   runApp(
     const PoodApp(),
   );

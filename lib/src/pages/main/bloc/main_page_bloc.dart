@@ -1,11 +1,15 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio/just_audio.dart';
 
-import 'main_player_event.dart';
-import 'main_player_state.dart';
+import 'main_page_event.dart';
+import 'main_page_state.dart';
 
-class MainPlayerBloc extends Bloc<MainPlayerEvent, MainPlayerState> {
-  MainPlayerBloc() : super(InitialState(audioPlayer: AudioPlayer())) {
+class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
+  MainPageBloc({
+    required this.audioPlayer,
+    required this.tabController,
+  }) : super(const InitialState()) {
     on<OnInit>((final event, final emit) async {
       final playlist = ConcatenatingAudioSource(
         useLazyPreparation: true,
@@ -25,7 +29,7 @@ class MainPlayerBloc extends Bloc<MainPlayerEvent, MainPlayerState> {
           ),
         ],
       );
-      await state.audioPlayer.setAudioSource(
+      await audioPlayer.setAudioSource(
         playlist,
         // initialIndex: 0,
         initialPosition: Duration.zero,
@@ -36,4 +40,6 @@ class MainPlayerBloc extends Bloc<MainPlayerEvent, MainPlayerState> {
       // await state.player.play();
     });
   }
+  final AudioPlayer audioPlayer;
+  final TabController tabController;
 }

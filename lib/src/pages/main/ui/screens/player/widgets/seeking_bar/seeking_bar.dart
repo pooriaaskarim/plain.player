@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../../../../../../infrastructure/utils/app_utils.dart';
 import 'widgets/custom_thumb_shape.dart';
 import 'widgets/custom_track_shape.dart';
 
@@ -43,7 +44,7 @@ class _SeekingBarState extends State<SeekingBar> with TickerProviderStateMixin {
         },
       ),
       builder: (final context, final positionsMapSnapshot) {
-        // AppUtils.debugPrintAudioPlayerDetails(widget.audioPlayer);
+        AppUtils.debugPrintAudioPlayerDetails(widget.audioPlayer);
 
         return Column(
           children: [
