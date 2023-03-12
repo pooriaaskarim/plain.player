@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'app_theme_data.dart';
 
 class AppTheme {
+  AppTheme._();
+
   ///Plain's Light Theme
   static ThemeData lightTheme = ThemeData(
     appBarTheme: AppThemeData.appBarTheme(AppThemeData.lightColorScheme),

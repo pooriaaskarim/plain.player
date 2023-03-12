@@ -4,6 +4,8 @@ import '../utils/color_utils.dart';
 import '../utils/font_utils.dart';
 
 class AppThemeData {
+  AppThemeData._();
+
   static const String fontFamily = FontUtils.fontFamily;
   static const TextTheme textTheme = FontUtils.textTheme;
   static const ColorScheme lightColorScheme = ColorUtils.lightColorScheme;
