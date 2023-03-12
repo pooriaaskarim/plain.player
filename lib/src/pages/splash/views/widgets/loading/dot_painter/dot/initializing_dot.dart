@@ -4,7 +4,7 @@ class InitializingDot extends Dot {
   const InitializingDot({
     required super.dotAnimationController,
     required super.logoSize,
-    required super.color,
+    required super.loadColor,
     required super.errorColor,
   });
 

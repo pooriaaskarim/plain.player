@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 
-import '../../../models/splash_screen_status.dart';
+import '../../../../models/splash_screen_status.dart';
 import 'bar/bar.dart';
 
 class BarPainter extends CustomPainter {
   BarPainter.from(
     final SplashScreenStatus status, {
-    required final AnimationController barAnimationController,
-    required final Size logoSize,
-    required final Color color,
+    required final Color logoColor,
+    required final Color loadColor,
     required final Color errorColor,
+    required final Size logoSize,
+    required final AnimationController barAnimationController,
   }) : bar = Bar.from(
           status,
+          logoColor: logoColor,
+          loadColor: loadColor,
+          errorColor: errorColor,
           barAnimationController: barAnimationController,
           logoSize: logoSize,
-          color: color,
-          errorColor: errorColor,
         );
 
   final Bar bar;

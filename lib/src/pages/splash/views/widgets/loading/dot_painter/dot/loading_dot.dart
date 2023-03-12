@@ -6,7 +6,7 @@ class LoadingDot extends Dot {
   LoadingDot({
     required super.dotAnimationController,
     required super.logoSize,
-    required super.color,
+    required super.loadColor,
     required super.errorColor,
   });
 
@@ -18,7 +18,7 @@ class LoadingDot extends Dot {
       reverseCurve: Curves.easeOut,
     );
 
-    final Color middleColor = color.withOpacity(0.6);
+    final Color middleColor = loadColor.withOpacity(0.5);
     final ColorTween forwardTween = ColorTween(
       begin: super.dotColor,
       end: middleColor,
@@ -46,12 +46,15 @@ class LoadingDot extends Dot {
       parent: dotAnimationController,
       curve: Curves.easeIn,
     );
+
+    final double middleRadius = 1.2 * super.getRadius(boxSize);
+
     final forwardTween = Tween<double>(
       begin: super.getRadius(boxSize),
-      end: boxSize.width / 2,
+      end: middleRadius,
     );
     final reverseTween = Tween<double>(
-      begin: boxSize.width / 2,
+      begin: middleRadius,
       end: super.getRadius(boxSize),
     );
     return Tween<double>(

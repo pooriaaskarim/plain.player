@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class Logo extends StatelessWidget {
-  const Logo({
+  Logo({
     required this.logoSize,
-    required this.color,
+    required this.context,
     super.key,
-  });
+  }) : color = Theme.of(context).colorScheme.onBackground;
 
-  final Color color;
+  final BuildContext context;
   final Size logoSize;
+
+  late final Color color;
 
   @override
   Widget build(final BuildContext context) {

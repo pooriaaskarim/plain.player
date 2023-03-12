@@ -7,7 +7,7 @@ import '../../settings/bloc/settings_bloc.dart';
 import '../bloc/splash_screen_bloc.dart';
 import '../bloc/splash_screen_event.dart';
 import '../bloc/splash_screen_state.dart';
-import 'widgets/loading_widget.dart';
+import 'widgets/loading/loading_widget.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({
@@ -35,7 +35,8 @@ class SplashScreen extends StatelessWidget {
               children: [
                 buildLogo(state, context),
                 AppUtils.verticalSpacer(size: AppUtils.xxxLargeSize),
-                buildTooltip(state),
+                buildStateWidget(state),
+                AppUtils.verticalSpacer(size: AppUtils.xxxLargeSize),
                 AppUtils.verticalSpacer(size: AppUtils.xxxLargeSize),
               ],
             ),
@@ -43,7 +44,7 @@ class SplashScreen extends StatelessWidget {
         ),
       );
 
-  LoadingWidget buildLogo(
+  Widget buildLogo(
     final SplashScreenState state,
     final BuildContext context,
   ) =>
@@ -53,22 +54,9 @@ class SplashScreen extends StatelessWidget {
         scaleDownFactor: logoScaleDownFactor,
       );
 
-  Tooltip buildTooltip(final SplashScreenState state) => Tooltip(
-        message: state.statusWidgetTooltip ?? '',
-        preferBelow: false,
-        verticalOffset: AppUtils.largeSize,
-        enableFeedback: true,
-        textStyle: state.themeData.textTheme.labelSmall?.copyWith(
-          color: state.themeData.colorScheme.onError,
-        ),
-        decoration: BoxDecoration(
-          color: state.themeData.colorScheme.error,
-          shape: BoxShape.rectangle,
-        ),
-        child: SizedBox(
-          height: AppUtils.xLargeSize,
-          width: AppUtils.xLargeSize,
-          child: state.statusWidget ?? AppUtils.emtyWidget,
-        ),
+  Widget buildStateWidget(final SplashScreenState state) => SizedBox(
+        height: AppUtils.xxLargeSize,
+        width: AppUtils.xxLargeSize,
+        child: state.stateWidget ?? AppUtils.emtyWidget,
       );
 }

@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-import '../../../models/splash_screen_status.dart';
+import '../../../../models/splash_screen_status.dart';
 import 'dot/dot.dart';
 
 class DotPainter extends CustomPainter {
   DotPainter.from(
     final SplashScreenStatus status, {
     required final AnimationController dotAnimationController,
-    required final Color color,
+    required final Color loadColor,
     required final Color errorColor,
     required final Size logoSize,
   }) : dot = Dot.from(
           status,
           dotAnimationController: dotAnimationController,
           logoSize: logoSize,
-          color: color,
+          loadColor: loadColor,
           errorColor: errorColor,
         );
 

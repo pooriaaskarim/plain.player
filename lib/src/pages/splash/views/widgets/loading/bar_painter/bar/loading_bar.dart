@@ -4,11 +4,13 @@ import 'bar.dart';
 
 class LoadingBar extends Bar {
   const LoadingBar({
-    required super.loadingBarAnimationController,
-    required super.logoSize,
-    required super.color,
+    required super.logoColor,
+    required super.loadColor,
     required super.errorColor,
+    required super.logoSize,
+    required super.loadingBarAnimationController,
   });
+
   @override
   Tween<double> get loadingEndBetween => Tween<double>(begin: 0.1, end: 0.5);
 }

@@ -5,9 +5,9 @@ import '../../../infrastructure/routes/route_names.dart';
 import '../../../infrastructure/services/storage_service.dart';
 import '../../../infrastructure/theme/app_theme.dart';
 import '../../../infrastructure/utils/app_utils.dart';
-import '../../../infrastructure/utils/color_utils.dart';
 import '../../settings/bloc/settings_bloc.dart';
 import '../../settings/bloc/settings_event.dart';
+import '../views/widgets/error_state/error_state_widget.dart';
 import 'splash_screen_event.dart';
 import 'splash_screen_state.dart';
 
@@ -19,7 +19,6 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
   }) : super(
           InitialState(
             themeData: AppTheme.lightTheme,
-            statusWidget: AppUtils.emtyWidget,
           ),
         ) {
     on<OnInit>(
@@ -68,7 +67,6 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
     emit(
       LoadState(
         themeData: state.themeData,
-        statusWidget: AppUtils.emtyWidget,
       ),
     );
     await AppUtils.fakeDelay(seconds: fakeDelay);
@@ -106,7 +104,6 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
     emit(
       SuccessState(
         themeData: event.themeData,
-        statusWidget: AppUtils.emtyWidget,
       ),
     );
     settingsBloc.add(OnLoadSettings(themeData: event.themeData));
@@ -121,12 +118,9 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
     emit(
       ErrorState(
         themeData: state.themeData,
-        statusWidget: Icon(
-          Icons.error,
-          size: AppUtils.xLargeSize,
-          color: ColorUtils.lightColorScheme.error,
+        stateWidget: ErrorStateWidget(
+          errorMessage: event.errorMessage,
         ),
-        statusWidgetTooltip: event.errorMessage,
       ),
     );
   }

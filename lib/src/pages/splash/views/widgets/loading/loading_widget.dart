@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../bloc/splash_screen_bloc.dart';
-import '../../bloc/splash_screen_state.dart';
-import '../../models/splash_screen_status.dart';
+import '../../../bloc/splash_screen_bloc.dart';
+import '../../../bloc/splash_screen_state.dart';
+import '../../../models/splash_screen_status.dart';
 import 'bar_painter/bar_painter.dart';
 import 'dot_painter/dot_painter.dart';
 import 'logo/logo.dart';
@@ -24,6 +24,10 @@ class LoadingWidget extends StatefulWidget {
 
 class _LoadingWidgetState extends State<LoadingWidget>
     with TickerProviderStateMixin {
+  late Color _logoColor;
+  late Color _loadColor;
+  late Color _errorColor;
+
   Size get _logoSize => Size(
         widget.screenWidth / widget.scaleDownFactor,
         widget.screenWidth / (widget.scaleDownFactor * 2),
@@ -60,6 +64,14 @@ class _LoadingWidgetState extends State<LoadingWidget>
   }
 
   @override
+  void didChangeDependencies() {
+    _logoColor = widget.themeData.colorScheme.onBackground;
+    _loadColor = widget.themeData.colorScheme.primary;
+    _errorColor = widget.themeData.colorScheme.error;
+    super.didChangeDependencies();
+  }
+
+  @override
   void dispose() {
     _barAnimationController.dispose();
     _dotAnimationController.dispose();
@@ -85,8 +97,8 @@ class _LoadingWidgetState extends State<LoadingWidget>
                   splashScreenState,
                   dotAnimationController: _dotAnimationController,
                   logoSize: _logoSize,
-                  color: widget.themeData.colorScheme.primary,
-                  errorColor: widget.themeData.colorScheme.error,
+                  loadColor: _loadColor,
+                  errorColor: _errorColor,
                 ),
               ),
             ),
@@ -98,14 +110,15 @@ class _LoadingWidgetState extends State<LoadingWidget>
                   splashScreenState,
                   barAnimationController: _barAnimationController,
                   logoSize: _logoSize,
-                  color: widget.themeData.colorScheme.primary,
-                  errorColor: widget.themeData.colorScheme.error,
+                  logoColor: _logoColor,
+                  loadColor: _loadColor,
+                  errorColor: _errorColor,
                 ),
               ),
             ),
             Logo(
               logoSize: _logoSize,
-              color: widget.themeData.colorScheme.primary,
+              context: context,
             ),
           ],
         ),
