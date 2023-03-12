@@ -17,14 +17,6 @@ class MainPageTabBar extends StatefulWidget {
 }
 
 class MainPageTabBarState extends State<MainPageTabBar> {
-  late int _activeTab;
-
-  @override
-  void initState() {
-    super.initState();
-    _activeTab = widget.tabController.index;
-  }
-
   @override
   Widget build(final BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -92,8 +84,4 @@ class MainPageTabBarState extends State<MainPageTabBar> {
 
   bool _isActive(final int currentIndex) =>
       widget.tabController.index == currentIndex;
-
-  void updateActiveTab() => setState(() {
-        _activeTab = widget.tabController.index;
-      });
 }

@@ -87,7 +87,7 @@ class _SeekingBarState extends State<SeekingBar> with TickerProviderStateMixin {
                 width: MediaQuery.of(context).size.width,
                 height: 100,
                 child: GestureDetector(
-                  onVerticalDragStart: (_) => debugPrint('Ha Na!'),
+                  onVerticalDragStart: (final _) => debugPrint('Ha Na!'),
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: 100,

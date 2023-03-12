@@ -14,8 +14,8 @@ enum PlainButtonState {
 
 extension MapToPlainButtonState on AudioPlayer {
   PlainButtonState get getPlainButtonState {
-    final ProcessingState processingState = this.playerState.processingState;
-    final bool playing = this.playerState.playing;
+    final ProcessingState processingState = playerState.processingState;
+    final bool playing = playerState.playing;
 
     switch (processingState) {
       case ProcessingState.completed:

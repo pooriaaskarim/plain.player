@@ -37,10 +37,5 @@ class BufferingPaused implements PlainButton {
       );
 
   @override
-  // TODO: implement audioPlayer
-  AudioPlayer get audioPlayer => throw UnimplementedError();
-
-  @override
-  // TODO: implement tooltipMessage
-  String get tooltipMessage => throw UnimplementedError();
+  final String tooltipMessage = 'Buffering/Paused';
 }

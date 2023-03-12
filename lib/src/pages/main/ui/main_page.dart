@@ -36,12 +36,6 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    tabBarKey.currentState?.updateActiveTab();
-  }
-
-  @override
   Widget build(final BuildContext context) => BlocProvider(
         create: (final context) => MainPageBloc(
           audioPlayer: AudioPlayer(),
