@@ -1,12 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../infrastructure/routes/route_names.dart';
 import '../../../infrastructure/services/storage_service.dart';
-import '../../../infrastructure/theme/app_theme.dart';
 import '../../../infrastructure/utils/app_utils.dart';
 import '../../settings/bloc/settings_bloc.dart';
 import '../../settings/bloc/settings_event.dart';
+import '../../settings/models/settings.dart';
 import '../views/widgets/error_state/error_state_widget.dart';
 import 'splash_screen_event.dart';
 import 'splash_screen_state.dart';
@@ -17,8 +19,8 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
     required this.navigatorState,
     this.fakeDelay = 2,
   }) : super(
-          InitialState(
-            themeData: AppTheme.lightTheme,
+          const InitialState(
+            themeMode: ThemeMode.light,
           ),
         ) {
     on<OnInit>(
@@ -66,35 +68,30 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
   }) async {
     emit(
       LoadState(
-        themeData: state.themeData,
+        themeMode: state.themeMode,
       ),
     );
     await AppUtils.fakeDelay(seconds: fakeDelay);
-    final ThemeData themeData = await _getTheme();
+    final ThemeMode themeMode = await _getTheme();
     // add(OnError(errorMessage: 'e.toString()'));
-    add(OnSuccess(themeData: themeData));
+    add(OnSuccess(themeMode: themeMode));
   }
 
-  Future<ThemeData> _getTheme() async {
-    String? theme;
-    final ThemeData themeData;
+  Future<ThemeMode> _getTheme() async {
+    Settings? settings;
     try {
-      theme = await AppStorageService.get(key: 'theme');
-    } catch (e, s) {
+      settings = await StorageService.instance().get(key: 'Settings');
+    } on FileSystemException catch (e, s) {
       add(
         OnError(errorMessage: e.toString()),
       );
       Exception(s);
     }
-    if (theme == null) {
-      themeData = AppTheme.lightTheme;
-      settingsBloc
-          .saveTheme(themeData); // Saves light theme as default on first run
-    } else {
-      themeData = (theme == 'light') ? AppTheme.lightTheme : AppTheme.darkTheme;
+    if (settings == null) {
+      settingsBloc.saveTheme(
+          ThemeMode.light); // Saves light theme as default on first run
     }
-
-    return themeData;
+    return settings?.themeMode ?? ThemeMode.light;
   }
 
   Future<void> _success({
@@ -103,10 +100,10 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
   }) async {
     emit(
       SuccessState(
-        themeData: event.themeData,
+        themeMode: event.themeMode,
       ),
     );
-    settingsBloc.add(OnLoadSettings(themeData: event.themeData));
+    settingsBloc.add(OnLoadSettings(themeMode: event.themeMode));
     await AppUtils.fakeDelay(seconds: fakeDelay);
     await navigatorState.popAndPushNamed(AppRouteNames.homePage);
   }
@@ -117,7 +114,7 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
   }) async {
     emit(
       ErrorState(
-        themeData: state.themeData,
+        themeMode: state.themeMode,
         stateWidget: ErrorStateWidget(
           errorMessage: event.errorMessage,
         ),

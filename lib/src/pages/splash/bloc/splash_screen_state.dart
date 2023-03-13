@@ -5,73 +5,73 @@ import '../models/splash_screen_status.dart';
 import '../views/splash_screen.dart';
 
 abstract class SplashScreenState extends Equatable {
-  /// Every [SplashScreenState] has a [themeData] to theme the [SplashScreen].
+  /// Every [SplashScreenState] has a [themeMode] to theme the [SplashScreen].
   /// A [stateWidget] Widget?  can be provided to show above the logo on
   /// [SplashScreen].
   /// The getter [status] return [SplashScreenStatus] at any given moment.
 
   const SplashScreenState({
-    required this.themeData,
+    required this.themeMode,
     this.stateWidget,
   });
 
-  /// Current [SplashScreenState]'s [themeData]
-  final ThemeData themeData;
+  /// Current [SplashScreenState]'s [themeMode]
+  final ThemeMode themeMode;
 
   /// Current [SplashScreenState]'s [stateWidget]
   final Widget? stateWidget;
 
   @override
   List<Object?> get props => [
-        themeData,
+        themeMode,
         stateWidget,
       ];
 }
 
 class InitialState extends SplashScreenState {
   const InitialState({
-    required super.themeData,
+    required super.themeMode,
     super.stateWidget,
   });
   @override
   List<Object?> get props => [
-        themeData,
+        themeMode,
         stateWidget,
       ];
 }
 
 class LoadState extends SplashScreenState {
   const LoadState({
-    required super.themeData,
+    required super.themeMode,
     super.stateWidget,
   });
   @override
   List<Object?> get props => [
-        themeData,
+        themeMode,
         stateWidget,
       ];
 }
 
 class SuccessState extends SplashScreenState {
   const SuccessState({
-    required super.themeData,
+    required super.themeMode,
     super.stateWidget,
   });
   @override
   List<Object?> get props => [
-        themeData,
+        themeMode,
         stateWidget,
       ];
 }
 
 class ErrorState extends SplashScreenState {
   const ErrorState({
-    required super.themeData,
+    required super.themeMode,
     required super.stateWidget,
   });
   @override
   List<Object?> get props => [
-        themeData,
+        themeMode,
         stateWidget,
       ];
 }

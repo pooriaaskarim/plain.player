@@ -2,12 +2,12 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../infrastructure/services/storage_service.dart';
-import '../../../infrastructure/theme/app_theme.dart';
+import '../models/settings.dart';
 import 'settings_event.dart';
 import 'settings_state.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
-  SettingsBloc() : super(SettingsState(themeData: AppTheme.lightTheme)) {
+  SettingsBloc() : super(const SettingsState(themeMode: ThemeMode.light)) {
     on<OnLoadSettings>((final event, final emit) => _loadSettings(emit, event));
     on<OnToggleTheme>((final event, final emit) => _toggleTheme(emit));
   }
@@ -16,19 +16,21 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final Emitter<SettingsState> emit,
     final OnLoadSettings event,
   ) {
-    emit(SettingsState(themeData: event.themeData));
+    emit(SettingsState(themeMode: event.themeMode));
   }
 
   void _toggleTheme(final Emitter<SettingsState> emit) {
-    final themeData = (state.themeData == AppTheme.lightTheme)
-        ? AppTheme.darkTheme
-        : AppTheme.lightTheme;
-    saveTheme(themeData);
-    emit(SettingsState(themeData: themeData));
+    final ThemeMode themeMode =
+        (state.themeMode == ThemeMode.light) ? ThemeMode.dark : ThemeMode.light;
+    saveTheme(themeMode);
+    emit(SettingsState(themeMode: themeMode));
   }
 
-  void saveTheme(final ThemeData themeData) {
-    final String value = (themeData == AppTheme.lightTheme) ? 'light' : 'dark';
-    AppStorageService.put<String>(key: 'theme', value: value);
+  void saveTheme(final ThemeMode themeMode) {
+    final Settings settingsDto = Settings(themeMode: themeMode);
+    StorageService.instance().put<Settings>(
+      key: 'Settings',
+      value: settingsDto,
+    );
   }
 }

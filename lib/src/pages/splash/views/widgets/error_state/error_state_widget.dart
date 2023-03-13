@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../infrastructure/theme/app_theme.dart';
 import '../../../../../infrastructure/utils/app_utils.dart';
 import '../../../bloc/splash_screen_bloc.dart';
 import '../../../bloc/splash_screen_event.dart';
@@ -34,7 +33,7 @@ class ErrorStateWidget extends StatelessWidget {
             action: SnackBarAction(
               label: 'Retry',
               onPressed: () => BlocProvider.of<SplashScreenBloc>(context)
-                  .add(OnInit(themeData: AppTheme.lightTheme)),
+                  .add(const OnInit(themeMode: ThemeMode.light)),
             ),
           ),
         ),

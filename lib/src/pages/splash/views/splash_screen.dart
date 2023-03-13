@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../infrastructure/theme/app_theme.dart';
 import '../../../infrastructure/utils/app_utils.dart';
 import '../../settings/bloc/settings_bloc.dart';
 import '../bloc/splash_screen_bloc.dart';
@@ -22,8 +21,8 @@ class SplashScreen extends StatelessWidget {
           settingsBloc: BlocProvider.of<SettingsBloc>(context),
           navigatorState: Navigator.of(context),
         )..add(
-            OnInit(
-              themeData: AppTheme.lightTheme,
+            const OnInit(
+              themeMode: ThemeMode.light,
             ),
           ),
         child: BlocBuilder<SplashScreenBloc, SplashScreenState>(
@@ -49,7 +48,7 @@ class SplashScreen extends StatelessWidget {
     final BuildContext context,
   ) =>
       LoadingWidget(
-        themeData: state.themeData,
+        // themeData: state.themeMode,
         screenWidth: MediaQuery.of(context).size.width,
         scaleDownFactor: logoScaleDownFactor,
       );

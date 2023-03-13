@@ -9,14 +9,14 @@ abstract class SplashScreenEvent extends Equatable {
 }
 
 class OnInit extends SplashScreenEvent {
-  ///   Provider the event with an initial [themeData] default app theme.
-  const OnInit({required this.themeData});
+  ///   Provider the event with an initial [themeMode] default app theme.
+  const OnInit({required this.themeMode});
 
   ///   Initial app theme
-  final ThemeData themeData;
+  final ThemeMode themeMode;
   @override
   List<Object?> get props => [
-        themeData,
+        themeMode,
       ];
 }
 
@@ -32,14 +32,14 @@ class OnSuccess extends SplashScreenEvent {
   /// Load's the app with retrieved settings configurations
   /// and launches the app.
   const OnSuccess({
-    required this.themeData,
+    required this.themeMode,
   });
 
   /// App Configurations: currently only theme is available!!!
-  final ThemeData themeData;
+  final ThemeMode themeMode;
   @override
   List<Object?> get props => [
-        themeData,
+        themeMode,
       ];
 }
 

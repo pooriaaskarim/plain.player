@@ -3,23 +3,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'infrastructure/routes/route_names.dart';
 import 'infrastructure/routes/routes.dart';
+import 'infrastructure/services/storage_service.dart';
+import 'infrastructure/theme/app_theme.dart';
 import 'pages/settings/bloc/settings_bloc.dart';
 import 'pages/settings/bloc/settings_state.dart';
 import 'pages/splash/views/splash_screen.dart';
 
 void main() async {
-  // await JustAudioBackground.init(
-  //   androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
-  //   androidNotificationChannelName: 'Audio playback',
-  //   androidNotificationOngoing: true,
-  // );
+  WidgetsFlutterBinding.ensureInitialized();
+  await StorageService.instance().init;
+
   runApp(
-    const PoodApp(),
+    const PlainApp(),
   );
 }
 
-class PoodApp extends StatelessWidget {
-  const PoodApp({
+class PlainApp extends StatelessWidget {
+  const PlainApp({
     super.key,
   });
 
@@ -36,7 +36,9 @@ class PoodApp extends StatelessWidget {
           key: appKey,
           home: SplashScreen(key: splashScreenKey),
           title: 'just Plain',
-          theme: settingsState.themeData,
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: settingsState.themeMode,
           onGenerateRoute: (final routeSettings) => AppRoutes.getRoute(
             routeSettings.name ?? AppRouteNames.unknownPage,
           ),

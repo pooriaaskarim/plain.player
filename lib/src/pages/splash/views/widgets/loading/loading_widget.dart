@@ -11,12 +11,12 @@ import 'logo/logo.dart';
 class LoadingWidget extends StatefulWidget {
   const LoadingWidget({
     required this.screenWidth,
-    required this.themeData,
+    // required this.themeData,
     this.scaleDownFactor = 2.1,
     super.key,
   });
   final double scaleDownFactor;
-  final ThemeData themeData;
+  // final ThemeData themeData;
   final double screenWidth;
   @override
   State<LoadingWidget> createState() => _LoadingWidgetState();
@@ -64,14 +64,6 @@ class _LoadingWidgetState extends State<LoadingWidget>
   }
 
   @override
-  void didChangeDependencies() {
-    _logoColor = widget.themeData.colorScheme.onBackground;
-    _loadColor = widget.themeData.colorScheme.primary;
-    _errorColor = widget.themeData.colorScheme.error;
-    super.didChangeDependencies();
-  }
-
-  @override
   void dispose() {
     _barAnimationController.dispose();
     _dotAnimationController.dispose();
@@ -79,50 +71,55 @@ class _LoadingWidgetState extends State<LoadingWidget>
   }
 
   @override
-  Widget build(final BuildContext context) =>
-      BlocListener<SplashScreenBloc, SplashScreenState>(
-        listener: (final context, final state) async {
-          splashScreenState = state.status;
-          await _resetLoadingAnimation();
-        },
-        child: Stack(
-          fit: StackFit.passthrough,
-          alignment: Alignment.center,
-          children: [
-            AnimatedBuilder(
-              animation: _dotAnimationController,
-              builder: (final context, final child) => CustomPaint(
-                size: _boxSize,
-                painter: DotPainter.from(
-                  splashScreenState,
-                  dotAnimationController: _dotAnimationController,
-                  logoSize: _logoSize,
-                  loadColor: _loadColor,
-                  errorColor: _errorColor,
-                ),
+  Widget build(final BuildContext context) {
+    _logoColor = Theme.of(context).colorScheme.onBackground;
+    _loadColor = Theme.of(context).colorScheme.primary;
+    _errorColor = Theme.of(context).colorScheme.error;
+
+    return BlocListener<SplashScreenBloc, SplashScreenState>(
+      listener: (final context, final state) async {
+        splashScreenState = state.status;
+        await _resetLoadingAnimation();
+      },
+      child: Stack(
+        fit: StackFit.passthrough,
+        alignment: Alignment.center,
+        children: [
+          AnimatedBuilder(
+            animation: _dotAnimationController,
+            builder: (final context, final child) => CustomPaint(
+              size: _boxSize,
+              painter: DotPainter.from(
+                splashScreenState,
+                dotAnimationController: _dotAnimationController,
+                logoSize: _logoSize,
+                loadColor: _loadColor,
+                errorColor: _errorColor,
               ),
             ),
-            AnimatedBuilder(
-              animation: _barAnimationController,
-              builder: (final context, final child) => CustomPaint(
-                size: _boxSize,
-                painter: BarPainter.from(
-                  splashScreenState,
-                  barAnimationController: _barAnimationController,
-                  logoSize: _logoSize,
-                  logoColor: _logoColor,
-                  loadColor: _loadColor,
-                  errorColor: _errorColor,
-                ),
+          ),
+          AnimatedBuilder(
+            animation: _barAnimationController,
+            builder: (final context, final child) => CustomPaint(
+              size: _boxSize,
+              painter: BarPainter.from(
+                splashScreenState,
+                barAnimationController: _barAnimationController,
+                logoSize: _logoSize,
+                logoColor: _logoColor,
+                loadColor: _loadColor,
+                errorColor: _errorColor,
               ),
             ),
-            Logo(
-              logoSize: _logoSize,
-              context: context,
-            ),
-          ],
-        ),
-      );
+          ),
+          Logo(
+            logoSize: _logoSize,
+            context: context,
+          ),
+        ],
+      ),
+    );
+  }
 
   Future<void> _resetLoadingAnimation() async {
     _barAnimationController.reset();
