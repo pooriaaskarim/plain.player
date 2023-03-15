@@ -1,6 +1,6 @@
-# plain
+# plain.player
 
-Plain Music Player
+Plain Audio Player for Android
 
 ## Getting Started
 
