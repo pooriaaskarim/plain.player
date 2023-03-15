@@ -4,5 +4,5 @@ abstract class PlainException<T> implements Exception {
   String get type;
 
   @override
-  String toString() => 'Plain.$type.Exception:\n\t$message';
+  String toString() => '\nPlain.$type.Exception:\n\t$message';
 }
