@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'application/settings/settings.bloc.dart';
+import 'application/settings/settings.state.dart';
 import 'infrastructure/routes/route_names.dart';
 import 'infrastructure/routes/routes.dart';
 import 'infrastructure/theme/app_theme.dart';
-import 'pages/settings/bloc/settings_bloc.dart';
-import 'pages/settings/bloc/settings_state.dart';
-import 'pages/splash/views/splash_screen.dart';
+import 'presentation/splash/splash.screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

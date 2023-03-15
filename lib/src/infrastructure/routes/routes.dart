@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../../pages/main/ui/main_page.dart';
-import '../../pages/settings/views/settings_page.dart';
-import '../../pages/splash/views/splash_screen.dart';
-import '../../pages/unknown/views/unknown_page.dart';
+import '../../presentation/plain/plain.screen.dart';
+import '../../presentation/settings/settings.screen.dart';
+import '../../presentation/splash/splash.screen.dart';
+import '../../presentation/unknown/unknown.screen.dart';
 import 'route_names.dart';
 
 class AppRoutes {
+  AppRoutes._();
   static MaterialPageRoute getRoute(final String routeName) =>
       routes.containsKey(routeName)
           ? routes[routeName]!()
@@ -17,13 +18,13 @@ class AppRoutes {
           builder: (final context) => const SplashScreen(),
         ),
     AppRouteNames.homePage: () => MaterialPageRoute(
-          builder: (final context) => const MainPage(),
+          builder: (final context) => const PlainScreen(),
         ),
     AppRouteNames.settingsPage: () => MaterialPageRoute(
-          builder: (final context) => const Settings(),
+          builder: (final context) => const SettingsScreen(),
         ),
     AppRouteNames.unknownPage: () => MaterialPageRoute(
-          builder: (final context) => const Unknown(),
+          builder: (final context) => const UnknownScreen(),
         ),
   };
 }
