@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../domain/settings/app_setting.model.dart';
 import '../../domain/settings/theme_config.model.dart';
 import '../../infrastructure/exceptions/configuration.exceptions.dart';
-import '../../repositories/settings_repository.dart';
+import '../../infrastructure/repositories/settings_repository.dart';
 import 'settings.event.dart';
 import 'settings.state.dart';
 

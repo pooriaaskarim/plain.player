@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 
-import '../domain/settings/app_setting.model.dart';
-import '../domain/settings/theme_config.model.dart';
-import '../infrastructure/exceptions/configuration.exceptions.dart';
-import '../infrastructure/services/storage/storage_service.dart';
+import '../../domain/settings/app_setting.model.dart';
+import '../../domain/settings/theme_config.model.dart';
+import '../exceptions/configuration.exceptions.dart';
+import '../services/storage/storage_service.dart';
 
 class SettingsRepository {
   Future<AppSetting> get read async {
