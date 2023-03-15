@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../infrastructure/utils/app_utils.dart';
 import '../bloc/settings_bloc.dart';
 import '../bloc/settings_event.dart';
+import '../models/theme_config.dart';
 
 class Settings extends StatelessWidget {
   const Settings({super.key});
@@ -20,13 +21,29 @@ class Settings extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ElevatedButton(
-                onPressed: () =>
-                    BlocProvider.of<SettingsBloc>(context).add(OnToggleTheme()),
-                child: Text(
-                  'Toggle Theme',
-                  style: Theme.of(context).textTheme.labelMedium,
+              PopupMenuButton<ThemeMode>(
+                padding: EdgeInsets.zero,
+                child: const Text('Theme Mode'),
+                onSelected: (final value) =>
+                    BlocProvider.of<SettingsBloc>(context).add(
+                  SettingsEvent.update(
+                    themeConfig: ThemeConfig(themeMode: value),
+                  ),
                 ),
+                itemBuilder: (final context) => const [
+                  PopupMenuItem<ThemeMode>(
+                    value: ThemeMode.system,
+                    child: Text('System'),
+                  ),
+                  PopupMenuItem<ThemeMode>(
+                    value: ThemeMode.light,
+                    child: Text('Light'),
+                  ),
+                  PopupMenuItem<ThemeMode>(
+                    value: ThemeMode.dark,
+                    child: Text('Dark'),
+                  )
+                ],
               )
             ],
           ),

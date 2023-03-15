@@ -75,7 +75,6 @@ linter:
      avoid_unused_constructor_parameters: true
      avoid_void_async: true
      await_only_futures: true
-
      cascade_invocations: true
      cast_nullable_to_non_nullable: true
      combinators_ordering: true
@@ -87,7 +86,6 @@ linter:
      eol_at_end_of_file: true
      exhaustive_cases: true
      file_names: true
-     flutter_style_todos: true
      implementation_imports: true
      implicit_call_tearoffs: true
      leading_newlines_in_multiline_strings: true

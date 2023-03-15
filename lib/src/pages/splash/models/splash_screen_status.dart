@@ -12,7 +12,7 @@ extension GetStatus on SplashScreenState {
     switch (runtimeType) {
       case InitialState:
         return SplashScreenStatus.initializing;
-      case LoadState:
+      case LoadingState:
         return SplashScreenStatus.loading;
       case SuccessState:
         return SplashScreenStatus.success;

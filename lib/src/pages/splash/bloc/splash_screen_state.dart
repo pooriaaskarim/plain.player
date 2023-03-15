@@ -40,8 +40,8 @@ class InitialState extends SplashScreenState {
       ];
 }
 
-class LoadState extends SplashScreenState {
-  const LoadState({
+class LoadingState extends SplashScreenState {
+  const LoadingState({
     required super.themeMode,
     super.stateWidget,
   });

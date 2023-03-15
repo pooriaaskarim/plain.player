@@ -1,13 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+import 'package:isar/isar.dart';
+
+import 'theme_config.dart';
 
 part 'settings.g.dart';
 
-@HiveType(typeId: 0)
-class Settings extends HiveObject {
+@Collection()
+class Settings {
   Settings({
-    required this.themeMode,
+    required this.themeConfig,
   });
-  @HiveField(0)
-  ThemeMode themeMode;
+  final Id id = 1;
+
+  Settings copyWith({final ThemeConfig? themeConfig}) =>
+      this..themeConfig = themeConfig ?? this.themeConfig;
+  ThemeConfig themeConfig;
 }

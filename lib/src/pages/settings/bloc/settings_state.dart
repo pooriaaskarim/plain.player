@@ -1,9 +1,25 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 
-class SettingsState extends Equatable {
-  const SettingsState({required this.themeMode});
-  final ThemeMode themeMode;
+import '../models/settings.dart';
+
+abstract class SettingsState extends Equatable {
+  const SettingsState({required this.settings});
+  factory SettingsState.defaultState({
+    required final Settings settings,
+  }) =>
+      DefaultState._(settings: settings);
+
+  final Settings settings;
   @override
-  List<Object?> get props => [themeMode];
+  List<Object?> get props => [
+        settings,
+      ];
+}
+
+class DefaultState extends SettingsState {
+  const DefaultState._({required super.settings});
+  @override
+  List<Object?> get props => [
+        settings,
+      ];
 }

@@ -1,14 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../infrastructure/routes/route_names.dart';
-import '../../../infrastructure/services/storage_service.dart';
 import '../../../infrastructure/utils/app_utils.dart';
 import '../../settings/bloc/settings_bloc.dart';
-import '../../settings/bloc/settings_event.dart';
-import '../../settings/models/settings.dart';
+import '../../settings/bloc/settings_event.dart' as settings_event;
 import '../views/widgets/error_state/error_state_widget.dart';
 import 'splash_screen_event.dart';
 import 'splash_screen_state.dart';
@@ -19,8 +15,8 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
     required this.navigatorState,
     this.fakeDelay = 2,
   }) : super(
-          const InitialState(
-            themeMode: ThemeMode.light,
+          InitialState(
+            themeMode: settingsBloc.state.settings.themeConfig.themeMode,
           ),
         ) {
     on<OnInit>(
@@ -67,31 +63,18 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
     required final OnLoad event,
   }) async {
     emit(
-      LoadState(
+      LoadingState(
         themeMode: state.themeMode,
       ),
     );
     await AppUtils.fakeDelay(seconds: fakeDelay);
-    final ThemeMode themeMode = await _getTheme();
-    // add(OnError(errorMessage: 'e.toString()'));
-    add(OnSuccess(themeMode: themeMode));
-  }
+    settingsBloc.add(settings_event.SettingsEvent.load());
 
-  Future<ThemeMode> _getTheme() async {
-    Settings? settings;
-    try {
-      settings = await StorageService.instance().get(key: 'Settings');
-    } on FileSystemException catch (e, s) {
-      add(
-        OnError(errorMessage: e.toString()),
-      );
-      Exception(s);
-    }
-    if (settings == null) {
-      settingsBloc.saveTheme(
-          ThemeMode.light); // Saves light theme as default on first run
-    }
-    return settings?.themeMode ?? ThemeMode.light;
+    add(
+      OnSuccess(
+        themeMode: settingsBloc.state.settings.themeConfig.themeMode,
+      ),
+    );
   }
 
   Future<void> _success({
@@ -103,7 +86,6 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
         themeMode: event.themeMode,
       ),
     );
-    settingsBloc.add(OnLoadSettings(themeMode: event.themeMode));
     await AppUtils.fakeDelay(seconds: fakeDelay);
     await navigatorState.popAndPushNamed(AppRouteNames.homePage);
   }
