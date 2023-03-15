@@ -4,10 +4,11 @@ import 'dot.dart';
 
 class LoadingDot extends Dot {
   LoadingDot({
-    required super.dotAnimationController,
-    required super.logoSize,
+    required super.logoColor,
     required super.loadColor,
     required super.errorColor,
+    required super.logoSize,
+    required super.dotAnimationController,
   });
 
   @override

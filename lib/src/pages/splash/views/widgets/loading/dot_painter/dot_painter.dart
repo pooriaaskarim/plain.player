@@ -6,16 +6,18 @@ import 'dot/dot.dart';
 class DotPainter extends CustomPainter {
   DotPainter.from(
     final SplashScreenStatus status, {
-    required final AnimationController dotAnimationController,
+    required final Color logoColor,
     required final Color loadColor,
     required final Color errorColor,
     required final Size logoSize,
+    required final AnimationController dotAnimationController,
   }) : dot = Dot.from(
           status,
-          dotAnimationController: dotAnimationController,
-          logoSize: logoSize,
+          logoColor: logoColor,
           loadColor: loadColor,
           errorColor: errorColor,
+          logoSize: logoSize,
+          dotAnimationController: dotAnimationController,
         );
 
   final Dot dot;

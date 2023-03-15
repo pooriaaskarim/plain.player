@@ -2,10 +2,11 @@ import 'dot.dart';
 
 class InitializingDot extends Dot {
   const InitializingDot({
-    required super.dotAnimationController,
-    required super.logoSize,
+    required super.logoColor,
     required super.loadColor,
     required super.errorColor,
+    required super.logoSize,
+    required super.dotAnimationController,
   });
 
   @override

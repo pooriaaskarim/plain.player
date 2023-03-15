@@ -8,46 +8,52 @@ import 'success_dot.dart';
 
 abstract class Dot {
   const Dot({
-    required this.dotAnimationController,
-    required this.logoSize,
+    required this.logoColor,
     required this.loadColor,
     required this.errorColor,
+    required this.logoSize,
+    required this.dotAnimationController,
   });
   factory Dot.from(
     final SplashScreenStatus status, {
-    required final AnimationController dotAnimationController,
-    required final Size logoSize,
+    required final Color logoColor,
     required final Color loadColor,
     required final Color errorColor,
+    required final Size logoSize,
+    required final AnimationController dotAnimationController,
   }) {
     switch (status) {
       case SplashScreenStatus.initializing:
         return InitializingDot(
-          dotAnimationController: dotAnimationController,
-          logoSize: logoSize,
+          logoColor: logoColor,
           loadColor: loadColor,
           errorColor: errorColor,
+          logoSize: logoSize,
+          dotAnimationController: dotAnimationController,
         );
       case SplashScreenStatus.loading:
         return LoadingDot(
-          dotAnimationController: dotAnimationController,
-          logoSize: logoSize,
+          logoColor: logoColor,
           loadColor: loadColor,
           errorColor: errorColor,
+          logoSize: logoSize,
+          dotAnimationController: dotAnimationController,
         );
       case SplashScreenStatus.success:
         return SuccessDot(
-          dotAnimationController: dotAnimationController,
-          logoSize: logoSize,
+          logoColor: logoColor,
           loadColor: loadColor,
           errorColor: errorColor,
+          logoSize: logoSize,
+          dotAnimationController: dotAnimationController,
         );
       case SplashScreenStatus.error:
         return ErrorDot(
-          dotAnimationController: dotAnimationController,
-          logoSize: logoSize,
+          logoColor: logoColor,
           loadColor: loadColor,
           errorColor: errorColor,
+          logoSize: logoSize,
+          dotAnimationController: dotAnimationController,
         );
     }
   }
@@ -55,6 +61,7 @@ abstract class Dot {
   final AnimationController dotAnimationController;
   final Size logoSize;
   final Color loadColor;
+  final Color logoColor;
   final Color errorColor;
 
   Future<void> get animate;

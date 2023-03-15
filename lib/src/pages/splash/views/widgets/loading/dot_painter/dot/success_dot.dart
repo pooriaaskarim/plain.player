@@ -4,10 +4,11 @@ import 'dot.dart';
 
 class SuccessDot extends Dot {
   const SuccessDot({
-    required super.dotAnimationController,
-    required super.logoSize,
+    required super.logoColor,
     required super.loadColor,
     required super.errorColor,
+    required super.logoSize,
+    required super.dotAnimationController,
   });
 
   @override
