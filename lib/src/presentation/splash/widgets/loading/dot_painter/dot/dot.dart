@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../domain/splash/splash_screen_status.enum.dart';
+import '../../../../../../application/splash/splash.state.dart';
 import 'error.dot.dart';
 import 'initializing.dot.dart';
 import 'loading.dot.dart';
@@ -15,15 +15,15 @@ abstract class Dot {
     required this.dotAnimationController,
   });
   factory Dot.from(
-    final SplashScreenStatus status, {
+    final SplashState state, {
     required final Color logoColor,
     required final Color loadColor,
     required final Color errorColor,
     required final Size logoSize,
     required final AnimationController dotAnimationController,
   }) {
-    switch (status) {
-      case SplashScreenStatus.initializing:
+    switch (state.runtimeType) {
+      case AppLaunchState:
         return InitializingDot(
           logoColor: logoColor,
           loadColor: loadColor,
@@ -31,7 +31,7 @@ abstract class Dot {
           logoSize: logoSize,
           dotAnimationController: dotAnimationController,
         );
-      case SplashScreenStatus.loading:
+      case LoadingState:
         return LoadingDot(
           logoColor: logoColor,
           loadColor: loadColor,
@@ -39,7 +39,7 @@ abstract class Dot {
           logoSize: logoSize,
           dotAnimationController: dotAnimationController,
         );
-      case SplashScreenStatus.success:
+      case SuccessState:
         return SuccessDot(
           logoColor: logoColor,
           loadColor: loadColor,
@@ -47,8 +47,16 @@ abstract class Dot {
           logoSize: logoSize,
           dotAnimationController: dotAnimationController,
         );
-      case SplashScreenStatus.error:
+      case ErrorState:
         return ErrorDot(
+          logoColor: logoColor,
+          loadColor: loadColor,
+          errorColor: errorColor,
+          logoSize: logoSize,
+          dotAnimationController: dotAnimationController,
+        );
+      default:
+        return InitializingDot(
           logoColor: logoColor,
           loadColor: loadColor,
           errorColor: errorColor,

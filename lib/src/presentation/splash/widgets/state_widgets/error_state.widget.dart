@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../application/splash/splash.bloc.dart';
-import '../../../../application/splash/splash.event.dart';
+import '../../../../application/splash/splash.cubit.dart';
 import '../../../../infrastructure/utils/app_utils.dart';
 
 class ErrorStateWidget extends StatelessWidget {
@@ -32,8 +31,8 @@ class ErrorStateWidget extends StatelessWidget {
             backgroundColor: themeData.colorScheme.error,
             action: SnackBarAction(
               label: 'Retry',
-              onPressed: () => BlocProvider.of<SplashBloc>(context)
-                  .add(const OnInit(themeMode: ThemeMode.light)),
+              onPressed: () =>
+                  BlocProvider.of<SplashBloc>(context).loadSettings(),
             ),
           ),
         ),

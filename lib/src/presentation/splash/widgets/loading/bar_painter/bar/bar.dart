@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../domain/splash/splash_screen_status.enum.dart';
+import '../../../../../../application/splash/splash.state.dart';
 import '../../../../../../infrastructure/utils/app_utils.dart';
 import 'error.bar.dart';
 import 'initializing.bar.dart';
@@ -13,48 +13,56 @@ abstract class Bar {
     required this.loadColor,
     required this.errorColor,
     required this.logoSize,
-    required this.loadingBarAnimationController,
+    required this.barAnimationController,
   });
 
   factory Bar.from(
-    final SplashScreenStatus status, {
+    final SplashState state, {
     required final Color logoColor,
     required final Color loadColor,
     required final Color errorColor,
     required final Size logoSize,
     required final AnimationController barAnimationController,
   }) {
-    switch (status) {
-      case SplashScreenStatus.initializing:
+    switch (state.runtimeType) {
+      case AppLaunchState:
         return InitializingBar(
           logoColor: logoColor,
           loadColor: loadColor,
           errorColor: errorColor,
-          loadingBarAnimationController: barAnimationController,
+          barAnimationController: barAnimationController,
           logoSize: logoSize,
         );
-      case SplashScreenStatus.loading:
+      case LoadingState:
         return LoadingBar(
           logoColor: logoColor,
           loadColor: loadColor,
           errorColor: errorColor,
-          loadingBarAnimationController: barAnimationController,
+          barAnimationController: barAnimationController,
           logoSize: logoSize,
         );
-      case SplashScreenStatus.success:
+      case SuccessState:
         return SuccessBar(
           logoColor: logoColor,
           loadColor: loadColor,
           errorColor: errorColor,
-          loadingBarAnimationController: barAnimationController,
+          barAnimationController: barAnimationController,
           logoSize: logoSize,
         );
-      case SplashScreenStatus.error:
+      case ErrorState:
         return ErrorBar(
           logoColor: logoColor,
           loadColor: loadColor,
           errorColor: errorColor,
-          loadingBarAnimationController: barAnimationController,
+          barAnimationController: barAnimationController,
+          logoSize: logoSize,
+        );
+      default:
+        return InitializingBar(
+          logoColor: logoColor,
+          loadColor: loadColor,
+          errorColor: errorColor,
+          barAnimationController: barAnimationController,
           logoSize: logoSize,
         );
     }
@@ -66,7 +74,7 @@ abstract class Bar {
   double logoDistanceFromScreenEdge(final Size boxSize) =>
       (boxSize.width - logoSize.width) / 2;
 
-  final AnimationController loadingBarAnimationController;
+  final AnimationController barAnimationController;
   final Size logoSize;
   final Color logoColor;
   final Color loadColor;
@@ -78,7 +86,7 @@ abstract class Bar {
       );
   Offset leftEnd(final Size boxSize) {
     final animation = CurvedAnimation(
-      parent: loadingBarAnimationController,
+      parent: barAnimationController,
       curve: Curves.easeInOut,
     );
     return Tween<Offset>(
@@ -95,8 +103,8 @@ abstract class Bar {
         boxSize.height / 2,
       );
   Offset rightEnd(final Size boxSize) {
-    final animation = CurvedAnimation(
-      parent: loadingBarAnimationController,
+    final Animation<double> animation = CurvedAnimation(
+      parent: barAnimationController,
       curve: Curves.easeInOut,
     );
     return Tween<Offset>(
@@ -156,6 +164,10 @@ abstract class Bar {
           gradientBottom,
         ),
       );
+  }
+
+  Future<void> get animate async {
+    await barAnimationController.forward();
   }
 
   List<Color> get gradientColors => [logoColor, loadColor.withOpacity(0.3)];

@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../domain/splash/splash_screen_status.enum.dart';
+import '../../../../../application/splash/splash.state.dart';
 import 'bar/bar.dart';
 
 class BarPainter extends CustomPainter {
   BarPainter.from(
-    final SplashScreenStatus status, {
+    final SplashState state, {
     required final Color logoColor,
     required final Color loadColor,
     required final Color errorColor,
     required final Size logoSize,
     required final AnimationController barAnimationController,
   }) : bar = Bar.from(
-          status,
+          state,
           logoColor: logoColor,
           loadColor: loadColor,
           errorColor: errorColor,
@@ -25,6 +25,7 @@ class BarPainter extends CustomPainter {
   /// void paint() from CustomPainter class
   @override
   void paint(final Canvas canvas, final Size size) {
+    bar.animate;
     canvas
       ..drawLine(
         bar.leftStart(size),

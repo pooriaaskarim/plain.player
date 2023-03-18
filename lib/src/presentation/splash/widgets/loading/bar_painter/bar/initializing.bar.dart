@@ -8,7 +8,7 @@ class InitializingBar extends Bar {
     required super.loadColor,
     required super.errorColor,
     required super.logoSize,
-    required super.loadingBarAnimationController,
+    required super.barAnimationController,
   });
 
   @override

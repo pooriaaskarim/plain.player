@@ -17,7 +17,7 @@ class SuccessDot extends Dot {
       parent: dotAnimationController,
       curve: Curves.easeIn,
     );
-    return ColorTween(begin: super.dotColor, end: loadColor.withOpacity(0.6))
+    return ColorTween(begin: super.dotColor, end: loadColor.withOpacity(0.7))
         .evaluate(animation)!;
   }
 

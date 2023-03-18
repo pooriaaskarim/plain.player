@@ -1,57 +1,43 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 
 abstract class SplashEvent extends Equatable {
   const SplashEvent();
 
+  factory SplashEvent.loadSettings() => const OnLoadSettings._();
+  factory SplashEvent.writeDefaultSettings() =>
+      const OnWriteDefaultSettings._();
+  factory SplashEvent.loadConfigurations() => const OnLoadConfigurations._();
+  factory SplashEvent.onSuccess() => const OnSuccess._();
+  factory SplashEvent.onError({required final String errorMessage}) =>
+      OnError._(errorMessage: errorMessage);
+
   @override
   List<Object?> get props => [];
 }
 
-class OnInit extends SplashEvent {
-  ///   Provider the event with an initial [themeMode] default app theme.
-  const OnInit({required this.themeMode});
-
-  ///   Initial app theme
-  final ThemeMode themeMode;
-  @override
-  List<Object?> get props => [
-        themeMode,
-      ];
+class OnLoadSettings extends SplashEvent {
+  const OnLoadSettings._();
 }
 
-class OnLoad extends SplashEvent {
-  /// Loads settings configurations from local storage
-  /// or set's defaults on the first run.
-  const OnLoad();
-  @override
-  List<Object?> get props => [];
+class OnWriteDefaultSettings extends SplashEvent {
+  const OnWriteDefaultSettings._();
+}
+
+class OnLoadConfigurations extends SplashEvent {
+  const OnLoadConfigurations._();
 }
 
 class OnSuccess extends SplashEvent {
-  /// Load's the app with retrieved settings configurations
-  /// and launches the app.
-  const OnSuccess({
-    required this.themeMode,
-  });
-
-  /// App Configurations: currently only theme is available!!!
-  final ThemeMode themeMode;
-  @override
-  List<Object?> get props => [
-        themeMode,
-      ];
+  const OnSuccess._();
 }
 
 class OnError extends SplashEvent {
-  /// Shows [errorMessage] as tooltip on the errorState's stateWidget.
-  const OnError({
+  const OnError._({
     required this.errorMessage,
   });
 
-  /// Tooltip message on the errorState's stateWidget.
   final String errorMessage;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [errorMessage];
 }

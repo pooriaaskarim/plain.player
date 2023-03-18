@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../application/splash/splash.bloc.dart';
+import '../../../../application/splash/splash.cubit.dart';
 import '../../../../application/splash/splash.state.dart';
-import '../../../../domain/splash/splash_screen_status.enum.dart';
 import 'bar_painter/bar.painter.dart';
 import 'dot_painter/dot.painter.dart';
 import 'logo/logo.dart';
@@ -26,7 +25,6 @@ class _LoadingWidgetState extends State<LoadingWidget>
   final Duration _animationDuration = const Duration(
     seconds: 1,
   );
-  SplashScreenStatus splashScreenState = SplashScreenStatus.initializing;
 
   @override
   void initState() {
@@ -70,54 +68,57 @@ class _LoadingWidgetState extends State<LoadingWidget>
     );
     final Size boxSize = Size(screenWidth, logoSize.height);
 
-    return BlocListener<SplashBloc, SplashState>(
-      listener: (final context, final state) async {
-        splashScreenState = state.status;
-        await _resetLoadingAnimation();
+    return BlocBuilder<SplashBloc, SplashState>(
+      buildWhen: (final previous, final current) =>
+          // Rebuild only on new state.runtimeType
+          previous.runtimeType != current.runtimeType,
+      builder: (final context, final state) {
+        _resetAnimations();
+
+        return Stack(
+          fit: StackFit.passthrough,
+          alignment: Alignment.center,
+          children: [
+            AnimatedBuilder(
+              animation: _dotAnimationController,
+              builder: (final context, final child) => CustomPaint(
+                size: boxSize,
+                painter: DotPainter.from(
+                  state,
+                  logoColor: logoColor,
+                  loadColor: loadColor,
+                  errorColor: errorColor,
+                  logoSize: logoSize,
+                  dotAnimationController: _dotAnimationController,
+                ),
+              ),
+            ),
+            AnimatedBuilder(
+              animation: _barAnimationController,
+              builder: (final context, final child) => CustomPaint(
+                size: boxSize,
+                painter: BarPainter.from(
+                  state,
+                  logoColor: logoColor,
+                  loadColor: loadColor,
+                  errorColor: errorColor,
+                  logoSize: logoSize,
+                  barAnimationController: _barAnimationController,
+                ),
+              ),
+            ),
+            LogoWidget(
+              logoSize: logoSize,
+              context: context,
+            ),
+          ],
+        );
       },
-      child: Stack(
-        fit: StackFit.passthrough,
-        alignment: Alignment.center,
-        children: [
-          AnimatedBuilder(
-            animation: _dotAnimationController,
-            builder: (final context, final child) => CustomPaint(
-              size: boxSize,
-              painter: DotPainter.from(
-                splashScreenState,
-                logoColor: logoColor,
-                loadColor: loadColor,
-                errorColor: errorColor,
-                logoSize: logoSize,
-                dotAnimationController: _dotAnimationController,
-              ),
-            ),
-          ),
-          AnimatedBuilder(
-            animation: _barAnimationController,
-            builder: (final context, final child) => CustomPaint(
-              size: boxSize,
-              painter: BarPainter.from(
-                splashScreenState,
-                logoColor: logoColor,
-                loadColor: loadColor,
-                errorColor: errorColor,
-                logoSize: logoSize,
-                barAnimationController: _barAnimationController,
-              ),
-            ),
-          ),
-          Logo(
-            logoSize: logoSize,
-            context: context,
-          ),
-        ],
-      ),
     );
   }
 
-  Future<void> _resetLoadingAnimation() async {
+  Future<void> _resetAnimations() async {
     _barAnimationController.reset();
-    await _barAnimationController.forward();
+    _dotAnimationController.reset();
   }
 }

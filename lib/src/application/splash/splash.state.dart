@@ -1,74 +1,90 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
+import '../../domain/configuration/model.configurations.dart';
+import '../../domain/settings/settings.model.dart';
+
 abstract class SplashState extends Equatable {
-  /// Every [SplashState] has a [themeMode] to theme the [SplashScreen].
-  /// A [stateWidget] Widget?  can be provided to show above the logo on
-  /// [SplashScreen].
-  /// The getter [status] return [SplashScreenStatus] at any given moment.
-
+  /// A [widget] Widget?  can be provided to show on
+  /// SplashScreen.
   const SplashState({
-    required this.themeMode,
-    this.stateWidget,
+    this.widget,
   });
+  factory SplashState.initial({final Widget? widget}) => AppLaunchState._(
+        widget: widget,
+      );
+  factory SplashState.loading({
+    final Configurations? loadedConfigurations,
+    final Settings? loadedSettings,
+    final Widget? widget,
+  }) =>
+      LoadingState._(
+        loadedConfigurations: loadedConfigurations,
+        loadedSettings: loadedSettings,
+        widget: widget,
+      );
+  factory SplashState.success({final Widget? widget}) => SuccessState._(
+        widget: widget,
+      );
 
-  /// Current [SplashState]'s [themeMode]
-  final ThemeMode themeMode;
+  factory SplashState.error({final Widget? widget}) =>
+      ErrorState._(widget: widget);
 
-  /// Current [SplashState]'s [stateWidget]
-  final Widget? stateWidget;
+  /// Current [SplashState]'s [widget].
+  final Widget? widget;
 
   @override
   List<Object?> get props => [
-        themeMode,
-        stateWidget,
+        widget,
       ];
 }
 
-class InitialState extends SplashState {
-  const InitialState({
-    required super.themeMode,
-    super.stateWidget,
+class AppLaunchState extends SplashState {
+  const AppLaunchState._({
+    super.widget,
   });
   @override
   List<Object?> get props => [
-        themeMode,
-        stateWidget,
+        widget,
       ];
 }
 
 class LoadingState extends SplashState {
-  const LoadingState({
-    required super.themeMode,
-    super.stateWidget,
+  const LoadingState._({
+    this.loadedConfigurations,
+    this.loadedSettings,
+    super.widget,
   });
+
+  /// if could read a theme, it would fill this object.
+  final Settings? loadedSettings;
+
+  /// if could read a configuration, it would fill this object.
+  final Configurations? loadedConfigurations;
   @override
   List<Object?> get props => [
-        themeMode,
-        stateWidget,
+        loadedConfigurations,
+        loadedSettings,
+        widget,
       ];
 }
 
 class SuccessState extends SplashState {
-  const SuccessState({
-    required super.themeMode,
-    super.stateWidget,
+  const SuccessState._({
+    super.widget,
   });
   @override
   List<Object?> get props => [
-        themeMode,
-        stateWidget,
+        widget,
       ];
 }
 
 class ErrorState extends SplashState {
-  const ErrorState({
-    required super.themeMode,
-    required super.stateWidget,
+  const ErrorState._({
+    super.widget,
   });
   @override
   List<Object?> get props => [
-        themeMode,
-        stateWidget,
+        widget,
       ];
 }

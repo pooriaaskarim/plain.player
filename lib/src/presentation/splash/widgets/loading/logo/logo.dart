@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class Logo extends StatelessWidget {
-  Logo({
+class LogoWidget extends StatelessWidget {
+  LogoWidget({
     required this.logoSize,
     required this.context,
     super.key,
