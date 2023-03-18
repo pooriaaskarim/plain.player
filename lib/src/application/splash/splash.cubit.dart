@@ -32,8 +32,8 @@ class SplashCubit extends Cubit<SplashState> {
   final int fakeDelay;
   final NavigatorState navigatorState;
   final PlainBloc plainBloc;
-  late SettingsRepository _settingsRepository;
-  late ConfigurationsRepository _configurationsRepository;
+  late final SettingsRepository _settingsRepository;
+  late final ConfigurationsRepository _configurationsRepository;
 
   FutureOr<void> loadSettings() async {
     final Settings settings;
