@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../application/plain/plain.bloc.dart';
-import '../../../../application/plain/plain.event.dart';
 import '../../../../application/plain/plain.state.dart';
 
 class FoldersTab extends StatelessWidget {
@@ -11,8 +10,7 @@ class FoldersTab extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => BlocProvider(
-        create: (final context) =>
-            BlocProvider.of<PlainBloc>(context)..add(const OnInit()),
+        create: (final context) => BlocProvider.of<PlainBloc>(context),
         child: BlocBuilder<PlainBloc, PlainState>(
           builder: (final context, final state) => Column(
             mainAxisSize: MainAxisSize.max,

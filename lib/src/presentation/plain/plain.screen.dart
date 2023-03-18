@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:just_audio/just_audio.dart';
 
-import '../../application/plain/plain.bloc.dart';
 import 'widgets/plain.tab_bar.dart';
 import 'widgets/plain.tab_bar_view.dart';
 
@@ -37,17 +34,11 @@ class _PlainScreenState extends State<PlainScreen>
   }
 
   @override
-  Widget build(final BuildContext context) => BlocProvider(
-        create: (final context) => PlainBloc(
-          audioPlayer: AudioPlayer(),
+  Widget build(final BuildContext context) => Scaffold(
+        bottomNavigationBar: PlainTabBar(
+          key: tabBarKey,
           tabController: _tabController,
         ),
-        child: Scaffold(
-          bottomNavigationBar: PlainTabBar(
-            key: tabBarKey,
-            tabController: _tabController,
-          ),
-          body: PlainTabBarView(tabController: _tabController),
-        ),
+        body: PlainTabBarView(tabController: _tabController),
       );
 }
