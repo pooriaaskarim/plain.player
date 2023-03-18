@@ -24,11 +24,13 @@ class AppUtils {
         width: size,
       );
 
-  static Future<void> fakeDelay({final int seconds = 2}) async {
-    await Future.delayed(Duration(seconds: seconds));
+  static Future<void> fakeDelay([
+    final Duration duration = const Duration(seconds: 1),
+  ]) async {
+    await Future.delayed(duration);
   }
 
-  static Widget get emtyWidget => const SizedBox.shrink();
+  static Widget get emptyWidget => const SizedBox.shrink();
 
   static void debugPrintAudioPlayerDetails(
     final AudioPlayer audioPlayer,
