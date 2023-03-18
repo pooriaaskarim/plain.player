@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../presentation/plain/plain.screen.dart';
-import '../../presentation/settings/settings.screen.dart';
-import '../../presentation/splash/splash.screen.dart';
-import '../../presentation/unknown/unknown.screen.dart';
+import '../../presentation/plain/screen.plain.dart';
+import '../../presentation/settings/screen.settings.dart';
+import '../../presentation/splash/screen.splash.dart';
+import '../../presentation/unknown/screen.unknown.dart';
 import 'route_names.dart';
 
 class AppRoutes {

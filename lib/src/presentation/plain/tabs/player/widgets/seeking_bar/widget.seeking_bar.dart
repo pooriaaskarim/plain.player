@@ -6,8 +6,8 @@ import '../../../../../../infrastructure/utils/app_utils.dart';
 import 'widgets/custom_thumb_shape.dart';
 import 'widgets/custom_track_shape.dart';
 
-class SeekingBar extends StatefulWidget {
-  const SeekingBar({
+class SeekingBarWidget extends StatefulWidget {
+  const SeekingBarWidget({
     required this.audioPlayer,
     this.activeTrackHeight = 120.0,
     this.inactiveTrackHeight = 1.0,
@@ -18,10 +18,11 @@ class SeekingBar extends StatefulWidget {
   final double inactiveTrackHeight;
 
   @override
-  State<SeekingBar> createState() => _SeekingBarState();
+  State<SeekingBarWidget> createState() => _SeekingBarWidgetState();
 }
 
-class _SeekingBarState extends State<SeekingBar> with TickerProviderStateMixin {
+class _SeekingBarWidgetState extends State<SeekingBarWidget>
+    with TickerProviderStateMixin {
   bool isTouched = false;
   double? sliderTouchedPosition;
 

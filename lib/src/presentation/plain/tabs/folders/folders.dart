@@ -2,8 +2,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../application/plain/plain.bloc.dart';
-import '../../../../application/plain/plain.state.dart';
+import '../../../../application/plain/bloc.plain.dart';
+import '../../../../application/plain/state.plain.dart';
 
 class FoldersTab extends StatelessWidget {
   const FoldersTab({super.key});

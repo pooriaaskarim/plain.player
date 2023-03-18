@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 
-import '../../domain/settings/settings.model.dart';
-import '../../domain/settings/theme_config.model.dart';
-import '../exceptions/configuration.exceptions.dart';
+import '../../domain/settings/model.settings.dart';
+import '../../domain/settings/model.theme_config.dart';
+import '../exceptions/exceptions.configuration.dart';
 import 'i.repository.local.dart';
 
 class SettingsRepository implements LocalRepository {

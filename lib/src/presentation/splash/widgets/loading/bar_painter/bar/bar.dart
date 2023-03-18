@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../application/splash/splash.state.dart';
+import '../../../../../../application/splash/state.splash.dart';
 import '../../../../../../infrastructure/utils/app_utils.dart';
-import 'error.bar.dart';
-import 'initializing.bar.dart';
-import 'loading.bar.dart';
-import 'success.bar.dart';
+import 'bar.error.dart';
+import 'bar.initializing.dart';
+import 'bar.loading.dart';
+import 'bar.success.dart';
 
 abstract class Bar {
   const Bar({

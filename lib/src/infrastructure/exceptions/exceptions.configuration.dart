@@ -1,4 +1,4 @@
-import 'plain.exception.dart';
+import 'exception.plain.dart';
 
 abstract class ConfigurationException<T> extends PlainException<T> {
   ConfigurationException(super.message);

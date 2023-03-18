@@ -1,4 +1,4 @@
-import 'plain.exception.dart';
+import 'exception.plain.dart';
 
 abstract class StorageException<T> extends PlainException<T> {
   StorageException(super.message);

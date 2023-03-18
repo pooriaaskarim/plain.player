@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio/just_audio.dart';
 
-import 'application/plain/plain.bloc.dart';
-import 'application/plain/plain.state.dart';
+import 'application/plain/bloc.plain.dart';
+import 'application/plain/state.plain.dart';
 import 'infrastructure/repositories/repository.configurations.dart';
 import 'infrastructure/repositories/repository.settings.dart';
 import 'infrastructure/routes/route_names.dart';
 import 'infrastructure/routes/routes.dart';
 import 'infrastructure/theme/app_theme.dart';
-import 'presentation/splash/splash.screen.dart';
+import 'presentation/splash/screen.splash.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

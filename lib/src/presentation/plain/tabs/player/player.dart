@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
-import 'widgets/main_button/plain_button_widget.dart';
-import 'widgets/seeking_bar/seeking_bar.dart';
+import 'widgets/plain_button/widget.plain_button.dart';
+import 'widgets/seeking_bar/widget.seeking_bar.dart';
 
 class Player extends StatelessWidget {
   const Player({
@@ -20,7 +20,7 @@ class Player extends StatelessWidget {
           PlainButtonWidget(
             audioPlayer: audioPlayer,
           ),
-          SeekingBar(audioPlayer: audioPlayer),
+          SeekingBarWidget(audioPlayer: audioPlayer),
         ],
       );
 }

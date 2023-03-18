@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../application/splash/splash.state.dart';
+import '../../../../../application/splash/state.splash.dart';
 import 'dot/dot.dart';
 
 class DotPainter extends CustomPainter {

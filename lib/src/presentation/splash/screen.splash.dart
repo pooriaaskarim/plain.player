@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../application/plain/plain.bloc.dart';
-import '../../application/splash/splash.cubit.dart';
-import '../../application/splash/splash.state.dart';
+import '../../application/plain/bloc.plain.dart';
+import '../../application/splash/cubit.splash.dart';
+import '../../application/splash/state.splash.dart';
 import '../../infrastructure/repositories/repository.configurations.dart';
 import '../../infrastructure/repositories/repository.settings.dart';
 import '../../infrastructure/utils/app_utils.dart';
-import 'widgets/loading/loading.widget.dart';
+import 'widgets/loading/widget.loading.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({

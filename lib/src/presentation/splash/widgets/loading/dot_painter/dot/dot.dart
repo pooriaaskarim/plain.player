@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../application/splash/splash.state.dart';
-import 'error.dot.dart';
-import 'initializing.dot.dart';
-import 'loading.dot.dart';
-import 'success.dot.dart';
+import '../../../../../../application/splash/state.splash.dart';
+import 'dot.error.dart';
+import 'dot.initializing.dart';
+import 'dot.loading.dart';
+import 'dot.success.dart';
 
 abstract class Dot {
   const Dot({

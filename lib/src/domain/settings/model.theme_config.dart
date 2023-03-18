@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 
-part 'theme_config.model.g.dart';
+part 'model.theme_config.g.dart';
 
 @Embedded()
 class ThemeConfig {

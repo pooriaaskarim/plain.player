@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-import '../../domain/settings/settings.model.dart';
+import '../../domain/settings/model.settings.dart';
 
 abstract class PlainEvent extends Equatable {
   const PlainEvent();

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'settings.model.dart';
+part of 'model.settings.dart';
 
 // **************************************************************************
 // IsarCollectionGenerator

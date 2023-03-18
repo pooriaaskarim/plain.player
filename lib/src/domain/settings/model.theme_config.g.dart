@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'theme_config.model.dart';
+part of 'model.theme_config.dart';
 
 // **************************************************************************
 // IsarEmbeddedGenerator

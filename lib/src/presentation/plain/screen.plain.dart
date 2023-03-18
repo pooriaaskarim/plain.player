@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'widgets/plain.tab_bar.dart';
-import 'widgets/plain.tab_bar_view.dart';
+import 'widgets/widget.plain.tab_bar_view.dart';
+import 'widgets/widget.plain_tab_bar.dart';
 
 class PlainScreen extends StatefulWidget {
   const PlainScreen({super.key});

@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import '../../domain/configuration/model.configurations.dart';
-import '../../domain/settings/settings.model.dart';
+import '../../domain/settings/model.settings.dart';
 
 abstract class PlainState extends Equatable {
   /// PlainBloc's State.

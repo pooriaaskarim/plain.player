@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
-import '../models/plain_button_state.dart';
+import '../models/enum.plain_button_state.dart';
 import 'actions/next.dart';
 import 'actions/previous.dart';
 import 'actions/repeat.dart';

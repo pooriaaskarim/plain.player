@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../application/splash/splash.cubit.dart';
+import '../../../../application/splash/cubit.splash.dart';
 import '../../../../infrastructure/utils/app_utils.dart';
 
 class ErrorStateWidget extends StatelessWidget {

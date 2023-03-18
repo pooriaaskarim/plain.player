@@ -3,17 +3,17 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../domain/settings/settings.model.dart';
-import '../../infrastructure/exceptions/configuration.exceptions.dart';
+import '../../domain/settings/model.settings.dart';
+import '../../infrastructure/exceptions/exceptions.configuration.dart';
 import '../../infrastructure/repositories/repository.configurations.dart';
 import '../../infrastructure/repositories/repository.settings.dart';
 import '../../infrastructure/routes/route_names.dart';
 import '../../infrastructure/utils/app_utils.dart';
-import '../../presentation/splash/widgets/state_widgets/error_state.widget.dart';
-import '../../presentation/splash/widgets/state_widgets/first_launch.widget.dart';
-import '../plain/plain.bloc.dart';
-import '../plain/plain.event.dart' as plain_event;
-import 'splash.state.dart';
+import '../../presentation/splash/widgets/state_widgets/widget.error_state.dart';
+import '../../presentation/splash/widgets/state_widgets/widget.first_launch.dart';
+import '../plain/bloc.plain.dart';
+import '../plain/event.plain.dart' as plain_event;
+import 'state.splash.dart';
 
 class SplashCubit extends Cubit<SplashState> {
   SplashCubit({

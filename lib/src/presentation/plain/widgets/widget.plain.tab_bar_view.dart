@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../application/plain/plain.bloc.dart';
+import '../../../application/plain/bloc.plain.dart';
 import '../tabs/folders/folders.dart';
 import '../tabs/player/player.dart';
 

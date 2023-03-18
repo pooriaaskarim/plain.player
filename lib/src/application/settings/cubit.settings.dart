@@ -1,13 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
-import '../../domain/settings/settings.model.dart';
-import '../../domain/settings/theme_config.model.dart';
-import '../../infrastructure/exceptions/configuration.exceptions.dart';
+import '../../domain/settings/model.settings.dart';
+import '../../domain/settings/model.theme_config.dart';
+import '../../infrastructure/exceptions/exceptions.configuration.dart';
 import '../../infrastructure/repositories/repository.settings.dart';
-import '../plain/plain.bloc.dart';
-import '../plain/plain.event.dart';
-import 'settings.state.dart';
+import '../plain/bloc.plain.dart';
+import '../plain/event.plain.dart';
+import 'state.settings.dart';
 
 class SettingsCubit extends Cubit<SettingsState> {
   SettingsCubit({

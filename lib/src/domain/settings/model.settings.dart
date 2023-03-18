@@ -1,8 +1,8 @@
 import 'package:isar/isar.dart';
 
-import 'theme_config.model.dart';
+import 'model.theme_config.dart';
 
-part 'settings.model.g.dart';
+part 'model.settings.g.dart';
 
 @Collection()
 class Settings {

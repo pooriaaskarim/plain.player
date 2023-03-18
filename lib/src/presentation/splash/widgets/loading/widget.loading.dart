@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../application/splash/splash.cubit.dart';
-import '../../../../application/splash/splash.state.dart';
-import 'bar_painter/bar.painter.dart';
-import 'dot_painter/dot.painter.dart';
-import 'logo/logo.dart';
+import '../../../../application/splash/cubit.splash.dart';
+import '../../../../application/splash/state.splash.dart';
+import 'bar_painter/painter.bar.dart';
+import 'dot_painter/painter.dot.dart';
+import 'logo/widget.logo.dart';
 
 class LoadingWidget extends StatefulWidget {
   const LoadingWidget({

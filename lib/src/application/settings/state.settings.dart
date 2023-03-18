@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../domain/settings/settings.model.dart';
+import '../../domain/settings/model.settings.dart';
 
 abstract class SettingsState extends Equatable {
   const SettingsState({required this.settings});

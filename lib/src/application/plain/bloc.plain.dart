@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio/just_audio.dart';
 
-import '../../domain/settings/settings.model.dart';
-import '../../infrastructure/exceptions/configuration.exceptions.dart';
+import '../../domain/settings/model.settings.dart';
+import '../../infrastructure/exceptions/exceptions.configuration.dart';
 import '../../infrastructure/repositories/repository.configurations.dart';
 import '../../infrastructure/repositories/repository.settings.dart';
-import 'plain.event.dart';
-import 'plain.state.dart';
+import 'event.plain.dart';
+import 'state.plain.dart';
 
 class PlainBloc extends Bloc<PlainEvent, PlainState> {
   PlainBloc({
