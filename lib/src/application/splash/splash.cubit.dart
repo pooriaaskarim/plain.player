@@ -49,7 +49,7 @@ class SplashCubit extends Cubit<SplashState> {
       return;
     }
     emit(SplashState.loading());
-    plainBloc.add(plain_event.PlainEvent.loadSettings(settings: settings));
+    plainBloc.add(plain_event.PlainEvent.loadSettings(settings));
     loadConfigurations();
   }
 

@@ -18,9 +18,9 @@ abstract class PlainEvent extends Equatable {
         dismissDatabase: dismissDatabase,
         settings: null,
       );
-  factory PlainEvent.loadSettings({
-    required final Settings settings,
-  }) =>
+  factory PlainEvent.loadSettings(
+    final Settings settings,
+  ) =>
       OnLoadSettings._fromObject(
         settings: settings,
         dismissDatabase: null,
