@@ -19,15 +19,18 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => BlocProvider(
-        create: (final context) => SplashCubit(
+        create: (final _) => SplashCubit(
+          animationDuration: const Duration(seconds: 1),
           navigatorState: Navigator.of(context),
           plainBloc: BlocProvider.of<PlainBloc>(context),
-          settingsRepository:
-              RepositoryProvider.of<SettingsRepository>(context),
           configurationsRepository:
               RepositoryProvider.of<ConfigurationsRepository>(context),
+          settingsRepository:
+              RepositoryProvider.of<SettingsRepository>(context),
         )..loadSettings(),
         child: BlocBuilder<SplashCubit, SplashState>(
+          buildWhen: (final previous, final current) =>
+              previous.runtimeType != current.runtimeType,
           builder: (final context, final state) {
             final Widget verticalSpacer =
                 AppUtils.verticalSpacer(size: AppUtils.xxxLargeSize);
@@ -38,7 +41,9 @@ class SplashScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  buildLogo(state),
+                  buildLogo(
+                    BlocProvider.of<SplashCubit>(context).animationDuration,
+                  ),
                   verticalSpacer,
                   buildStateWidget(context, state),
                   verticalSpacer,
@@ -51,10 +56,11 @@ class SplashScreen extends StatelessWidget {
       );
 
   Widget buildLogo(
-    final SplashState state,
+    final Duration animationDuration,
   ) =>
       LoadingWidget(
         scaleDownFactor: logoScaleDownFactor,
+        animationDuration: animationDuration,
       );
 
   Widget buildStateWidget(
@@ -69,6 +75,6 @@ class SplashScreen extends StatelessWidget {
         ),
         height: AppUtils.xxLargeSize,
         width: MediaQuery.of(context).size.width,
-        child: state.widget ?? AppUtils.emtyWidget,
+        child: state.widget ?? AppUtils.emptyWidget,
       );
 }

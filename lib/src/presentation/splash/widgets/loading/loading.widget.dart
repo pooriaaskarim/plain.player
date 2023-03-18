@@ -9,10 +9,12 @@ import 'logo/logo.dart';
 
 class LoadingWidget extends StatefulWidget {
   const LoadingWidget({
+    required this.animationDuration,
     this.scaleDownFactor = 2.1,
     super.key,
   });
   final double scaleDownFactor;
+  final Duration animationDuration;
 
   @override
   State<LoadingWidget> createState() => _LoadingWidgetState();
@@ -22,16 +24,13 @@ class _LoadingWidgetState extends State<LoadingWidget>
     with TickerProviderStateMixin {
   late AnimationController _barAnimationController;
   late AnimationController _dotAnimationController;
-  final Duration _animationDuration = const Duration(
-    seconds: 1,
-  );
 
   @override
   void initState() {
     super.initState();
 
     _barAnimationController = AnimationController(
-      duration: _animationDuration,
+      duration: widget.animationDuration,
       vsync: this,
       upperBound: 1.0,
       lowerBound: 0.0,
@@ -39,7 +38,7 @@ class _LoadingWidgetState extends State<LoadingWidget>
       value: 0,
     );
     _dotAnimationController = AnimationController(
-      duration: _animationDuration,
+      duration: widget.animationDuration,
       vsync: this,
       upperBound: 1.0,
       lowerBound: 0.0,

@@ -87,7 +87,7 @@ abstract class Bar {
   Offset leftEnd(final Size boxSize) {
     final animation = CurvedAnimation(
       parent: barAnimationController,
-      curve: Curves.easeInOut,
+      curve: Curves.ease,
     );
     return Tween<Offset>(
       begin: leftStart(boxSize),
@@ -105,7 +105,7 @@ abstract class Bar {
   Offset rightEnd(final Size boxSize) {
     final Animation<double> animation = CurvedAnimation(
       parent: barAnimationController,
-      curve: Curves.easeInOut,
+      curve: Curves.ease,
     );
     return Tween<Offset>(
       begin: rightStart(boxSize),

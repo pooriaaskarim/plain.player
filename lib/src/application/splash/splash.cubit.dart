@@ -21,7 +21,7 @@ class SplashCubit extends Cubit<SplashState> {
     required this.plainBloc,
     required final SettingsRepository settingsRepository,
     required final ConfigurationsRepository configurationsRepository,
-    this.fakeDelay = 2,
+    required this.animationDuration,
   }) : super(
           SplashState.initial(),
         ) {
@@ -29,7 +29,7 @@ class SplashCubit extends Cubit<SplashState> {
     _configurationsRepository = configurationsRepository;
   }
 
-  final int fakeDelay;
+  final Duration animationDuration;
   final NavigatorState navigatorState;
   final PlainBloc plainBloc;
   late final SettingsRepository _settingsRepository;
@@ -48,6 +48,7 @@ class SplashCubit extends Cubit<SplashState> {
       await onError(e, s);
       return;
     }
+    await AppUtils.fakeDelay(animationDuration);
     emit(SplashState.loading());
     plainBloc.add(plain_event.PlainEvent.loadSettings(settings));
     loadConfigurations();
@@ -55,12 +56,12 @@ class SplashCubit extends Cubit<SplashState> {
 
   FutureOr<void> writeDefaultSettings() async {
     await _settingsRepository.write(Settings.defaultSettings());
-    await AppUtils.fakeDelay(seconds: fakeDelay);
+    await AppUtils.fakeDelay(animationDuration);
     onSuccess();
   }
 
   FutureOr<void> loadConfigurations() async {
-    await AppUtils.fakeDelay(seconds: fakeDelay);
+    await AppUtils.fakeDelay(animationDuration);
 
     //todo: load and pass configurations to plain bloc
     //    plainBloc.add(plain_event.PlainEvent.loadConfigurations());
@@ -69,7 +70,7 @@ class SplashCubit extends Cubit<SplashState> {
 
   FutureOr<void> onSuccess() async {
     emit(SplashState.success());
-    await AppUtils.fakeDelay(seconds: fakeDelay);
+    await AppUtils.fakeDelay(animationDuration);
     await navigatorState.popAndPushNamed(AppRouteNames.homePage);
   }
 

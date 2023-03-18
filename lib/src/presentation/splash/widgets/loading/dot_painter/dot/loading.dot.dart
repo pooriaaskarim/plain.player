@@ -46,6 +46,7 @@ class LoadingDot extends Dot {
     final Animation<double> animation = CurvedAnimation(
       parent: dotAnimationController,
       curve: Curves.easeIn,
+      reverseCurve: Curves.easeOut,
     );
 
     final double middleRadius = 1.2 * super.getRadius(boxSize);

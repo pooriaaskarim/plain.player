@@ -1,9 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-import '../../domain/configuration/model.configurations.dart';
-import '../../domain/settings/settings.model.dart';
-
 abstract class SplashState extends Equatable {
   /// A [widget] Widget?  can be provided to show on
   /// SplashScreen.
@@ -14,13 +11,9 @@ abstract class SplashState extends Equatable {
         widget: widget,
       );
   factory SplashState.loading({
-    final Configurations? loadedConfigurations,
-    final Settings? loadedSettings,
     final Widget? widget,
   }) =>
       LoadingState._(
-        loadedConfigurations: loadedConfigurations,
-        loadedSettings: loadedSettings,
         widget: widget,
       );
   factory SplashState.success({final Widget? widget}) => SuccessState._(
@@ -51,20 +44,11 @@ class AppLaunchState extends SplashState {
 
 class LoadingState extends SplashState {
   const LoadingState._({
-    this.loadedConfigurations,
-    this.loadedSettings,
     super.widget,
   });
 
-  /// if could read a theme, it would fill this object.
-  final Settings? loadedSettings;
-
-  /// if could read a configuration, it would fill this object.
-  final Configurations? loadedConfigurations;
   @override
   List<Object?> get props => [
-        loadedConfigurations,
-        loadedSettings,
         widget,
       ];
 }
