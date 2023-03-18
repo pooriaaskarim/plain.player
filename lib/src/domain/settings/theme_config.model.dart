@@ -6,7 +6,7 @@ part 'theme_config.model.g.dart';
 @Embedded()
 class ThemeConfig {
   ThemeConfig({this.themeMode = ThemeMode.light});
-  factory ThemeConfig.defaults() => ThemeConfig();
+  factory ThemeConfig.defaultThemeConfig() => ThemeConfig();
   @Enumerated(
     EnumType.name,
   )
