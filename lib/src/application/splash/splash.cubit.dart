@@ -54,7 +54,7 @@ class SplashCubit extends Cubit<SplashState> {
   }
 
   FutureOr<void> writeDefaultSettings() async {
-    await _settingsRepository.write(defaultPlainSettings);
+    await _settingsRepository.write(Settings.defaultSettings());
     await AppUtils.fakeDelay(seconds: fakeDelay);
     onSuccess();
   }
