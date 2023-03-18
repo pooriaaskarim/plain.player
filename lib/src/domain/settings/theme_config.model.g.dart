@@ -13,9 +13,9 @@ const ThemeConfigSchema = Schema(
   name: r'ThemeConfig',
   id: 5264690155697542449,
   properties: {
-    r'ThemeMode': PropertySchema(
+    r'themeMode': PropertySchema(
       id: 0,
-      name: r'ThemeMode',
+      name: r'themeMode',
       type: IsarType.string,
       enumMap: _ThemeConfigthemeModeEnumValueMap,
     )
@@ -95,7 +95,7 @@ extension ThemeConfigQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'ThemeMode',
+        property: r'themeMode',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -111,7 +111,7 @@ extension ThemeConfigQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'ThemeMode',
+        property: r'themeMode',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -127,7 +127,7 @@ extension ThemeConfigQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'ThemeMode',
+        property: r'themeMode',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -144,7 +144,7 @@ extension ThemeConfigQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'ThemeMode',
+        property: r'themeMode',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -161,7 +161,7 @@ extension ThemeConfigQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'ThemeMode',
+        property: r'themeMode',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -175,7 +175,7 @@ extension ThemeConfigQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'ThemeMode',
+        property: r'themeMode',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -186,7 +186,7 @@ extension ThemeConfigQueryFilter
       themeModeContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
-        property: r'ThemeMode',
+        property: r'themeMode',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -197,7 +197,7 @@ extension ThemeConfigQueryFilter
       themeModeMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
-        property: r'ThemeMode',
+        property: r'themeMode',
         wildcard: pattern,
         caseSensitive: caseSensitive,
       ));
@@ -208,7 +208,7 @@ extension ThemeConfigQueryFilter
       themeModeIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'ThemeMode',
+        property: r'themeMode',
         value: '',
       ));
     });
@@ -218,7 +218,7 @@ extension ThemeConfigQueryFilter
       themeModeIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'ThemeMode',
+        property: r'themeMode',
         value: '',
       ));
     });

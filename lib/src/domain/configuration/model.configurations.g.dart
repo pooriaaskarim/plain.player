@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'app_setting.model.dart';
+part of 'model.configurations.dart';
 
 // **************************************************************************
 // IsarCollectionGenerator
@@ -9,119 +9,89 @@ part of 'app_setting.model.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
 
-extension GetAppSettingCollection on Isar {
-  IsarCollection<AppSetting> get appSettings => this.collection();
+extension GetConfigurationsCollection on Isar {
+  IsarCollection<Configurations> get configurations => this.collection();
 }
 
-const AppSettingSchema = CollectionSchema(
-  name: r'AppSetting',
-  id: -948817443998796339,
-  properties: {
-    r'themeConfig': PropertySchema(
-      id: 0,
-      name: r'themeConfig',
-      type: IsarType.object,
-      target: r'ThemeConfig',
-    )
-  },
-  estimateSize: _appSettingEstimateSize,
-  serialize: _appSettingSerialize,
-  deserialize: _appSettingDeserialize,
-  deserializeProp: _appSettingDeserializeProp,
+const ConfigurationsSchema = CollectionSchema(
+  name: r'Configurations',
+  id: -5187627997376188390,
+  properties: {},
+  estimateSize: _configurationsEstimateSize,
+  serialize: _configurationsSerialize,
+  deserialize: _configurationsDeserialize,
+  deserializeProp: _configurationsDeserializeProp,
   idName: r'id',
   indexes: {},
   links: {},
-  embeddedSchemas: {r'ThemeConfig': ThemeConfigSchema},
-  getId: _appSettingGetId,
-  getLinks: _appSettingGetLinks,
-  attach: _appSettingAttach,
+  embeddedSchemas: {},
+  getId: _configurationsGetId,
+  getLinks: _configurationsGetLinks,
+  attach: _configurationsAttach,
   version: '3.0.5',
 );
 
-int _appSettingEstimateSize(
-  AppSetting object,
+int _configurationsEstimateSize(
+  Configurations object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  bytesCount += 3 +
-      ThemeConfigSchema.estimateSize(
-          object.themeConfig, allOffsets[ThemeConfig]!, allOffsets);
   return bytesCount;
 }
 
-void _appSettingSerialize(
-  AppSetting object,
+void _configurationsSerialize(
+  Configurations object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
-) {
-  writer.writeObject<ThemeConfig>(
-    offsets[0],
-    allOffsets,
-    ThemeConfigSchema.serialize,
-    object.themeConfig,
-  );
-}
-
-AppSetting _appSettingDeserialize(
+) {}
+Configurations _configurationsDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = AppSetting(
-    themeConfig: reader.readObjectOrNull<ThemeConfig>(
-          offsets[0],
-          ThemeConfigSchema.deserialize,
-          allOffsets,
-        ) ??
-        ThemeConfig(),
-  );
+  final object = Configurations();
   return object;
 }
 
-P _appSettingDeserializeProp<P>(
+P _configurationsDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
   Map<Type, List<int>> allOffsets,
 ) {
   switch (propertyId) {
-    case 0:
-      return (reader.readObjectOrNull<ThemeConfig>(
-            offset,
-            ThemeConfigSchema.deserialize,
-            allOffsets,
-          ) ??
-          ThemeConfig()) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
 
-Id _appSettingGetId(AppSetting object) {
+Id _configurationsGetId(Configurations object) {
   return object.id;
 }
 
-List<IsarLinkBase<dynamic>> _appSettingGetLinks(AppSetting object) {
+List<IsarLinkBase<dynamic>> _configurationsGetLinks(Configurations object) {
   return [];
 }
 
-void _appSettingAttach(IsarCollection<dynamic> col, Id id, AppSetting object) {}
+void _configurationsAttach(
+    IsarCollection<dynamic> col, Id id, Configurations object) {}
 
-extension AppSettingQueryWhereSort
-    on QueryBuilder<AppSetting, AppSetting, QWhere> {
-  QueryBuilder<AppSetting, AppSetting, QAfterWhere> anyId() {
+extension ConfigurationsQueryWhereSort
+    on QueryBuilder<Configurations, Configurations, QWhere> {
+  QueryBuilder<Configurations, Configurations, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 }
 
-extension AppSettingQueryWhere
-    on QueryBuilder<AppSetting, AppSetting, QWhereClause> {
-  QueryBuilder<AppSetting, AppSetting, QAfterWhereClause> idEqualTo(Id id) {
+extension ConfigurationsQueryWhere
+    on QueryBuilder<Configurations, Configurations, QWhereClause> {
+  QueryBuilder<Configurations, Configurations, QAfterWhereClause> idEqualTo(
+      Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -130,7 +100,8 @@ extension AppSettingQueryWhere
     });
   }
 
-  QueryBuilder<AppSetting, AppSetting, QAfterWhereClause> idNotEqualTo(Id id) {
+  QueryBuilder<Configurations, Configurations, QAfterWhereClause> idNotEqualTo(
+      Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -152,7 +123,8 @@ extension AppSettingQueryWhere
     });
   }
 
-  QueryBuilder<AppSetting, AppSetting, QAfterWhereClause> idGreaterThan(Id id,
+  QueryBuilder<Configurations, Configurations, QAfterWhereClause> idGreaterThan(
+      Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -161,7 +133,8 @@ extension AppSettingQueryWhere
     });
   }
 
-  QueryBuilder<AppSetting, AppSetting, QAfterWhereClause> idLessThan(Id id,
+  QueryBuilder<Configurations, Configurations, QAfterWhereClause> idLessThan(
+      Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -170,7 +143,7 @@ extension AppSettingQueryWhere
     });
   }
 
-  QueryBuilder<AppSetting, AppSetting, QAfterWhereClause> idBetween(
+  QueryBuilder<Configurations, Configurations, QAfterWhereClause> idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -187,9 +160,9 @@ extension AppSettingQueryWhere
   }
 }
 
-extension AppSettingQueryFilter
-    on QueryBuilder<AppSetting, AppSetting, QFilterCondition> {
-  QueryBuilder<AppSetting, AppSetting, QAfterFilterCondition> idEqualTo(
+extension ConfigurationsQueryFilter
+    on QueryBuilder<Configurations, Configurations, QFilterCondition> {
+  QueryBuilder<Configurations, Configurations, QAfterFilterCondition> idEqualTo(
       Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -199,7 +172,8 @@ extension AppSettingQueryFilter
     });
   }
 
-  QueryBuilder<AppSetting, AppSetting, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<Configurations, Configurations, QAfterFilterCondition>
+      idGreaterThan(
     Id value, {
     bool include = false,
   }) {
@@ -212,7 +186,8 @@ extension AppSettingQueryFilter
     });
   }
 
-  QueryBuilder<AppSetting, AppSetting, QAfterFilterCondition> idLessThan(
+  QueryBuilder<Configurations, Configurations, QAfterFilterCondition>
+      idLessThan(
     Id value, {
     bool include = false,
   }) {
@@ -225,7 +200,7 @@ extension AppSettingQueryFilter
     });
   }
 
-  QueryBuilder<AppSetting, AppSetting, QAfterFilterCondition> idBetween(
+  QueryBuilder<Configurations, Configurations, QAfterFilterCondition> idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -243,52 +218,38 @@ extension AppSettingQueryFilter
   }
 }
 
-extension AppSettingQueryObject
-    on QueryBuilder<AppSetting, AppSetting, QFilterCondition> {
-  QueryBuilder<AppSetting, AppSetting, QAfterFilterCondition> themeConfig(
-      FilterQuery<ThemeConfig> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.object(q, r'themeConfig');
-    });
-  }
-}
+extension ConfigurationsQueryObject
+    on QueryBuilder<Configurations, Configurations, QFilterCondition> {}
 
-extension AppSettingQueryLinks
-    on QueryBuilder<AppSetting, AppSetting, QFilterCondition> {}
+extension ConfigurationsQueryLinks
+    on QueryBuilder<Configurations, Configurations, QFilterCondition> {}
 
-extension AppSettingQuerySortBy
-    on QueryBuilder<AppSetting, AppSetting, QSortBy> {}
+extension ConfigurationsQuerySortBy
+    on QueryBuilder<Configurations, Configurations, QSortBy> {}
 
-extension AppSettingQuerySortThenBy
-    on QueryBuilder<AppSetting, AppSetting, QSortThenBy> {
-  QueryBuilder<AppSetting, AppSetting, QAfterSortBy> thenById() {
+extension ConfigurationsQuerySortThenBy
+    on QueryBuilder<Configurations, Configurations, QSortThenBy> {
+  QueryBuilder<Configurations, Configurations, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<AppSetting, AppSetting, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<Configurations, Configurations, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 }
 
-extension AppSettingQueryWhereDistinct
-    on QueryBuilder<AppSetting, AppSetting, QDistinct> {}
+extension ConfigurationsQueryWhereDistinct
+    on QueryBuilder<Configurations, Configurations, QDistinct> {}
 
-extension AppSettingQueryProperty
-    on QueryBuilder<AppSetting, AppSetting, QQueryProperty> {
-  QueryBuilder<AppSetting, int, QQueryOperations> idProperty() {
+extension ConfigurationsQueryProperty
+    on QueryBuilder<Configurations, Configurations, QQueryProperty> {
+  QueryBuilder<Configurations, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
-    });
-  }
-
-  QueryBuilder<AppSetting, ThemeConfig, QQueryOperations>
-      themeConfigProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'themeConfig');
     });
   }
 }
