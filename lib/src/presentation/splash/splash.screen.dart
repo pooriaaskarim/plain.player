@@ -19,7 +19,7 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => BlocProvider(
-        create: (final context) => SplashBloc(
+        create: (final context) => SplashCubit(
           navigatorState: Navigator.of(context),
           plainBloc: BlocProvider.of<PlainBloc>(context),
           settingsRepository:
@@ -27,7 +27,7 @@ class SplashScreen extends StatelessWidget {
           configurationsRepository:
               RepositoryProvider.of<ConfigurationsRepository>(context),
         )..loadSettings(),
-        child: BlocBuilder<SplashBloc, SplashState>(
+        child: BlocBuilder<SplashCubit, SplashState>(
           builder: (final context, final state) {
             final Widget verticalSpacer =
                 AppUtils.verticalSpacer(size: AppUtils.xxxLargeSize);

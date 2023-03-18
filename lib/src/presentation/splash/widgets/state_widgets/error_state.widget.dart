@@ -32,7 +32,7 @@ class ErrorStateWidget extends StatelessWidget {
             action: SnackBarAction(
               label: 'Retry',
               onPressed: () =>
-                  BlocProvider.of<SplashBloc>(context).loadSettings(),
+                  BlocProvider.of<SplashCubit>(context).loadSettings(),
             ),
           ),
         ),

@@ -15,8 +15,8 @@ import '../plain/plain.bloc.dart';
 import '../plain/plain.event.dart' as plain_event;
 import 'splash.state.dart';
 
-class SplashBloc extends Cubit<SplashState> {
-  SplashBloc({
+class SplashCubit extends Cubit<SplashState> {
+  SplashCubit({
     required this.navigatorState,
     required this.plainBloc,
     required final SettingsRepository settingsRepository,

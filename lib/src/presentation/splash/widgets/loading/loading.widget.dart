@@ -68,7 +68,7 @@ class _LoadingWidgetState extends State<LoadingWidget>
     );
     final Size boxSize = Size(screenWidth, logoSize.height);
 
-    return BlocBuilder<SplashBloc, SplashState>(
+    return BlocBuilder<SplashCubit, SplashState>(
       buildWhen: (final previous, final current) =>
           // Rebuild only on new state.runtimeType
           previous.runtimeType != current.runtimeType,
