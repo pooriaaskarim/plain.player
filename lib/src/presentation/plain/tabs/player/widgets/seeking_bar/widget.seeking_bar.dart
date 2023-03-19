@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../../../../infrastructure/utils/app_utils.dart';
 import 'widgets/custom_thumb_shape.dart';
 import 'widgets/custom_track_shape.dart';
 
@@ -21,88 +20,17 @@ class SeekingBarWidget extends StatefulWidget {
   State<SeekingBarWidget> createState() => _SeekingBarWidgetState();
 }
 
-class _SeekingBarWidgetState extends State<SeekingBarWidget>
-    with TickerProviderStateMixin {
-  bool isTouched = false;
-  double? sliderTouchedPosition;
-
+class _SeekingBarWidgetState extends State<SeekingBarWidget> {
+  bool _isTouched = false;
+  double? _sliderTouchedPosition;
   @override
   void initState() {
     super.initState();
   }
 
-  @override
-  Widget build(final BuildContext context) {
-    const Duration minDuration = Duration.zero;
-
-    return StreamBuilder<Map<String, Duration?>>(
-      stream: Rx.combineLatest2<Duration, Duration, Map<String, Duration?>>(
-        widget.audioPlayer.positionStream,
-        widget.audioPlayer.bufferedPositionStream,
-        (final a, final b) => {
-          'position': a,
-          'bufferPosition': b,
-        },
-      ),
-      builder: (final context, final positionsMapSnapshot) {
-        AppUtils.debugPrintAudioPlayerDetails(widget.audioPlayer);
-
-        return Column(
-          children: [
-            SliderTheme(
-              data: _getSliderTheme(
-                context: context,
-                hasBuffer: hasBuffer,
-                isTouched: isTouched,
-                min: minDuration.inMicroseconds.toDouble(),
-                max: widget.audioPlayer.duration?.inMicroseconds.toDouble(),
-                secondaryValue: positionsMapSnapshot
-                    .data?['bufferPosition']?.inMicroseconds
-                    .toDouble(),
-              ),
-              child: Slider(
-                min: minDuration.inMicroseconds.toDouble(),
-                max: widget.audioPlayer.duration?.inMicroseconds.toDouble() ??
-                    0.0,
-                onChangeStart: (final value) {
-                  isTouched = true;
-                },
-                onChangeEnd: (final value) {
-                  isTouched = false;
-                  sliderTouchedPosition = null;
-                  widget.audioPlayer
-                      .seek(Duration(microseconds: value.toInt()));
-                },
-                onChanged: isActive
-                    ? (final value) =>
-                        setState(() => sliderTouchedPosition = value)
-                    : null,
-                value: sliderTouchedPosition ??
-                    positionsMapSnapshot.data?['position']?.inMicroseconds
-                        .toDouble() ??
-                    0.0,
-              ),
-            ),
-            if (isTouched)
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 100,
-                child: GestureDetector(
-                  onVerticalDragStart: (final _) => debugPrint('Ha Na!'),
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: 100,
-                  ),
-                ),
-              ),
-          ],
-        );
-      },
-    );
-  }
-
   bool get hasBuffer =>
-      !isTouched && widget.audioPlayer.bufferedPosition.inSeconds != 0;
+      !_isTouched && widget.audioPlayer.bufferedPosition.inSeconds != 0;
+
   bool get isActive {
     switch (widget.audioPlayer.processingState) {
       case ProcessingState.ready:
@@ -147,6 +75,59 @@ class _SeekingBarWidgetState extends State<SeekingBarWidget>
           min: min,
           max: max,
         ),
-        valueIndicatorTextStyle: Theme.of(context).textTheme.labelMedium,
+        valueIndicatorTextStyle: Theme.of(context).textTheme.labelLarge,
       );
+
+  @override
+  Widget build(final BuildContext context) {
+    const Duration minDuration = Duration.zero;
+
+    return StreamBuilder<Map<String, Duration?>>(
+      stream: Rx.combineLatest2<Duration, Duration, Map<String, Duration?>>(
+        widget.audioPlayer.positionStream,
+        widget.audioPlayer.bufferedPositionStream,
+        (final position, final duration) => {
+          'position': position,
+          'bufferPosition': duration,
+        },
+      ),
+      builder: (final context, final positionsMapSnapshot) => Column(
+        children: [
+          SliderTheme(
+            data: _getSliderTheme(
+              context: context,
+              hasBuffer: hasBuffer,
+              isTouched: _isTouched,
+              min: minDuration.inMicroseconds.toDouble(),
+              max: widget.audioPlayer.duration?.inMicroseconds.toDouble(),
+              secondaryValue: positionsMapSnapshot
+                  .data?['bufferPosition']?.inMicroseconds
+                  .toDouble(),
+            ),
+            child: Slider(
+              min: minDuration.inMicroseconds.toDouble(),
+              max:
+                  widget.audioPlayer.duration?.inMicroseconds.toDouble() ?? 0.0,
+              onChangeStart: (final value) {
+                _isTouched = true;
+              },
+              onChangeEnd: (final value) {
+                _isTouched = false;
+                _sliderTouchedPosition = null;
+                widget.audioPlayer.seek(Duration(microseconds: value.toInt()));
+              },
+              onChanged: isActive
+                  ? (final value) =>
+                      setState(() => _sliderTouchedPosition = value)
+                  : null,
+              value: _sliderTouchedPosition ??
+                  positionsMapSnapshot.data?['position']?.inMicroseconds
+                      .toDouble() ??
+                  0.0,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
