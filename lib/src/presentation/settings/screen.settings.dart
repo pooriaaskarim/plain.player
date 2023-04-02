@@ -6,7 +6,7 @@ import '../../application/settings/cubit.settings.dart';
 import '../../application/settings/state.settings.dart';
 import '../../domain/settings/model.theme_config.dart';
 import '../../infrastructure/repositories/repository.settings.dart';
-import '../../infrastructure/utils/app_utils.dart';
+import '../../infrastructure/utils/app.utils.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
