@@ -6,8 +6,8 @@ import '../../application/splash/cubit.splash.dart';
 import '../../application/splash/state.splash.dart';
 import '../../infrastructure/repositories/repository.configurations.dart';
 import '../../infrastructure/repositories/repository.settings.dart';
-import '../../infrastructure/utils/app_utils.dart';
-import 'widgets/loading/widget.loading.dart';
+import '../../infrastructure/utils/app.utils.dart';
+import 'widgets/loading/widget.splash_loading.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({
@@ -58,7 +58,7 @@ class SplashScreen extends StatelessWidget {
   Widget buildLogo(
     final Duration animationDuration,
   ) =>
-      LoadingWidget(
+      SplashLoading(
         scaleDownFactor: logoScaleDownFactor,
         animationDuration: animationDuration,
       );
