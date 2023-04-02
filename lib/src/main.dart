@@ -28,11 +28,15 @@ class PlainApp extends StatelessWidget {
         providers: [
           RepositoryProvider(
             lazy: true,
-            create: (final context) => const SettingsRepository(),
+            create: (final _) => const SettingsRepository(),
           ),
           RepositoryProvider(
             lazy: true,
-            create: (final context) => const ConfigurationsRepository(),
+            create: (final _) => const ConfigurationsRepository(),
+          ),
+          RepositoryProvider(
+            lazy: true,
+            create: (final _) => const AudioRepository(),
           )
         ],
         child: BlocProvider(
@@ -42,6 +46,7 @@ class PlainApp extends StatelessWidget {
                 RepositoryProvider.of<SettingsRepository>(context),
             configurationsRepository:
                 RepositoryProvider.of<ConfigurationsRepository>(context),
+            audioRepository: RepositoryProvider.of<AudioRepository>(context),
           ), //todo: AudioPlayer ->SingleTon??!
           child: BlocBuilder<PlainBloc, PlainState>(
             builder: (final context, final plainState) => MaterialApp(
