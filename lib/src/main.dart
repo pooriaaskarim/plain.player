@@ -4,6 +4,7 @@ import 'package:just_audio/just_audio.dart';
 
 import 'application/plain/bloc.plain.dart';
 import 'application/plain/state.plain.dart';
+import 'infrastructure/repositories/repository.audio.dart';
 import 'infrastructure/repositories/repository.configurations.dart';
 import 'infrastructure/repositories/repository.settings.dart';
 import 'infrastructure/routes/route_names.dart';
