@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../application/splash/cubit.splash.dart';
-import '../../../../infrastructure/utils/app_utils.dart';
+import '../../../../infrastructure/utils/app.utils.dart';
 
 class ErrorStateWidget extends StatelessWidget {
   const ErrorStateWidget({
@@ -39,7 +39,7 @@ class ErrorStateWidget extends StatelessWidget {
       padding: EdgeInsets.zero,
       icon: Icon(
         Icons.error,
-        size: AppUtils.xxLargeSize,
+        size: AppUtils.size_48Pt,
         color: themeData.colorScheme.error,
       ),
     );
