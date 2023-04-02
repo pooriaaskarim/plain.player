@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'widgets/widget.plain.tab_bar_view.dart';
 import 'widgets/widget.plain_tab_bar.dart';
@@ -14,6 +15,9 @@ class _PlainScreenState extends State<PlainScreen>
     with TickerProviderStateMixin {
   late TabController _tabController;
   GlobalKey<PlainTabBarState> tabBarKey = GlobalKey<PlainTabBarState>();
+  late PlainTabBarView plainTabBarView;
+  late PlainTabBar plainTabBar;
+
   @override
   void initState() {
     super.initState();
@@ -23,8 +27,13 @@ class _PlainScreenState extends State<PlainScreen>
       initialIndex: 0,
     )..addListener(() {
         tabBarKey.currentState?.setState(() {});
+        setState(() {});
       });
-    // _tabController.animateTo(2);
+    plainTabBarView = PlainTabBarView(tabController: _tabController);
+    plainTabBar = PlainTabBar(
+      key: tabBarKey,
+      tabController: _tabController,
+    );
   }
 
   @override
@@ -34,11 +43,21 @@ class _PlainScreenState extends State<PlainScreen>
   }
 
   @override
-  Widget build(final BuildContext context) => Scaffold(
-        bottomNavigationBar: PlainTabBar(
-          key: tabBarKey,
-          tabController: _tabController,
+  Widget build(final BuildContext context) =>
+      AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle(
+          statusBarIconBrightness:
+              (Theme.of(context).brightness == Brightness.light)
+                  ? Brightness.dark
+                  : Brightness.light,
+          statusBarBrightness: Theme.of(context).brightness,
         ),
-        body: PlainTabBarView(tabController: _tabController),
+        child: Scaffold(
+          bottomNavigationBar: plainTabBar,
+          body: plainTabBarView,
+          floatingActionButton: plainTabBarView
+              .tabViewList(context)[_tabController.index]
+              .floatingActionButton(context),
+        ),
       );
 }

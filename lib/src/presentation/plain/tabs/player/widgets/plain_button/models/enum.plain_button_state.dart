@@ -37,8 +37,6 @@ extension MapToPlainButtonState on AudioPlayer {
             unset, and PlayerState(false, ProcessingState.idle) corresponds to
             player being stopped **/
         return playing ? PlainButtonState.idle : PlainButtonState.stopped;
-      default:
-        return PlainButtonState.stopped;
     }
   }
 }

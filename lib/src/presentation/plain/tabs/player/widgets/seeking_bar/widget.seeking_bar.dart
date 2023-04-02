@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../../../../../infrastructure/utils/app.utils.dart';
 import 'widgets/custom_thumb_shape.dart';
 import 'widgets/custom_track_shape.dart';
 
@@ -91,43 +94,57 @@ class _SeekingBarWidgetState extends State<SeekingBarWidget> {
           'bufferPosition': duration,
         },
       ),
-      builder: (final context, final positionsMapSnapshot) => Column(
-        children: [
-          SliderTheme(
-            data: _getSliderTheme(
-              context: context,
-              hasBuffer: hasBuffer,
-              isTouched: _isTouched,
-              min: minDuration.inMicroseconds.toDouble(),
-              max: widget.audioPlayer.duration?.inMicroseconds.toDouble(),
-              secondaryValue: positionsMapSnapshot
-                  .data?['bufferPosition']?.inMicroseconds
-                  .toDouble(),
+      builder: (final context, final positionsMapSnapshot) {
+        AppUtils.debugPrintAudioPlayerDetails(widget.audioPlayer);
+
+        final double minPosition = minDuration.inMicroseconds.toDouble();
+        final double? duration =
+            widget.audioPlayer.duration?.inMicroseconds.toDouble();
+        final double? position =
+            positionsMapSnapshot.data?['position']?.inMicroseconds.toDouble();
+
+        return Column(
+          children: [
+            SliderTheme(
+              data: _getSliderTheme(
+                context: context,
+                hasBuffer: hasBuffer,
+                isTouched: _isTouched,
+                min: minPosition,
+                max: duration,
+                secondaryValue: positionsMapSnapshot
+                    .data?['bufferPosition']?.inMicroseconds
+                    .toDouble(),
+              ),
+              child: Slider(
+                min: minPosition,
+                max: duration ?? 0.0,
+                onChangeStart: (final value) {
+                  _isTouched = true;
+                },
+                onChangeEnd: (final value) {
+                  _isTouched = false;
+                  _sliderTouchedPosition = null;
+                  widget.audioPlayer
+                      .seek(Duration(microseconds: value.toInt()));
+                },
+                onChanged: isActive
+                    ? (final value) =>
+                        setState(() => _sliderTouchedPosition = value)
+                    : null,
+                value: _sliderTouchedPosition ??
+                    min(
+                      position ?? 0,
+                      duration ?? 0,
+                    ),
+                // a bug in Just_Audio causes position to be
+                // greater than duration, this min() is a
+                // temporary [hopefully!] fix
+              ),
             ),
-            child: Slider(
-              min: minDuration.inMicroseconds.toDouble(),
-              max:
-                  widget.audioPlayer.duration?.inMicroseconds.toDouble() ?? 0.0,
-              onChangeStart: (final value) {
-                _isTouched = true;
-              },
-              onChangeEnd: (final value) {
-                _isTouched = false;
-                _sliderTouchedPosition = null;
-                widget.audioPlayer.seek(Duration(microseconds: value.toInt()));
-              },
-              onChanged: isActive
-                  ? (final value) =>
-                      setState(() => _sliderTouchedPosition = value)
-                  : null,
-              value: _sliderTouchedPosition ??
-                  positionsMapSnapshot.data?['position']?.inMicroseconds
-                      .toDouble() ??
-                  0.0,
-            ),
-          ),
-        ],
-      ),
+          ],
+        );
+      },
     );
   }
 }

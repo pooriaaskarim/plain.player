@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../application/plain/bloc.plain.dart';
-import '../tabs/folders/folders.dart';
-import '../tabs/player/player.dart';
+import '../tabs/folders/tab.folders.dart';
+import '../tabs/plain.tab.i.dart';
+import '../tabs/player/tab.player.dart';
 
 class PlainTabBarView extends StatelessWidget {
   const PlainTabBarView({
@@ -19,12 +20,14 @@ class PlainTabBarView extends StatelessWidget {
         controller: tabController,
         dragStartBehavior: DragStartBehavior.start,
         physics: const NeverScrollableScrollPhysics(),
-        children: [
-          Player(
-            audioPlayer: BlocProvider.of<PlainBloc>(context).audioPlayer,
-          ),
-          const FoldersTab(),
-          // SizedBox.shrink(),
-        ],
+        children: tabViewList(context),
       );
+
+  List<PlainTab> tabViewList(final BuildContext context) => [
+        PlayerTab(
+          audioPlayer: BlocProvider.of<PlainBloc>(context).audioPlayer,
+        ),
+        FoldersTab(),
+        // SizedBox.shrink(),
+      ];
 }

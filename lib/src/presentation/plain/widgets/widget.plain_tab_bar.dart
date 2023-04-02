@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../../infrastructure/routes/route_names.dart';
-import '../../../infrastructure/utils/app_utils.dart';
+import '../../../infrastructure/utils/app.utils.dart';
 
 class PlainTabBar extends StatefulWidget {
   const PlainTabBar({
@@ -20,10 +20,9 @@ class PlainTabBarState extends State<PlainTabBar> {
   @override
   Widget build(final BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    const double activeTabHeight = AppUtils.xLargeSize;
-    const double activeIconSize = activeTabHeight;
-    const double inactiveTabHeight = AppUtils.largeSize;
-    const double inactiveIconSize = inactiveTabHeight;
+    const double tabHeight = AppUtils.size_56Pt;
+    const double inactiveIconSize = AppUtils.size_32Pt;
+    const double activeIconSize = AppUtils.size_24Pt;
 
     return SizedBox(
       width: screenWidth,
@@ -32,10 +31,9 @@ class PlainTabBarState extends State<PlainTabBar> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox(
-            width: screenWidth - (1.5 * activeIconSize),
+            width: screenWidth - (1.5 * inactiveIconSize),
             child: TabBar(
-              indicatorSize: TabBarIndicatorSize.tab,
-              // onTap: (_) => updateActiveTab(),
+              automaticIndicatorColorAdjustment: true,
               physics: const NeverScrollableScrollPhysics(),
               controller: widget.tabController,
               dragStartBehavior: DragStartBehavior.start,
@@ -45,14 +43,19 @@ class PlainTabBarState extends State<PlainTabBar> {
                     Icons.play_circle_fill,
                     size: _isActive(0) ? activeIconSize : inactiveIconSize,
                   ),
-                  height: _isActive(0) ? activeTabHeight : inactiveTabHeight,
+                  height: tabHeight,
+                  iconMargin: EdgeInsets.zero,
+                  text: _isActive(0) ? 'Player' : null,
+                  // height: _isActive(0) ? activeTabHeight : inactiveTabHeight,
                 ),
                 Tab(
                   icon: Icon(
                     Icons.folder,
                     size: _isActive(1) ? activeIconSize : inactiveIconSize,
                   ),
-                  height: _isActive(1) ? activeTabHeight : inactiveTabHeight,
+                  height: tabHeight,
+                  iconMargin: EdgeInsets.zero,
+                  text: _isActive(1) ? 'Folders' : null,
                 ),
               ],
             ),
@@ -61,7 +64,7 @@ class PlainTabBarState extends State<PlainTabBar> {
             padding: EdgeInsets.zero,
             icon: const Icon(
               Icons.more_vert,
-              size: activeIconSize,
+              size: inactiveIconSize,
             ),
             onSelected: (final value) {
               Navigator.of(context).pushNamed(value);
