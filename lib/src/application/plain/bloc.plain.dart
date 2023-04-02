@@ -6,6 +6,7 @@ import 'package:just_audio/just_audio.dart';
 
 import '../../domain/settings/model.settings.dart';
 import '../../infrastructure/exceptions/exceptions.configuration.dart';
+import '../../infrastructure/repositories/repository.audio.dart';
 import '../../infrastructure/repositories/repository.configurations.dart';
 import '../../infrastructure/repositories/repository.settings.dart';
 import 'event.plain.dart';
@@ -16,8 +17,10 @@ class PlainBloc extends Bloc<PlainEvent, PlainState> {
     required this.audioPlayer,
     required final SettingsRepository settingsRepository,
     required final ConfigurationsRepository configurationsRepository,
+    required final AudioRepository audioRepository,
   })  : _settingsRepository = settingsRepository,
         _configurationsRepository = configurationsRepository,
+        _audioRepository = audioRepository,
         super(
           PlainState.appLaunchState(
             defaultSettings: Settings.defaultSettings(),
@@ -31,6 +34,7 @@ class PlainBloc extends Bloc<PlainEvent, PlainState> {
   final AudioPlayer audioPlayer;
   late final SettingsRepository _settingsRepository;
   late final ConfigurationsRepository _configurationsRepository;
+  late final AudioRepository _audioRepository;
 
   FutureOr<void> _launchApp(final event, final emit) async {
     // final playlist = ConcatenatingAudioSource(
