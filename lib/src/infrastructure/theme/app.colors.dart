@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ColorUtils {
+class AppColors {
   ///Light Color Scheme
   static const ColorScheme lightColorScheme = ColorScheme(
     background: Color(0xFFFCFCFF),
