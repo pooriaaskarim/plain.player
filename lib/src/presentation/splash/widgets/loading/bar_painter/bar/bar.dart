@@ -119,8 +119,8 @@ abstract class Bar {
   Paint leftPainter(final Size boxSize) {
     final double gradientLeft = 0.5 * logoDistanceFromScreenEdge(boxSize);
     final double gradientRight = logoDistanceFromScreenEdge(boxSize);
-    const double gradientTop = AppUtils.zero;
-    const double gradientBottom = AppUtils.zero;
+    const double gradientTop = AppUtils.size_0Pt;
+    const double gradientBottom = AppUtils.size_0Pt;
 
     return Paint()
       ..style = PaintingStyle.stroke
