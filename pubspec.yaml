@@ -20,6 +20,9 @@ dependencies:
   isar: ^3.0.5
   isar_flutter_libs: ^3.0.5
   just_audio_background: ^0.0.1-beta.9
+  audiotagger: ^2.2.1
+  mime: ^1.0.4
+  rxdart: ^0.27.7
 
 
 
