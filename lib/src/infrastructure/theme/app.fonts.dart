@@ -6,108 +6,94 @@ class AppFonts {
   ///Plain Text Theme Data
   static const TextTheme textTheme = TextTheme(
       displayLarge: TextStyle(
-        fontFamily: AppFonts.fontFamily,
-        fontSize: AppFonts._displayLarge,
+        fontFamily: fontFamily,
+        height: 64,
+        fontSize: 57,
         fontStyle: FontStyle.normal,
       ),
       displayMedium: TextStyle(
-        fontFamily: AppFonts.fontFamily,
-        fontSize: AppFonts._displayMedium,
+        fontFamily: fontFamily,
+        height: 52,
+        fontSize: 45,
         fontStyle: FontStyle.normal,
       ),
       displaySmall: TextStyle(
-        fontFamily: AppFonts.fontFamily,
-        fontSize: AppFonts._displaySmall,
+        fontFamily: fontFamily,
+        height: 44,
+        fontSize: 36,
         fontStyle: FontStyle.normal,
       ),
       headlineLarge: TextStyle(
-        fontFamily: AppFonts.fontFamily,
-        fontSize: AppFonts._headlineLarge,
+        fontFamily: fontFamily,
+        height: 40,
+        fontSize: 32,
         fontStyle: FontStyle.normal,
       ),
       headlineMedium: TextStyle(
-        fontFamily: AppFonts.fontFamily,
-        fontSize: AppFonts._headlineMedium,
+        fontFamily: fontFamily,
+        height: 36,
+        fontSize: 28,
         fontStyle: FontStyle.normal,
       ),
       headlineSmall: TextStyle(
-        fontFamily: AppFonts.fontFamily,
-        fontSize: AppFonts._headlineSmall,
+        fontFamily: fontFamily,
+        height: 32,
+        fontSize: 24,
         fontStyle: FontStyle.normal,
       ),
       titleLarge: TextStyle(
-        fontFamily: AppFonts.fontFamily,
-        fontSize: AppFonts._titleLarge,
+        fontFamily: fontFamily,
+        height: 28,
+        fontSize: 22,
         fontStyle: FontStyle.normal,
       ),
       titleMedium: TextStyle(
-        fontFamily: AppFonts.fontFamily,
-        fontSize: AppFonts._titleMedium,
+        fontFamily: fontFamily,
+        height: 24,
+        fontSize: 16,
         fontStyle: FontStyle.normal,
       ),
       titleSmall: TextStyle(
-        fontFamily: AppFonts.fontFamily,
-        fontSize: AppFonts._titleSmall,
+        fontFamily: fontFamily,
+        height: 20,
+        fontSize: 14,
         fontStyle: FontStyle.normal,
       ),
       bodyLarge: TextStyle(
-        fontFamily: AppFonts.fontFamily,
-        fontSize: AppFonts._bodyLarge,
+        fontFamily: fontFamily,
+        height: 24,
+        fontSize: 16,
         fontStyle: FontStyle.normal,
       ),
       bodyMedium: TextStyle(
-        fontFamily: AppFonts.fontFamily,
-        fontSize: AppFonts._bodyMedium,
+        fontFamily: fontFamily,
+        height: 20,
+        fontSize: 14,
         fontStyle: FontStyle.normal,
       ),
       bodySmall: TextStyle(
-        fontFamily: AppFonts.fontFamily,
-        fontSize: AppFonts._bodySmall,
+        fontFamily: fontFamily,
+        height: 16,
+        fontSize: 12,
         fontStyle: FontStyle.normal,
       ),
-      l);
-//#endregion
-  //#region App Font Size
-  ///Font Family
+      labelLarge: TextStyle(
+        fontFamily: fontFamily,
+        height: 20,
+        fontSize: 14,
+        fontStyle: FontStyle.normal,
+      ),
+      labelMedium: TextStyle(
+        fontFamily: fontFamily,
+        height: 16,
+        fontSize: 12,
+        fontStyle: FontStyle.normal,
+      ),
+      labelSmall: TextStyle(
+        fontFamily: fontFamily,
+        height: 16,
+        fontSize: 11,
+        fontStyle: FontStyle.normal,
+      ));
   static const String fontFamily = 'Roboto';
-
-  ///Font size for Display Large
-  static const double _displayLarge = 36.0;
-
-  ///Font size for Display Medium
-  static const double _displayMedium = 45.0;
-
-  ///Font size for Display Small
-  static const double _displaySmall = 57.0;
-
-  ///Font size for Headline Large
-  static const double _headlineLarge = 32.0;
-
-  ///Font size for Headline Medium
-  static const double _headlineMedium = 28.0;
-
-  ///Font size for Headline Small
-  static const double _headlineSmall = 24.0;
-
-  ///Font size for Title Large
-  static const double _titleLarge = 22.0;
-
-  ///Font size for Title Medium
-  static const double _titleMedium = 16.0;
-
-  ///Font size for Title Small
-  static const double _titleSmall = 14.0;
-
-  ///Font size for Body Large
-  static const double _bodyLarge = 16.0;
-
-  ///Font size for Body Medium
-  static const double _bodyMedium = 14.0;
-
-  ///Font size for Body Small
-  static const double _bodySmall = 12.0;
-
-  ///Font size for buttonText
-  static const double _buttonText = 12.0;
-  //#endregion
 }
