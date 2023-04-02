@@ -9,7 +9,7 @@ import 'infrastructure/repositories/repository.configurations.dart';
 import 'infrastructure/repositories/repository.settings.dart';
 import 'infrastructure/routes/route_names.dart';
 import 'infrastructure/routes/routes.dart';
-import 'infrastructure/theme/app_theme.dart';
+import 'infrastructure/theme/app.theme.dart';
 import 'presentation/splash/screen.splash.dart';
 
 void main() async {
