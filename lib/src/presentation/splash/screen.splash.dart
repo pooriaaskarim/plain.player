@@ -33,7 +33,7 @@ class SplashScreen extends StatelessWidget {
               previous.runtimeType != current.runtimeType,
           builder: (final context, final state) {
             final Widget verticalSpacer =
-                AppUtils.verticalSpacer(size: AppUtils.xxxLargeSize);
+                AppUtils.verticalSpacer(size: AppUtils.size_64Pt);
 
             return Scaffold(
               body: Column(
@@ -70,10 +70,10 @@ class SplashScreen extends StatelessWidget {
       Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.symmetric(
-          vertical: AppUtils.zero,
-          horizontal: AppUtils.mediumSize,
+          vertical: AppUtils.size_0Pt,
+          horizontal: AppUtils.size_16Pt,
         ),
-        height: AppUtils.xxLargeSize,
+        height: AppUtils.size_48Pt,
         width: MediaQuery.of(context).size.width,
         child: state.widget ?? AppUtils.emptyWidget,
       );
