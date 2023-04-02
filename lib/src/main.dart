@@ -13,8 +13,6 @@ import 'infrastructure/theme/app.theme.dart';
 import 'presentation/splash/screen.splash.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
   runApp(
     const PlainApp(),
   );
