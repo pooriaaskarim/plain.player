@@ -7,8 +7,8 @@ import 'bar_painter/painter.bar.dart';
 import 'dot_painter/painter.dot.dart';
 import 'logo/widget.logo.dart';
 
-class LoadingWidget extends StatefulWidget {
-  const LoadingWidget({
+class SplashLoading extends StatefulWidget {
+  const SplashLoading({
     required this.animationDuration,
     this.scaleDownFactor = 2.1,
     super.key,
@@ -17,10 +17,10 @@ class LoadingWidget extends StatefulWidget {
   final Duration animationDuration;
 
   @override
-  State<LoadingWidget> createState() => _LoadingWidgetState();
+  State<SplashLoading> createState() => _SplashLoadingState();
 }
 
-class _LoadingWidgetState extends State<LoadingWidget>
+class _SplashLoadingState extends State<SplashLoading>
     with TickerProviderStateMixin {
   late AnimationController _barAnimationController;
   late AnimationController _dotAnimationController;

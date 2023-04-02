@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../../application/splash/state.splash.dart';
-import '../../../../../../infrastructure/utils/app_utils.dart';
+import '../../../../../../infrastructure/utils/app.utils.dart';
 import 'bar.error.dart';
 import 'bar.initializing.dart';
 import 'bar.loading.dart';
@@ -145,8 +145,8 @@ abstract class Bar {
         logoDistanceFromScreenEdge(boxSize) + logoSize.width;
     final double gradientRight =
         gradientLeft + (0.5 * logoDistanceFromScreenEdge(boxSize));
-    const double gradientTop = AppUtils.zero;
-    const double gradientBottom = AppUtils.zero;
+    const double gradientTop = AppUtils.size_0Pt;
+    const double gradientBottom = AppUtils.size_0Pt;
 
     return Paint()
       ..style = PaintingStyle.stroke
