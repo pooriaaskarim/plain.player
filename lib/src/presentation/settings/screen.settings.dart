@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../application/plain/bloc.plain.dart';
 import '../../application/settings/cubit.settings.dart';
-import '../../application/settings/state.settings.dart';
+import '../../application/settings/state/state.settings.dart';
 import '../../domain/settings/model.theme_config.dart';
 import '../../infrastructure/repositories/repository.settings.dart';
 import '../../infrastructure/utils/app.utils.dart';
