@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/app.utils.dart';
+import '../../../utils/app.utils.dart';
+import '../../app.sizes.dart';
 import '../app.fonts.dart';
 
 class AppFloatingActionButtonThemeData extends FloatingActionButtonThemeData {
@@ -20,9 +21,9 @@ class AppFloatingActionButtonThemeData extends FloatingActionButtonThemeData {
           focusElevation: AppUtils.elevationLevel_3,
           disabledElevation: AppUtils.elevationLevel_1,
           highlightElevation: AppUtils.elevationLevel_3,
-          iconSize: AppUtils.size_32Pt,
+          iconSize: AppSizes.size_32Pt,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppUtils.size_56Pt),
+            borderRadius: BorderRadius.circular(AppSizes.size_56Pt),
             side: BorderSide(
               style: BorderStyle.solid,
               width: 1,
@@ -32,29 +33,29 @@ class AppFloatingActionButtonThemeData extends FloatingActionButtonThemeData {
           enableFeedback: true,
           extendedTextStyle: AppFonts.textTheme.labelLarge
               ?.merge(TextStyle(color: colorScheme.onPrimaryContainer)),
-          extendedPadding: const EdgeInsets.all(AppUtils.size_16Pt),
+          extendedPadding: const EdgeInsets.all(AppSizes.size_16Pt),
           sizeConstraints: const BoxConstraints(
-            maxWidth: AppUtils.size_56Pt,
-            maxHeight: AppUtils.size_56Pt,
-            minHeight: AppUtils.size_56Pt,
-            minWidth: AppUtils.size_56Pt,
+            maxWidth: AppSizes.size_56Pt,
+            maxHeight: AppSizes.size_56Pt,
+            minHeight: AppSizes.size_56Pt,
+            minWidth: AppSizes.size_56Pt,
           ),
           extendedSizeConstraints: const BoxConstraints(
-            maxHeight: AppUtils.size_56Pt,
-            minHeight: AppUtils.size_56Pt,
-            minWidth: AppUtils.size_56Pt,
+            maxHeight: AppSizes.size_56Pt,
+            minHeight: AppSizes.size_56Pt,
+            minWidth: AppSizes.size_56Pt,
           ),
           largeSizeConstraints: const BoxConstraints(
-            maxWidth: AppUtils.size_56Pt,
-            maxHeight: AppUtils.size_56Pt,
-            minHeight: AppUtils.size_56Pt,
-            minWidth: AppUtils.size_56Pt,
+            maxWidth: AppSizes.size_56Pt,
+            maxHeight: AppSizes.size_56Pt,
+            minHeight: AppSizes.size_56Pt,
+            minWidth: AppSizes.size_56Pt,
           ),
           smallSizeConstraints: const BoxConstraints(
-            maxWidth: AppUtils.size_40Pt,
-            maxHeight: AppUtils.size_40Pt,
-            minHeight: AppUtils.size_40Pt,
-            minWidth: AppUtils.size_40Pt,
+            maxWidth: AppSizes.size_40Pt,
+            maxHeight: AppSizes.size_40Pt,
+            minHeight: AppSizes.size_40Pt,
+            minWidth: AppSizes.size_40Pt,
           ),
         );
 }

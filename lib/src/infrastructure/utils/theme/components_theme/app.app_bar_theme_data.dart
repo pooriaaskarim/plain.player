@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/app.utils.dart';
+import '../../../utils/app.utils.dart';
+import '../../app.sizes.dart';
 import '../app.fonts.dart';
 
 class AppAppbarThemeData extends AppBarTheme {
@@ -13,9 +14,11 @@ class AppAppbarThemeData extends AppBarTheme {
           scrolledUnderElevation: AppUtils.elevationLevel_2,
           foregroundColor: colorScheme.onSurface,
           iconTheme: IconThemeData(
-              color: colorScheme.onSurfaceVariant, size: AppUtils.size_24Pt),
+            color: colorScheme.onSurfaceVariant,
+            size: AppSizes.size_24Pt,
+          ),
           surfaceTintColor: colorScheme.surfaceTint,
-          toolbarHeight: AppUtils.size_64Pt,
+          toolbarHeight: AppSizes.size_64Pt,
           titleTextStyle: AppFonts.textTheme.titleLarge?.merge(
             TextStyle(
               color: colorScheme.onSurface,

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../presentation/plain/screen.plain.dart';
-import '../../presentation/settings/screen.settings.dart';
-import '../../presentation/splash/screen.splash.dart';
-import '../../presentation/unknown/screen.unknown.dart';
-import 'route_names.dart';
+import '../../../presentation/plain/screen.plain.dart';
+import '../../../presentation/settings/screen.settings.dart';
+import '../../../presentation/splash/screen.splash.dart';
+import '../../../presentation/unknown/screen.unknown.dart';
+import 'app.route_names.dart';
 
 class AppRoutes {
   AppRoutes._();
