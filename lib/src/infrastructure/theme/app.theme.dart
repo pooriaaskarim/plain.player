@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'app.theme_data.dart';
 import 'components_theme/app.app_bar_theme_data.dart';
+import 'components_theme/app.dialog_theme_data.dart';
 import 'components_theme/app.elevated_button_theme_data.dart';
 import 'components_theme/app.floating_action_button_theme_data.dart';
 import 'components_theme/app.tab_bar_theme_data.dart';
+import 'components_theme/app.text_button_theme_data.dart';
 
 class AppTheme {
   AppTheme._();
@@ -14,7 +16,7 @@ class AppTheme {
     appBarTheme: AppAppbarThemeData.from(AppThemeData.lightColorScheme),
     brightness: Brightness.light,
     colorScheme: AppThemeData.lightColorScheme,
-    tabBarTheme: AppTabBarThemeData.from(AppThemeData.lightColorScheme),
+    dialogTheme: AppDialogThemeData(AppThemeData.lightColorScheme),
     elevatedButtonTheme: AppElevatedButtonThemeData.from(
       AppThemeData.lightColorScheme,
     ),
@@ -23,6 +25,8 @@ class AppTheme {
     ),
     primaryColorDark: AppThemeData.darkColorScheme.primary,
     primaryColorLight: AppThemeData.lightColorScheme.primary,
+    tabBarTheme: AppTabBarThemeData.from(AppThemeData.lightColorScheme),
+    textButtonTheme: AppTextButtonThemeData(AppThemeData.lightColorScheme),
     textTheme: AppThemeData.textTheme,
     useMaterial3: true,
   );
@@ -32,7 +36,7 @@ class AppTheme {
     appBarTheme: AppAppbarThemeData.from(AppThemeData.darkColorScheme),
     brightness: Brightness.dark,
     colorScheme: AppThemeData.darkColorScheme,
-    tabBarTheme: AppTabBarThemeData.from(AppThemeData.darkColorScheme),
+    dialogTheme: AppDialogThemeData(AppThemeData.darkColorScheme),
     elevatedButtonTheme: AppElevatedButtonThemeData.from(
       AppThemeData.darkColorScheme,
     ),
@@ -42,6 +46,8 @@ class AppTheme {
     primaryColor: AppThemeData.darkColorScheme.primary,
     primaryColorDark: AppThemeData.darkColorScheme.primary,
     primaryColorLight: AppThemeData.lightColorScheme.primary,
+    tabBarTheme: AppTabBarThemeData.from(AppThemeData.darkColorScheme),
+    textButtonTheme: AppTextButtonThemeData(AppThemeData.darkColorScheme),
     textTheme: AppThemeData.textTheme,
     useMaterial3: true,
   );

@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import '../../utils/app.utils.dart';
 import '../app.fonts.dart';
 
-class AppElevatedButtonThemeData extends ElevatedButtonThemeData {
-  AppElevatedButtonThemeData.from(
-    final ColorScheme colorScheme,
-  ) : super(
+class AppTextButtonThemeData extends TextButtonThemeData {
+  AppTextButtonThemeData(final ColorScheme colorScheme)
+      : super(
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.resolveWith<Color?>(
               (final states) {
@@ -43,7 +42,7 @@ class AppElevatedButtonThemeData extends ElevatedButtonThemeData {
                       .withOpacity(AppUtils.pressStateLayerOpacity);
                 }
                 //default: enabled state
-                return colorScheme.surface;
+                return null;
               },
             ),
             elevation: MaterialStateProperty.resolveWith<double?>(

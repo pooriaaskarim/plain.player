@@ -9,12 +9,17 @@ class AppFloatingActionButtonThemeData extends FloatingActionButtonThemeData {
   ) : super(
           backgroundColor: colorScheme.primaryContainer,
           foregroundColor: colorScheme.onPrimaryContainer,
-          splashColor: colorScheme.onPrimaryContainer.withOpacity(0.1),
-          elevation: 3,
-          hoverElevation: 4,
-          focusElevation: 3,
-          disabledElevation: 1,
-          highlightElevation: 4,
+          focusColor: colorScheme.onPrimaryContainer
+              .withOpacity(AppUtils.focusStateLayerOpacity),
+          hoverColor: colorScheme.onPrimaryContainer
+              .withOpacity(AppUtils.hoverStateLayerOpacity),
+          splashColor: colorScheme.onPrimaryContainer
+              .withOpacity(AppUtils.pressStateLayerOpacity),
+          elevation: AppUtils.elevationLevel_3,
+          hoverElevation: AppUtils.elevationLevel_4,
+          focusElevation: AppUtils.elevationLevel_3,
+          disabledElevation: AppUtils.elevationLevel_1,
+          highlightElevation: AppUtils.elevationLevel_3,
           iconSize: AppUtils.size_32Pt,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppUtils.size_56Pt),
@@ -25,18 +30,19 @@ class AppFloatingActionButtonThemeData extends FloatingActionButtonThemeData {
             ),
           ),
           enableFeedback: true,
-          extendedTextStyle: AppFonts.textTheme.labelLarge,
+          extendedTextStyle: AppFonts.textTheme.labelLarge
+              ?.merge(TextStyle(color: colorScheme.onPrimaryContainer)),
           extendedPadding: const EdgeInsets.all(AppUtils.size_16Pt),
           sizeConstraints: const BoxConstraints(
             maxWidth: AppUtils.size_56Pt,
             maxHeight: AppUtils.size_56Pt,
-            minHeight: AppUtils.size_40Pt,
-            minWidth: AppUtils.size_40Pt,
+            minHeight: AppUtils.size_56Pt,
+            minWidth: AppUtils.size_56Pt,
           ),
           extendedSizeConstraints: const BoxConstraints(
             maxHeight: AppUtils.size_56Pt,
             minHeight: AppUtils.size_56Pt,
-            minWidth: AppUtils.size_40Pt,
+            minWidth: AppUtils.size_56Pt,
           ),
           largeSizeConstraints: const BoxConstraints(
             maxWidth: AppUtils.size_56Pt,

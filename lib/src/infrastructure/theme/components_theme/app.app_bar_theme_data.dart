@@ -9,11 +9,11 @@ class AppAppbarThemeData extends AppBarTheme {
           actionsIconTheme: IconThemeData(color: colorScheme.onSurfaceVariant),
           centerTitle: true,
           color: colorScheme.surface.withOpacity(0.7),
-          elevation: 1,
+          elevation: AppUtils.elevationLevel_0,
+          scrolledUnderElevation: AppUtils.elevationLevel_2,
           foregroundColor: colorScheme.onSurface,
           iconTheme: IconThemeData(
               color: colorScheme.onSurfaceVariant, size: AppUtils.size_24Pt),
-          scrolledUnderElevation: 2,
           surfaceTintColor: colorScheme.surfaceTint,
           toolbarHeight: AppUtils.size_64Pt,
           titleTextStyle: AppFonts.textTheme.titleLarge?.merge(
