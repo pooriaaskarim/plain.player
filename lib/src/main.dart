@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio/just_audio.dart';
 
+import 'application/audio_library/cubit.audio_library.dart';
 import 'application/plain/bloc.plain.dart';
-import 'application/plain/state.plain.dart';
+import 'application/plain/states/state.plain.dart';
 import 'infrastructure/repositories/repository.audio.dart';
 import 'infrastructure/repositories/repository.configurations.dart';
 import 'infrastructure/repositories/repository.settings.dart';
