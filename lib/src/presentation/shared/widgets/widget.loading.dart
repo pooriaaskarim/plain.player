@@ -5,12 +5,17 @@ import 'package:flutter/material.dart';
 import '../../../infrastructure/utils/app.utils.dart';
 
 class Loading extends StatefulWidget {
+  /// Loading Widget
   const Loading({
-    required this.color,
+    this.color,
     this.radius = AppUtils.size_24Pt,
     super.key,
   });
-  final Color color;
+
+  /// Color of the loading Widget: defaults to Primary color of theme if null
+  final Color? color;
+
+  /// Radius of the loading Widget: defaults to 24Pt if null
   final double radius;
 
   @override
@@ -19,22 +24,11 @@ class Loading extends StatefulWidget {
 
 class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
   late AnimationController animationController;
-
-  @override
-  Widget build(final BuildContext context) => AnimatedBuilder(
-        animation: animationController,
-        builder: (final context, final child) => CustomPaint(
-          size: Size(widget.radius, widget.radius),
-          painter: LoadingDot(
-            color: widget.color,
-            radius: widget.radius,
-            animationController: animationController,
-          ),
-        ),
-      );
+  late final Color _color;
 
   @override
   void initState() {
+    _color = widget.color ?? Theme.of(context).colorScheme.primary;
     super.initState();
     animationController = AnimationController(
       duration: const Duration(seconds: 1),
@@ -42,10 +36,21 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
       lowerBound: 0,
       upperBound: 1,
       vsync: this,
-    )
-      ..forward()
-      ..repeat();
+    )..repeat();
   }
+
+  @override
+  Widget build(final BuildContext context) => AnimatedBuilder(
+        animation: animationController,
+        builder: (final context, final child) => CustomPaint(
+          size: Size(widget.radius, widget.radius),
+          painter: LoadingDot(
+            color: _color,
+            radius: widget.radius,
+            animationController: animationController,
+          ),
+        ),
+      );
 
   @override
   void dispose() {
