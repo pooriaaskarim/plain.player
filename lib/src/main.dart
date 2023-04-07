@@ -40,15 +40,26 @@ class PlainApp extends StatelessWidget {
             create: (final _) => const AudioRepository(),
           )
         ],
-        child: BlocProvider(
-          create: (final context) => PlainBloc(
-            audioPlayer: AudioPlayer(),
-            settingsRepository:
-                RepositoryProvider.of<SettingsRepository>(context),
-            configurationsRepository:
-                RepositoryProvider.of<ConfigurationsRepository>(context),
-            audioRepository: RepositoryProvider.of<AudioRepository>(context),
-          ), //todo: AudioPlayer ->SingleTon??!
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (final context) => AudioLibraryCubit(
+                audioRepository:
+                    RepositoryProvider.of<AudioRepository>(context),
+              ),
+            ),
+            BlocProvider(
+              create: (final context) => PlainBloc(
+                audioPlayer: AudioPlayer(),
+                audioLibraryHandler:
+                    BlocProvider.of<AudioLibraryCubit>(context),
+                settingsRepository:
+                    RepositoryProvider.of<SettingsRepository>(context),
+                configurationsRepository:
+                    RepositoryProvider.of<ConfigurationsRepository>(context),
+              ), //todo: AudioPlayer ->SingleTon??!
+            ),
+          ],
           child: BlocBuilder<PlainBloc, PlainState>(
             builder: (final context, final plainState) => MaterialApp(
               home: const SplashScreen(),
