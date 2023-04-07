@@ -89,9 +89,9 @@ const TrackSchema = CollectionSchema(
 );
 
 int _trackEstimateSize(
-  Track object,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
+  final Track object,
+  final List<int> offsets,
+  final Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
   {
@@ -123,40 +123,41 @@ int _trackEstimateSize(
 }
 
 void _trackSerialize(
-  Track object,
-  IsarWriter writer,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
+  final Track object,
+  final IsarWriter writer,
+  final List<int> offsets,
+  final Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.lyrics);
-  writer.writeString(offsets[1], object.path);
-  writer.writeString(offsets[2], object.title);
-  writer.writeString(offsets[3], object.trackNumber);
-  writer.writeString(offsets[4], object.trackTotal);
+  writer
+    ..writeString(offsets[0], object.lyrics)
+    ..writeString(offsets[1], object.path)
+    ..writeString(offsets[2], object.title)
+    ..writeString(offsets[3], object.trackNumber)
+    ..writeString(offsets[4], object.trackTotal);
 }
 
 Track _trackDeserialize(
-  Id id,
-  IsarReader reader,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
+  final Id id,
+  final IsarReader reader,
+  final List<int> offsets,
+  final Map<Type, List<int>> allOffsets,
 ) {
   final object = Track(
     path: reader.readString(offsets[1]),
-  );
-  object.id = id;
-  object.lyrics = reader.readStringOrNull(offsets[0]);
-  object.title = reader.readStringOrNull(offsets[2]);
-  object.trackNumber = reader.readStringOrNull(offsets[3]);
-  object.trackTotal = reader.readStringOrNull(offsets[4]);
+  )
+    ..id = id
+    ..lyrics = reader.readStringOrNull(offsets[0])
+    ..title = reader.readStringOrNull(offsets[2])
+    ..trackNumber = reader.readStringOrNull(offsets[3])
+    ..trackTotal = reader.readStringOrNull(offsets[4]);
   return object;
 }
 
 P _trackDeserializeProp<P>(
-  IsarReader reader,
-  int propertyId,
-  int offset,
-  Map<Type, List<int>> allOffsets,
+  final IsarReader reader,
+  final int propertyId,
+  final int offset,
+  final Map<Type, List<int>> allOffsets,
 ) {
   switch (propertyId) {
     case 0:
@@ -174,21 +175,18 @@ P _trackDeserializeProp<P>(
   }
 }
 
-Id _trackGetId(Track object) {
-  return object.id;
-}
+Id _trackGetId(final Track object) => object.id;
 
-List<IsarLinkBase<dynamic>> _trackGetLinks(Track object) {
-  return [
-    object.albumArtist,
-    object.artist,
-    object.genre,
-    object.album,
-    object.year
-  ];
-}
+List<IsarLinkBase<dynamic>> _trackGetLinks(final Track object) => [
+      object.albumArtist,
+      object.artist,
+      object.genre,
+      object.album,
+      object.year
+    ];
 
-void _trackAttach(IsarCollection<dynamic> col, Id id, Track object) {
+void _trackAttach(
+    final IsarCollection<dynamic> col, final Id id, final Track object) {
   object.id = id;
   object.albumArtist
       .attach(col, col.isar.collection<AlbumArtist>(), r'albumArtist', id);
@@ -199,1118 +197,971 @@ void _trackAttach(IsarCollection<dynamic> col, Id id, Track object) {
 }
 
 extension TrackQueryWhereSort on QueryBuilder<Track, Track, QWhere> {
-  QueryBuilder<Track, Track, QAfterWhere> anyId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(const IdWhereClause.any());
-    });
-  }
+  QueryBuilder<Track, Track, QAfterWhere> anyId() => QueryBuilder.apply(
+      this, (final query) => query.addWhereClause(const IdWhereClause.any()));
 }
 
 extension TrackQueryWhere on QueryBuilder<Track, Track, QWhereClause> {
-  QueryBuilder<Track, Track, QAfterWhereClause> idEqualTo(Id id) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: id,
-        upper: id,
-      ));
-    });
-  }
+  QueryBuilder<Track, Track, QAfterWhereClause> idEqualTo(final Id id) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addWhereClause(IdWhereClause.between(
+                lower: id,
+                upper: id,
+              )));
 
-  QueryBuilder<Track, Track, QAfterWhereClause> idNotEqualTo(Id id) {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
-            )
-            .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
-            );
-      } else {
-        return query
-            .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
-            )
-            .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
-            );
-      }
-    });
-  }
+  QueryBuilder<Track, Track, QAfterWhereClause> idNotEqualTo(final Id id) =>
+      QueryBuilder.apply(this, (final query) {
+        if (query.whereSort == Sort.asc) {
+          return query
+              .addWhereClause(
+                IdWhereClause.lessThan(upper: id, includeUpper: false),
+              )
+              .addWhereClause(
+                IdWhereClause.greaterThan(lower: id, includeLower: false),
+              );
+        } else {
+          return query
+              .addWhereClause(
+                IdWhereClause.greaterThan(lower: id, includeLower: false),
+              )
+              .addWhereClause(
+                IdWhereClause.lessThan(upper: id, includeUpper: false),
+              );
+        }
+      });
 
-  QueryBuilder<Track, Track, QAfterWhereClause> idGreaterThan(Id id,
-      {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IdWhereClause.greaterThan(lower: id, includeLower: include),
-      );
-    });
-  }
+  QueryBuilder<Track, Track, QAfterWhereClause> idGreaterThan(final Id id,
+          {final bool include = false}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addWhereClause(
+                IdWhereClause.greaterThan(lower: id, includeLower: include),
+              ));
 
-  QueryBuilder<Track, Track, QAfterWhereClause> idLessThan(Id id,
-      {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IdWhereClause.lessThan(upper: id, includeUpper: include),
-      );
-    });
-  }
+  QueryBuilder<Track, Track, QAfterWhereClause> idLessThan(final Id id,
+          {final bool include = false}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addWhereClause(
+                IdWhereClause.lessThan(upper: id, includeUpper: include),
+              ));
 
   QueryBuilder<Track, Track, QAfterWhereClause> idBetween(
-    Id lowerId,
-    Id upperId, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: lowerId,
-        includeLower: includeLower,
-        upper: upperId,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
+    final Id lowerId,
+    final Id upperId, {
+    final bool includeLower = true,
+    final bool includeUpper = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addWhereClause(IdWhereClause.between(
+                lower: lowerId,
+                includeLower: includeLower,
+                upper: upperId,
+                includeUpper: includeUpper,
+              )));
 }
 
 extension TrackQueryFilter on QueryBuilder<Track, Track, QFilterCondition> {
-  QueryBuilder<Track, Track, QAfterFilterCondition> idEqualTo(Id value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> idEqualTo(final Id value) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.equalTo(
+                property: r'id',
+                value: value,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> idGreaterThan(
-    Id value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
+    final Id value, {
+    final bool include = false,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.greaterThan(
+                include: include,
+                property: r'id',
+                value: value,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> idLessThan(
-    Id value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
+    final Id value, {
+    final bool include = false,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.lessThan(
+                include: include,
+                property: r'id',
+                value: value,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> idBetween(
-    Id lower,
-    Id upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'id',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
+    final Id lower,
+    final Id upper, {
+    final bool includeLower = true,
+    final bool includeUpper = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.between(
+                property: r'id',
+                lower: lower,
+                includeLower: includeLower,
+                upper: upper,
+                includeUpper: includeUpper,
+              )));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> lyricsIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'lyrics',
-      ));
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> lyricsIsNull() =>
+      QueryBuilder.apply(
+          this,
+          (final query) =>
+              query.addFilterCondition(const FilterCondition.isNull(
+                property: r'lyrics',
+              )));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> lyricsIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'lyrics',
-      ));
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> lyricsIsNotNull() =>
+      QueryBuilder.apply(
+          this,
+          (final query) =>
+              query.addFilterCondition(const FilterCondition.isNotNull(
+                property: r'lyrics',
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> lyricsEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'lyrics',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String? value, {
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.equalTo(
+                property: r'lyrics',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> lyricsGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'lyrics',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String? value, {
+    final bool include = false,
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.greaterThan(
+                include: include,
+                property: r'lyrics',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> lyricsLessThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'lyrics',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String? value, {
+    final bool include = false,
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.lessThan(
+                include: include,
+                property: r'lyrics',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> lyricsBetween(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'lyrics',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String? lower,
+    final String? upper, {
+    final bool includeLower = true,
+    final bool includeUpper = true,
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.between(
+                property: r'lyrics',
+                lower: lower,
+                includeLower: includeLower,
+                upper: upper,
+                includeUpper: includeUpper,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> lyricsStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'lyrics',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String value, {
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.startsWith(
+                property: r'lyrics',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> lyricsEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'lyrics',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String value, {
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.endsWith(
+                property: r'lyrics',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> lyricsContains(String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'lyrics',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> lyricsContains(
+          final String value,
+          {final bool caseSensitive = true}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.contains(
+                property: r'lyrics',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> lyricsMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'lyrics',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+          final String pattern,
+          {final bool caseSensitive = true}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.matches(
+                property: r'lyrics',
+                wildcard: pattern,
+                caseSensitive: caseSensitive,
+              )));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> lyricsIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'lyrics',
-        value: '',
-      ));
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> lyricsIsEmpty() =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.equalTo(
+                property: r'lyrics',
+                value: '',
+              )));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> lyricsIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'lyrics',
-        value: '',
-      ));
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> lyricsIsNotEmpty() =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.greaterThan(
+                property: r'lyrics',
+                value: '',
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> pathEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'path',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String value, {
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.equalTo(
+                property: r'path',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> pathGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'path',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String value, {
+    final bool include = false,
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.greaterThan(
+                include: include,
+                property: r'path',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> pathLessThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'path',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String value, {
+    final bool include = false,
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.lessThan(
+                include: include,
+                property: r'path',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> pathBetween(
-    String lower,
-    String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'path',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String lower,
+    final String upper, {
+    final bool includeLower = true,
+    final bool includeUpper = true,
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.between(
+                property: r'path',
+                lower: lower,
+                includeLower: includeLower,
+                upper: upper,
+                includeUpper: includeUpper,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> pathStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'path',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String value, {
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.startsWith(
+                property: r'path',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> pathEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'path',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String value, {
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.endsWith(
+                property: r'path',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> pathContains(String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'path',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> pathContains(
+          final String value,
+          {final bool caseSensitive = true}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.contains(
+                property: r'path',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> pathMatches(String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'path',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> pathMatches(
+          final String pattern,
+          {final bool caseSensitive = true}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.matches(
+                property: r'path',
+                wildcard: pattern,
+                caseSensitive: caseSensitive,
+              )));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> pathIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'path',
-        value: '',
-      ));
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> pathIsEmpty() =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.equalTo(
+                property: r'path',
+                value: '',
+              )));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> pathIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'path',
-        value: '',
-      ));
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> pathIsNotEmpty() =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.greaterThan(
+                property: r'path',
+                value: '',
+              )));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> titleIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'title',
-      ));
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> titleIsNull() =>
+      QueryBuilder.apply(
+          this,
+          (final query) =>
+              query.addFilterCondition(const FilterCondition.isNull(
+                property: r'title',
+              )));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> titleIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'title',
-      ));
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> titleIsNotNull() =>
+      QueryBuilder.apply(
+          this,
+          (final query) =>
+              query.addFilterCondition(const FilterCondition.isNotNull(
+                property: r'title',
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> titleEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'title',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String? value, {
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.equalTo(
+                property: r'title',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> titleGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'title',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String? value, {
+    final bool include = false,
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.greaterThan(
+                include: include,
+                property: r'title',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> titleLessThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'title',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String? value, {
+    final bool include = false,
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.lessThan(
+                include: include,
+                property: r'title',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> titleBetween(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'title',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String? lower,
+    final String? upper, {
+    final bool includeLower = true,
+    final bool includeUpper = true,
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.between(
+                property: r'title',
+                lower: lower,
+                includeLower: includeLower,
+                upper: upper,
+                includeUpper: includeUpper,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> titleStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'title',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String value, {
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.startsWith(
+                property: r'title',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> titleEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'title',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String value, {
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.endsWith(
+                property: r'title',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> titleContains(String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'title',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> titleContains(
+          final String value,
+          {final bool caseSensitive = true}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.contains(
+                property: r'title',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> titleMatches(String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'title',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> titleMatches(
+          final String pattern,
+          {final bool caseSensitive = true}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.matches(
+                property: r'title',
+                wildcard: pattern,
+                caseSensitive: caseSensitive,
+              )));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> titleIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'title',
-        value: '',
-      ));
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> titleIsEmpty() =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.equalTo(
+                property: r'title',
+                value: '',
+              )));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> titleIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'title',
-        value: '',
-      ));
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> titleIsNotEmpty() =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.greaterThan(
+                property: r'title',
+                value: '',
+              )));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> trackNumberIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'trackNumber',
-      ));
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> trackNumberIsNull() =>
+      QueryBuilder.apply(
+          this,
+          (final query) =>
+              query.addFilterCondition(const FilterCondition.isNull(
+                property: r'trackNumber',
+              )));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> trackNumberIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'trackNumber',
-      ));
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> trackNumberIsNotNull() =>
+      QueryBuilder.apply(
+          this,
+          (final query) =>
+              query.addFilterCondition(const FilterCondition.isNotNull(
+                property: r'trackNumber',
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> trackNumberEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'trackNumber',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String? value, {
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.equalTo(
+                property: r'trackNumber',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> trackNumberGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'trackNumber',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String? value, {
+    final bool include = false,
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.greaterThan(
+                include: include,
+                property: r'trackNumber',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> trackNumberLessThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'trackNumber',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String? value, {
+    final bool include = false,
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.lessThan(
+                include: include,
+                property: r'trackNumber',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> trackNumberBetween(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'trackNumber',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String? lower,
+    final String? upper, {
+    final bool includeLower = true,
+    final bool includeUpper = true,
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.between(
+                property: r'trackNumber',
+                lower: lower,
+                includeLower: includeLower,
+                upper: upper,
+                includeUpper: includeUpper,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> trackNumberStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'trackNumber',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String value, {
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.startsWith(
+                property: r'trackNumber',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> trackNumberEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'trackNumber',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String value, {
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.endsWith(
+                property: r'trackNumber',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> trackNumberContains(
-      String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'trackNumber',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+          final String value,
+          {final bool caseSensitive = true}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.contains(
+                property: r'trackNumber',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> trackNumberMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'trackNumber',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+          final String pattern,
+          {final bool caseSensitive = true}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.matches(
+                property: r'trackNumber',
+                wildcard: pattern,
+                caseSensitive: caseSensitive,
+              )));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> trackNumberIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'trackNumber',
-        value: '',
-      ));
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> trackNumberIsEmpty() =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.equalTo(
+                property: r'trackNumber',
+                value: '',
+              )));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> trackNumberIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'trackNumber',
-        value: '',
-      ));
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> trackNumberIsNotEmpty() =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.greaterThan(
+                property: r'trackNumber',
+                value: '',
+              )));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> trackTotalIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'trackTotal',
-      ));
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> trackTotalIsNull() =>
+      QueryBuilder.apply(
+          this,
+          (final query) =>
+              query.addFilterCondition(const FilterCondition.isNull(
+                property: r'trackTotal',
+              )));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> trackTotalIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'trackTotal',
-      ));
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> trackTotalIsNotNull() =>
+      QueryBuilder.apply(
+          this,
+          (final query) =>
+              query.addFilterCondition(const FilterCondition.isNotNull(
+                property: r'trackTotal',
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> trackTotalEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'trackTotal',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String? value, {
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.equalTo(
+                property: r'trackTotal',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> trackTotalGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'trackTotal',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String? value, {
+    final bool include = false,
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.greaterThan(
+                include: include,
+                property: r'trackTotal',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> trackTotalLessThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'trackTotal',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String? value, {
+    final bool include = false,
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.lessThan(
+                include: include,
+                property: r'trackTotal',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> trackTotalBetween(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'trackTotal',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String? lower,
+    final String? upper, {
+    final bool includeLower = true,
+    final bool includeUpper = true,
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.between(
+                property: r'trackTotal',
+                lower: lower,
+                includeLower: includeLower,
+                upper: upper,
+                includeUpper: includeUpper,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> trackTotalStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'trackTotal',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String value, {
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.startsWith(
+                property: r'trackTotal',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> trackTotalEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'trackTotal',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String value, {
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.endsWith(
+                property: r'trackTotal',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> trackTotalContains(
-      String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'trackTotal',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+          final String value,
+          {final bool caseSensitive = true}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.contains(
+                property: r'trackTotal',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> trackTotalMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'trackTotal',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+          final String pattern,
+          {final bool caseSensitive = true}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.matches(
+                property: r'trackTotal',
+                wildcard: pattern,
+                caseSensitive: caseSensitive,
+              )));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> trackTotalIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'trackTotal',
-        value: '',
-      ));
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> trackTotalIsEmpty() =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.equalTo(
+                property: r'trackTotal',
+                value: '',
+              )));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> trackTotalIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'trackTotal',
-        value: '',
-      ));
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> trackTotalIsNotEmpty() =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.greaterThan(
+                property: r'trackTotal',
+                value: '',
+              )));
 }
 
 extension TrackQueryObject on QueryBuilder<Track, Track, QFilterCondition> {}
 
 extension TrackQueryLinks on QueryBuilder<Track, Track, QFilterCondition> {
   QueryBuilder<Track, Track, QAfterFilterCondition> albumArtist(
-      FilterQuery<AlbumArtist> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'albumArtist');
-    });
-  }
+          final FilterQuery<AlbumArtist> q) =>
+      QueryBuilder.apply(this, (final query) => query.link(q, r'albumArtist'));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> albumArtistIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'albumArtist', 0, true, 0, true);
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> albumArtistIsNull() =>
+      QueryBuilder.apply(this,
+          (final query) => query.linkLength(r'albumArtist', 0, true, 0, true));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> artist(
-      FilterQuery<Artist> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'artist');
-    });
-  }
+          final FilterQuery<Artist> q) =>
+      QueryBuilder.apply(this, (final query) => query.link(q, r'artist'));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> artistIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'artist', 0, true, 0, true);
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> artistIsNull() =>
+      QueryBuilder.apply(
+          this, (final query) => query.linkLength(r'artist', 0, true, 0, true));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> genre(
-      FilterQuery<Genre> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'genre');
-    });
-  }
+          final FilterQuery<Genre> q) =>
+      QueryBuilder.apply(this, (final query) => query.link(q, r'genre'));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> genreIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'genre', 0, true, 0, true);
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> genreIsNull() =>
+      QueryBuilder.apply(
+          this, (final query) => query.linkLength(r'genre', 0, true, 0, true));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> album(
-      FilterQuery<Album> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'album');
-    });
-  }
+          final FilterQuery<Album> q) =>
+      QueryBuilder.apply(this, (final query) => query.link(q, r'album'));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> albumIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'album', 0, true, 0, true);
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> albumIsNull() =>
+      QueryBuilder.apply(
+          this, (final query) => query.linkLength(r'album', 0, true, 0, true));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> year(FilterQuery<Year> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'year');
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> year(
+          final FilterQuery<Year> q) =>
+      QueryBuilder.apply(this, (final query) => query.link(q, r'year'));
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> yearIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'year', 0, true, 0, true);
-    });
-  }
+  QueryBuilder<Track, Track, QAfterFilterCondition> yearIsNull() =>
+      QueryBuilder.apply(
+          this, (final query) => query.linkLength(r'year', 0, true, 0, true));
 }
 
 extension TrackQuerySortBy on QueryBuilder<Track, Track, QSortBy> {
-  QueryBuilder<Track, Track, QAfterSortBy> sortByLyrics() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'lyrics', Sort.asc);
-    });
-  }
+  QueryBuilder<Track, Track, QAfterSortBy> sortByLyrics() => QueryBuilder.apply(
+      this, (final query) => query.addSortBy(r'lyrics', Sort.asc));
 
-  QueryBuilder<Track, Track, QAfterSortBy> sortByLyricsDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'lyrics', Sort.desc);
-    });
-  }
+  QueryBuilder<Track, Track, QAfterSortBy> sortByLyricsDesc() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addSortBy(r'lyrics', Sort.desc));
 
-  QueryBuilder<Track, Track, QAfterSortBy> sortByPath() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'path', Sort.asc);
-    });
-  }
+  QueryBuilder<Track, Track, QAfterSortBy> sortByPath() => QueryBuilder.apply(
+      this, (final query) => query.addSortBy(r'path', Sort.asc));
 
-  QueryBuilder<Track, Track, QAfterSortBy> sortByPathDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'path', Sort.desc);
-    });
-  }
+  QueryBuilder<Track, Track, QAfterSortBy> sortByPathDesc() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addSortBy(r'path', Sort.desc));
 
-  QueryBuilder<Track, Track, QAfterSortBy> sortByTitle() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'title', Sort.asc);
-    });
-  }
+  QueryBuilder<Track, Track, QAfterSortBy> sortByTitle() => QueryBuilder.apply(
+      this, (final query) => query.addSortBy(r'title', Sort.asc));
 
-  QueryBuilder<Track, Track, QAfterSortBy> sortByTitleDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'title', Sort.desc);
-    });
-  }
+  QueryBuilder<Track, Track, QAfterSortBy> sortByTitleDesc() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addSortBy(r'title', Sort.desc));
 
-  QueryBuilder<Track, Track, QAfterSortBy> sortByTrackNumber() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'trackNumber', Sort.asc);
-    });
-  }
+  QueryBuilder<Track, Track, QAfterSortBy> sortByTrackNumber() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addSortBy(r'trackNumber', Sort.asc));
 
-  QueryBuilder<Track, Track, QAfterSortBy> sortByTrackNumberDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'trackNumber', Sort.desc);
-    });
-  }
+  QueryBuilder<Track, Track, QAfterSortBy> sortByTrackNumberDesc() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addSortBy(r'trackNumber', Sort.desc));
 
-  QueryBuilder<Track, Track, QAfterSortBy> sortByTrackTotal() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'trackTotal', Sort.asc);
-    });
-  }
+  QueryBuilder<Track, Track, QAfterSortBy> sortByTrackTotal() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addSortBy(r'trackTotal', Sort.asc));
 
-  QueryBuilder<Track, Track, QAfterSortBy> sortByTrackTotalDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'trackTotal', Sort.desc);
-    });
-  }
+  QueryBuilder<Track, Track, QAfterSortBy> sortByTrackTotalDesc() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addSortBy(r'trackTotal', Sort.desc));
 }
 
 extension TrackQuerySortThenBy on QueryBuilder<Track, Track, QSortThenBy> {
-  QueryBuilder<Track, Track, QAfterSortBy> thenById() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.asc);
-    });
-  }
+  QueryBuilder<Track, Track, QAfterSortBy> thenById() => QueryBuilder.apply(
+      this, (final query) => query.addSortBy(r'id', Sort.asc));
 
-  QueryBuilder<Track, Track, QAfterSortBy> thenByIdDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.desc);
-    });
-  }
+  QueryBuilder<Track, Track, QAfterSortBy> thenByIdDesc() => QueryBuilder.apply(
+      this, (final query) => query.addSortBy(r'id', Sort.desc));
 
-  QueryBuilder<Track, Track, QAfterSortBy> thenByLyrics() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'lyrics', Sort.asc);
-    });
-  }
+  QueryBuilder<Track, Track, QAfterSortBy> thenByLyrics() => QueryBuilder.apply(
+      this, (final query) => query.addSortBy(r'lyrics', Sort.asc));
 
-  QueryBuilder<Track, Track, QAfterSortBy> thenByLyricsDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'lyrics', Sort.desc);
-    });
-  }
+  QueryBuilder<Track, Track, QAfterSortBy> thenByLyricsDesc() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addSortBy(r'lyrics', Sort.desc));
 
-  QueryBuilder<Track, Track, QAfterSortBy> thenByPath() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'path', Sort.asc);
-    });
-  }
+  QueryBuilder<Track, Track, QAfterSortBy> thenByPath() => QueryBuilder.apply(
+      this, (final query) => query.addSortBy(r'path', Sort.asc));
 
-  QueryBuilder<Track, Track, QAfterSortBy> thenByPathDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'path', Sort.desc);
-    });
-  }
+  QueryBuilder<Track, Track, QAfterSortBy> thenByPathDesc() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addSortBy(r'path', Sort.desc));
 
-  QueryBuilder<Track, Track, QAfterSortBy> thenByTitle() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'title', Sort.asc);
-    });
-  }
+  QueryBuilder<Track, Track, QAfterSortBy> thenByTitle() => QueryBuilder.apply(
+      this, (final query) => query.addSortBy(r'title', Sort.asc));
 
-  QueryBuilder<Track, Track, QAfterSortBy> thenByTitleDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'title', Sort.desc);
-    });
-  }
+  QueryBuilder<Track, Track, QAfterSortBy> thenByTitleDesc() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addSortBy(r'title', Sort.desc));
 
-  QueryBuilder<Track, Track, QAfterSortBy> thenByTrackNumber() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'trackNumber', Sort.asc);
-    });
-  }
+  QueryBuilder<Track, Track, QAfterSortBy> thenByTrackNumber() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addSortBy(r'trackNumber', Sort.asc));
 
-  QueryBuilder<Track, Track, QAfterSortBy> thenByTrackNumberDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'trackNumber', Sort.desc);
-    });
-  }
+  QueryBuilder<Track, Track, QAfterSortBy> thenByTrackNumberDesc() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addSortBy(r'trackNumber', Sort.desc));
 
-  QueryBuilder<Track, Track, QAfterSortBy> thenByTrackTotal() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'trackTotal', Sort.asc);
-    });
-  }
+  QueryBuilder<Track, Track, QAfterSortBy> thenByTrackTotal() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addSortBy(r'trackTotal', Sort.asc));
 
-  QueryBuilder<Track, Track, QAfterSortBy> thenByTrackTotalDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'trackTotal', Sort.desc);
-    });
-  }
+  QueryBuilder<Track, Track, QAfterSortBy> thenByTrackTotalDesc() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addSortBy(r'trackTotal', Sort.desc));
 }
 
 extension TrackQueryWhereDistinct on QueryBuilder<Track, Track, QDistinct> {
   QueryBuilder<Track, Track, QDistinct> distinctByLyrics(
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'lyrics', caseSensitive: caseSensitive);
-    });
-  }
+          {final bool caseSensitive = true}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) =>
+              query.addDistinctBy(r'lyrics', caseSensitive: caseSensitive));
 
   QueryBuilder<Track, Track, QDistinct> distinctByPath(
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'path', caseSensitive: caseSensitive);
-    });
-  }
+          {final bool caseSensitive = true}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) =>
+              query.addDistinctBy(r'path', caseSensitive: caseSensitive));
 
   QueryBuilder<Track, Track, QDistinct> distinctByTitle(
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'title', caseSensitive: caseSensitive);
-    });
-  }
+          {final bool caseSensitive = true}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) =>
+              query.addDistinctBy(r'title', caseSensitive: caseSensitive));
 
   QueryBuilder<Track, Track, QDistinct> distinctByTrackNumber(
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'trackNumber', caseSensitive: caseSensitive);
-    });
-  }
+          {final bool caseSensitive = true}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addDistinctBy(r'trackNumber',
+              caseSensitive: caseSensitive));
 
   QueryBuilder<Track, Track, QDistinct> distinctByTrackTotal(
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'trackTotal', caseSensitive: caseSensitive);
-    });
-  }
+          {final bool caseSensitive = true}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) =>
+              query.addDistinctBy(r'trackTotal', caseSensitive: caseSensitive));
 }
 
 extension TrackQueryProperty on QueryBuilder<Track, Track, QQueryProperty> {
-  QueryBuilder<Track, int, QQueryOperations> idProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'id');
-    });
-  }
+  QueryBuilder<Track, int, QQueryOperations> idProperty() =>
+      QueryBuilder.apply(this, (final query) => query.addPropertyName(r'id'));
 
-  QueryBuilder<Track, String?, QQueryOperations> lyricsProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'lyrics');
-    });
-  }
+  QueryBuilder<Track, String?, QQueryOperations> lyricsProperty() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addPropertyName(r'lyrics'));
 
-  QueryBuilder<Track, String, QQueryOperations> pathProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'path');
-    });
-  }
+  QueryBuilder<Track, String, QQueryOperations> pathProperty() =>
+      QueryBuilder.apply(this, (final query) => query.addPropertyName(r'path'));
 
-  QueryBuilder<Track, String?, QQueryOperations> titleProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'title');
-    });
-  }
+  QueryBuilder<Track, String?, QQueryOperations> titleProperty() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addPropertyName(r'title'));
 
-  QueryBuilder<Track, String?, QQueryOperations> trackNumberProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'trackNumber');
-    });
-  }
+  QueryBuilder<Track, String?, QQueryOperations> trackNumberProperty() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addPropertyName(r'trackNumber'));
 
-  QueryBuilder<Track, String?, QQueryOperations> trackTotalProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'trackTotal');
-    });
-  }
+  QueryBuilder<Track, String?, QQueryOperations> trackTotalProperty() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addPropertyName(r'trackTotal'));
 }

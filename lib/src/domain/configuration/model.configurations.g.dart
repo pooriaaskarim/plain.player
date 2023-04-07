@@ -32,35 +32,35 @@ const ConfigurationsSchema = CollectionSchema(
 );
 
 int _configurationsEstimateSize(
-  Configurations object,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
+  final Configurations object,
+  final List<int> offsets,
+  final Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
   return bytesCount;
 }
 
 void _configurationsSerialize(
-  Configurations object,
-  IsarWriter writer,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
+  final Configurations object,
+  final IsarWriter writer,
+  final List<int> offsets,
+  final Map<Type, List<int>> allOffsets,
 ) {}
 Configurations _configurationsDeserialize(
-  Id id,
-  IsarReader reader,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
+  final Id id,
+  final IsarReader reader,
+  final List<int> offsets,
+  final Map<Type, List<int>> allOffsets,
 ) {
   final object = Configurations();
   return object;
 }
 
 P _configurationsDeserializeProp<P>(
-  IsarReader reader,
-  int propertyId,
-  int offset,
-  Map<Type, List<int>> allOffsets,
+  final IsarReader reader,
+  final int propertyId,
+  final int offset,
+  final Map<Type, List<int>> allOffsets,
 ) {
   switch (propertyId) {
     default:
@@ -68,154 +68,141 @@ P _configurationsDeserializeProp<P>(
   }
 }
 
-Id _configurationsGetId(Configurations object) {
-  return object.id;
-}
+Id _configurationsGetId(final Configurations object) => object.id;
 
-List<IsarLinkBase<dynamic>> _configurationsGetLinks(Configurations object) {
-  return [];
-}
+List<IsarLinkBase<dynamic>> _configurationsGetLinks(
+        final Configurations object) =>
+    [];
 
-void _configurationsAttach(
-    IsarCollection<dynamic> col, Id id, Configurations object) {}
+void _configurationsAttach(final IsarCollection<dynamic> col, final Id id,
+    final Configurations object) {}
 
 extension ConfigurationsQueryWhereSort
     on QueryBuilder<Configurations, Configurations, QWhere> {
-  QueryBuilder<Configurations, Configurations, QAfterWhere> anyId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(const IdWhereClause.any());
-    });
-  }
+  QueryBuilder<Configurations, Configurations, QAfterWhere> anyId() =>
+      QueryBuilder.apply(this,
+          (final query) => query.addWhereClause(const IdWhereClause.any()));
 }
 
 extension ConfigurationsQueryWhere
     on QueryBuilder<Configurations, Configurations, QWhereClause> {
   QueryBuilder<Configurations, Configurations, QAfterWhereClause> idEqualTo(
-      Id id) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: id,
-        upper: id,
-      ));
-    });
-  }
+          final Id id) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addWhereClause(IdWhereClause.between(
+                lower: id,
+                upper: id,
+              )));
 
   QueryBuilder<Configurations, Configurations, QAfterWhereClause> idNotEqualTo(
-      Id id) {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
-            )
-            .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
-            );
-      } else {
-        return query
-            .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
-            )
-            .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
-            );
-      }
-    });
-  }
+          final Id id) =>
+      QueryBuilder.apply(this, (final query) {
+        if (query.whereSort == Sort.asc) {
+          return query
+              .addWhereClause(
+                IdWhereClause.lessThan(upper: id, includeUpper: false),
+              )
+              .addWhereClause(
+                IdWhereClause.greaterThan(lower: id, includeLower: false),
+              );
+        } else {
+          return query
+              .addWhereClause(
+                IdWhereClause.greaterThan(lower: id, includeLower: false),
+              )
+              .addWhereClause(
+                IdWhereClause.lessThan(upper: id, includeUpper: false),
+              );
+        }
+      });
 
   QueryBuilder<Configurations, Configurations, QAfterWhereClause> idGreaterThan(
-      Id id,
-      {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IdWhereClause.greaterThan(lower: id, includeLower: include),
-      );
-    });
-  }
+          final Id id,
+          {final bool include = false}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addWhereClause(
+                IdWhereClause.greaterThan(lower: id, includeLower: include),
+              ));
 
   QueryBuilder<Configurations, Configurations, QAfterWhereClause> idLessThan(
-      Id id,
-      {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IdWhereClause.lessThan(upper: id, includeUpper: include),
-      );
-    });
-  }
+          final Id id,
+          {final bool include = false}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addWhereClause(
+                IdWhereClause.lessThan(upper: id, includeUpper: include),
+              ));
 
   QueryBuilder<Configurations, Configurations, QAfterWhereClause> idBetween(
-    Id lowerId,
-    Id upperId, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: lowerId,
-        includeLower: includeLower,
-        upper: upperId,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
+    final Id lowerId,
+    final Id upperId, {
+    final bool includeLower = true,
+    final bool includeUpper = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addWhereClause(IdWhereClause.between(
+                lower: lowerId,
+                includeLower: includeLower,
+                upper: upperId,
+                includeUpper: includeUpper,
+              )));
 }
 
 extension ConfigurationsQueryFilter
     on QueryBuilder<Configurations, Configurations, QFilterCondition> {
   QueryBuilder<Configurations, Configurations, QAfterFilterCondition> idEqualTo(
-      Id value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
+          final Id value) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.equalTo(
+                property: r'id',
+                value: value,
+              )));
 
-  QueryBuilder<Configurations, Configurations, QAfterFilterCondition>
-      idGreaterThan(
-    Id value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
+  QueryBuilder<Configurations, Configurations,
+      QAfterFilterCondition> idGreaterThan(
+    final Id value, {
+    final bool include = false,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.greaterThan(
+                include: include,
+                property: r'id',
+                value: value,
+              )));
 
-  QueryBuilder<Configurations, Configurations, QAfterFilterCondition>
-      idLessThan(
-    Id value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
+  QueryBuilder<Configurations, Configurations,
+      QAfterFilterCondition> idLessThan(
+    final Id value, {
+    final bool include = false,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.lessThan(
+                include: include,
+                property: r'id',
+                value: value,
+              )));
 
   QueryBuilder<Configurations, Configurations, QAfterFilterCondition> idBetween(
-    Id lower,
-    Id upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'id',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
+    final Id lower,
+    final Id upper, {
+    final bool includeLower = true,
+    final bool includeUpper = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.between(
+                property: r'id',
+                lower: lower,
+                includeLower: includeLower,
+                upper: upper,
+                includeUpper: includeUpper,
+              )));
 }
 
 extension ConfigurationsQueryObject
@@ -229,17 +216,13 @@ extension ConfigurationsQuerySortBy
 
 extension ConfigurationsQuerySortThenBy
     on QueryBuilder<Configurations, Configurations, QSortThenBy> {
-  QueryBuilder<Configurations, Configurations, QAfterSortBy> thenById() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.asc);
-    });
-  }
+  QueryBuilder<Configurations, Configurations, QAfterSortBy> thenById() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addSortBy(r'id', Sort.asc));
 
-  QueryBuilder<Configurations, Configurations, QAfterSortBy> thenByIdDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.desc);
-    });
-  }
+  QueryBuilder<Configurations, Configurations, QAfterSortBy> thenByIdDesc() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addSortBy(r'id', Sort.desc));
 }
 
 extension ConfigurationsQueryWhereDistinct
@@ -247,9 +230,6 @@ extension ConfigurationsQueryWhereDistinct
 
 extension ConfigurationsQueryProperty
     on QueryBuilder<Configurations, Configurations, QQueryProperty> {
-  QueryBuilder<Configurations, int, QQueryOperations> idProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'id');
-    });
-  }
+  QueryBuilder<Configurations, int, QQueryOperations> idProperty() =>
+      QueryBuilder.apply(this, (final query) => query.addPropertyName(r'id'));
 }

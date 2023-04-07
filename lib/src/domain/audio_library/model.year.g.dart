@@ -60,9 +60,9 @@ const YearSchema = CollectionSchema(
 );
 
 int _yearEstimateSize(
-  Year object,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
+  final Year object,
+  final List<int> offsets,
+  final Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
   bytesCount += 3 + object.year.length * 3;
@@ -70,19 +70,19 @@ int _yearEstimateSize(
 }
 
 void _yearSerialize(
-  Year object,
-  IsarWriter writer,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
+  final Year object,
+  final IsarWriter writer,
+  final List<int> offsets,
+  final Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.year);
 }
 
 Year _yearDeserialize(
-  Id id,
-  IsarReader reader,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
+  final Id id,
+  final IsarReader reader,
+  final List<int> offsets,
+  final Map<Type, List<int>> allOffsets,
 ) {
   final object = Year(
     year: reader.readString(offsets[0]),
@@ -91,10 +91,10 @@ Year _yearDeserialize(
 }
 
 P _yearDeserializeProp<P>(
-  IsarReader reader,
-  int propertyId,
-  int offset,
-  Map<Type, List<int>> allOffsets,
+  final IsarReader reader,
+  final int propertyId,
+  final int offset,
+  final Map<Type, List<int>> allOffsets,
 ) {
   switch (propertyId) {
     case 0:
@@ -104,490 +104,425 @@ P _yearDeserializeProp<P>(
   }
 }
 
-Id _yearGetId(Year object) {
-  return object.id;
-}
+Id _yearGetId(final Year object) => object.id;
 
-List<IsarLinkBase<dynamic>> _yearGetLinks(Year object) {
-  return [object.tracks];
-}
+List<IsarLinkBase<dynamic>> _yearGetLinks(final Year object) => [object.tracks];
 
-void _yearAttach(IsarCollection<dynamic> col, Id id, Year object) {
+void _yearAttach(
+    final IsarCollection<dynamic> col, final Id id, final Year object) {
   object.tracks.attach(col, col.isar.collection<Track>(), r'tracks', id);
 }
 
 extension YearByIndex on IsarCollection<Year> {
-  Future<Year?> getByYear(String year) {
-    return getByIndex(r'year', [year]);
-  }
+  Future<Year?> getByYear(final String year) => getByIndex(r'year', [year]);
 
-  Year? getByYearSync(String year) {
-    return getByIndexSync(r'year', [year]);
-  }
+  Year? getByYearSync(final String year) => getByIndexSync(r'year', [year]);
 
-  Future<bool> deleteByYear(String year) {
-    return deleteByIndex(r'year', [year]);
-  }
+  Future<bool> deleteByYear(final String year) =>
+      deleteByIndex(r'year', [year]);
 
-  bool deleteByYearSync(String year) {
-    return deleteByIndexSync(r'year', [year]);
-  }
+  bool deleteByYearSync(final String year) =>
+      deleteByIndexSync(r'year', [year]);
 
-  Future<List<Year?>> getAllByYear(List<String> yearValues) {
-    final values = yearValues.map((e) => [e]).toList();
+  Future<List<Year?>> getAllByYear(final List<String> yearValues) {
+    final values = yearValues.map((final e) => [e]).toList();
     return getAllByIndex(r'year', values);
   }
 
-  List<Year?> getAllByYearSync(List<String> yearValues) {
-    final values = yearValues.map((e) => [e]).toList();
+  List<Year?> getAllByYearSync(final List<String> yearValues) {
+    final values = yearValues.map((final e) => [e]).toList();
     return getAllByIndexSync(r'year', values);
   }
 
-  Future<int> deleteAllByYear(List<String> yearValues) {
-    final values = yearValues.map((e) => [e]).toList();
+  Future<int> deleteAllByYear(final List<String> yearValues) {
+    final values = yearValues.map((final e) => [e]).toList();
     return deleteAllByIndex(r'year', values);
   }
 
-  int deleteAllByYearSync(List<String> yearValues) {
-    final values = yearValues.map((e) => [e]).toList();
+  int deleteAllByYearSync(final List<String> yearValues) {
+    final values = yearValues.map((final e) => [e]).toList();
     return deleteAllByIndexSync(r'year', values);
   }
 
-  Future<Id> putByYear(Year object) {
-    return putByIndex(r'year', object);
-  }
+  Future<Id> putByYear(final Year object) => putByIndex(r'year', object);
 
-  Id putByYearSync(Year object, {bool saveLinks = true}) {
-    return putByIndexSync(r'year', object, saveLinks: saveLinks);
-  }
+  Id putByYearSync(final Year object, {final bool saveLinks = true}) =>
+      putByIndexSync(r'year', object, saveLinks: saveLinks);
 
-  Future<List<Id>> putAllByYear(List<Year> objects) {
-    return putAllByIndex(r'year', objects);
-  }
+  Future<List<Id>> putAllByYear(final List<Year> objects) =>
+      putAllByIndex(r'year', objects);
 
-  List<Id> putAllByYearSync(List<Year> objects, {bool saveLinks = true}) {
-    return putAllByIndexSync(r'year', objects, saveLinks: saveLinks);
-  }
+  List<Id> putAllByYearSync(final List<Year> objects,
+          {final bool saveLinks = true}) =>
+      putAllByIndexSync(r'year', objects, saveLinks: saveLinks);
 }
 
 extension YearQueryWhereSort on QueryBuilder<Year, Year, QWhere> {
-  QueryBuilder<Year, Year, QAfterWhere> anyId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(const IdWhereClause.any());
-    });
-  }
+  QueryBuilder<Year, Year, QAfterWhere> anyId() => QueryBuilder.apply(
+      this, (final query) => query.addWhereClause(const IdWhereClause.any()));
 }
 
 extension YearQueryWhere on QueryBuilder<Year, Year, QWhereClause> {
-  QueryBuilder<Year, Year, QAfterWhereClause> idEqualTo(Id id) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: id,
-        upper: id,
-      ));
-    });
-  }
+  QueryBuilder<Year, Year, QAfterWhereClause> idEqualTo(final Id id) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addWhereClause(IdWhereClause.between(
+                lower: id,
+                upper: id,
+              )));
 
-  QueryBuilder<Year, Year, QAfterWhereClause> idNotEqualTo(Id id) {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
-            )
-            .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
-            );
-      } else {
-        return query
-            .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
-            )
-            .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
-            );
-      }
-    });
-  }
+  QueryBuilder<Year, Year, QAfterWhereClause> idNotEqualTo(final Id id) =>
+      QueryBuilder.apply(this, (final query) {
+        if (query.whereSort == Sort.asc) {
+          return query
+              .addWhereClause(
+                IdWhereClause.lessThan(upper: id, includeUpper: false),
+              )
+              .addWhereClause(
+                IdWhereClause.greaterThan(lower: id, includeLower: false),
+              );
+        } else {
+          return query
+              .addWhereClause(
+                IdWhereClause.greaterThan(lower: id, includeLower: false),
+              )
+              .addWhereClause(
+                IdWhereClause.lessThan(upper: id, includeUpper: false),
+              );
+        }
+      });
 
-  QueryBuilder<Year, Year, QAfterWhereClause> idGreaterThan(Id id,
-      {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IdWhereClause.greaterThan(lower: id, includeLower: include),
-      );
-    });
-  }
+  QueryBuilder<Year, Year, QAfterWhereClause> idGreaterThan(final Id id,
+          {final bool include = false}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addWhereClause(
+                IdWhereClause.greaterThan(lower: id, includeLower: include),
+              ));
 
-  QueryBuilder<Year, Year, QAfterWhereClause> idLessThan(Id id,
-      {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IdWhereClause.lessThan(upper: id, includeUpper: include),
-      );
-    });
-  }
+  QueryBuilder<Year, Year, QAfterWhereClause> idLessThan(final Id id,
+          {final bool include = false}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addWhereClause(
+                IdWhereClause.lessThan(upper: id, includeUpper: include),
+              ));
 
   QueryBuilder<Year, Year, QAfterWhereClause> idBetween(
-    Id lowerId,
-    Id upperId, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: lowerId,
-        includeLower: includeLower,
-        upper: upperId,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
+    final Id lowerId,
+    final Id upperId, {
+    final bool includeLower = true,
+    final bool includeUpper = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addWhereClause(IdWhereClause.between(
+                lower: lowerId,
+                includeLower: includeLower,
+                upper: upperId,
+                includeUpper: includeUpper,
+              )));
 
-  QueryBuilder<Year, Year, QAfterWhereClause> yearEqualTo(String year) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'year',
-        value: [year],
-      ));
-    });
-  }
+  QueryBuilder<Year, Year, QAfterWhereClause> yearEqualTo(final String year) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addWhereClause(IndexWhereClause.equalTo(
+                indexName: r'year',
+                value: [year],
+              )));
 
-  QueryBuilder<Year, Year, QAfterWhereClause> yearNotEqualTo(String year) {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'year',
-              lower: [],
-              upper: [year],
-              includeUpper: false,
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'year',
-              lower: [year],
-              includeLower: false,
-              upper: [],
-            ));
-      } else {
-        return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'year',
-              lower: [year],
-              includeLower: false,
-              upper: [],
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'year',
-              lower: [],
-              upper: [year],
-              includeUpper: false,
-            ));
-      }
-    });
-  }
+  QueryBuilder<Year, Year, QAfterWhereClause> yearNotEqualTo(
+          final String year) =>
+      QueryBuilder.apply(this, (final query) {
+        if (query.whereSort == Sort.asc) {
+          return query
+              .addWhereClause(IndexWhereClause.between(
+                indexName: r'year',
+                lower: [],
+                upper: [year],
+                includeUpper: false,
+              ))
+              .addWhereClause(IndexWhereClause.between(
+                indexName: r'year',
+                lower: [year],
+                includeLower: false,
+                upper: [],
+              ));
+        } else {
+          return query
+              .addWhereClause(IndexWhereClause.between(
+                indexName: r'year',
+                lower: [year],
+                includeLower: false,
+                upper: [],
+              ))
+              .addWhereClause(IndexWhereClause.between(
+                indexName: r'year',
+                lower: [],
+                upper: [year],
+                includeUpper: false,
+              ));
+        }
+      });
 }
 
 extension YearQueryFilter on QueryBuilder<Year, Year, QFilterCondition> {
-  QueryBuilder<Year, Year, QAfterFilterCondition> idEqualTo(Id value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
+  QueryBuilder<Year, Year, QAfterFilterCondition> idEqualTo(final Id value) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.equalTo(
+                property: r'id',
+                value: value,
+              )));
 
   QueryBuilder<Year, Year, QAfterFilterCondition> idGreaterThan(
-    Id value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
+    final Id value, {
+    final bool include = false,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.greaterThan(
+                include: include,
+                property: r'id',
+                value: value,
+              )));
 
   QueryBuilder<Year, Year, QAfterFilterCondition> idLessThan(
-    Id value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
+    final Id value, {
+    final bool include = false,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.lessThan(
+                include: include,
+                property: r'id',
+                value: value,
+              )));
 
   QueryBuilder<Year, Year, QAfterFilterCondition> idBetween(
-    Id lower,
-    Id upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'id',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
+    final Id lower,
+    final Id upper, {
+    final bool includeLower = true,
+    final bool includeUpper = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.between(
+                property: r'id',
+                lower: lower,
+                includeLower: includeLower,
+                upper: upper,
+                includeUpper: includeUpper,
+              )));
 
   QueryBuilder<Year, Year, QAfterFilterCondition> yearEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'year',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String value, {
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.equalTo(
+                property: r'year',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Year, Year, QAfterFilterCondition> yearGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'year',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String value, {
+    final bool include = false,
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.greaterThan(
+                include: include,
+                property: r'year',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Year, Year, QAfterFilterCondition> yearLessThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'year',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String value, {
+    final bool include = false,
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.lessThan(
+                include: include,
+                property: r'year',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Year, Year, QAfterFilterCondition> yearBetween(
-    String lower,
-    String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'year',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String lower,
+    final String upper, {
+    final bool includeLower = true,
+    final bool includeUpper = true,
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.between(
+                property: r'year',
+                lower: lower,
+                includeLower: includeLower,
+                upper: upper,
+                includeUpper: includeUpper,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Year, Year, QAfterFilterCondition> yearStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'year',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String value, {
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.startsWith(
+                property: r'year',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Year, Year, QAfterFilterCondition> yearEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'year',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String value, {
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.endsWith(
+                property: r'year',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
-  QueryBuilder<Year, Year, QAfterFilterCondition> yearContains(String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'year',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+  QueryBuilder<Year, Year, QAfterFilterCondition> yearContains(
+          final String value,
+          {final bool caseSensitive = true}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.contains(
+                property: r'year',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
-  QueryBuilder<Year, Year, QAfterFilterCondition> yearMatches(String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'year',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+  QueryBuilder<Year, Year, QAfterFilterCondition> yearMatches(
+          final String pattern,
+          {final bool caseSensitive = true}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.matches(
+                property: r'year',
+                wildcard: pattern,
+                caseSensitive: caseSensitive,
+              )));
 
-  QueryBuilder<Year, Year, QAfterFilterCondition> yearIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'year',
-        value: '',
-      ));
-    });
-  }
+  QueryBuilder<Year, Year, QAfterFilterCondition> yearIsEmpty() =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.equalTo(
+                property: r'year',
+                value: '',
+              )));
 
-  QueryBuilder<Year, Year, QAfterFilterCondition> yearIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'year',
-        value: '',
-      ));
-    });
-  }
+  QueryBuilder<Year, Year, QAfterFilterCondition> yearIsNotEmpty() =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.greaterThan(
+                property: r'year',
+                value: '',
+              )));
 }
 
 extension YearQueryObject on QueryBuilder<Year, Year, QFilterCondition> {}
 
 extension YearQueryLinks on QueryBuilder<Year, Year, QFilterCondition> {
-  QueryBuilder<Year, Year, QAfterFilterCondition> tracks(FilterQuery<Track> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'tracks');
-    });
-  }
+  QueryBuilder<Year, Year, QAfterFilterCondition> tracks(
+          final FilterQuery<Track> q) =>
+      QueryBuilder.apply(this, (final query) => query.link(q, r'tracks'));
 
   QueryBuilder<Year, Year, QAfterFilterCondition> tracksLengthEqualTo(
-      int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'tracks', length, true, length, true);
-    });
-  }
+          final int length) =>
+      QueryBuilder.apply(
+          this,
+          (final query) =>
+              query.linkLength(r'tracks', length, true, length, true));
 
-  QueryBuilder<Year, Year, QAfterFilterCondition> tracksIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'tracks', 0, true, 0, true);
-    });
-  }
+  QueryBuilder<Year, Year, QAfterFilterCondition> tracksIsEmpty() =>
+      QueryBuilder.apply(
+          this, (final query) => query.linkLength(r'tracks', 0, true, 0, true));
 
-  QueryBuilder<Year, Year, QAfterFilterCondition> tracksIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'tracks', 0, false, 999999, true);
-    });
-  }
+  QueryBuilder<Year, Year, QAfterFilterCondition> tracksIsNotEmpty() =>
+      QueryBuilder.apply(this,
+          (final query) => query.linkLength(r'tracks', 0, false, 999999, true));
 
   QueryBuilder<Year, Year, QAfterFilterCondition> tracksLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'tracks', 0, true, length, include);
-    });
-  }
+    final int length, {
+    final bool include = false,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) =>
+              query.linkLength(r'tracks', 0, true, length, include));
 
   QueryBuilder<Year, Year, QAfterFilterCondition> tracksLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'tracks', length, include, 999999, true);
-    });
-  }
+    final int length, {
+    final bool include = false,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) =>
+              query.linkLength(r'tracks', length, include, 999999, true));
 
   QueryBuilder<Year, Year, QAfterFilterCondition> tracksLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(
-          r'tracks', lower, includeLower, upper, includeUpper);
-    });
-  }
+    final int lower,
+    final int upper, {
+    final bool includeLower = true,
+    final bool includeUpper = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.linkLength(
+              r'tracks', lower, includeLower, upper, includeUpper));
 }
 
 extension YearQuerySortBy on QueryBuilder<Year, Year, QSortBy> {
-  QueryBuilder<Year, Year, QAfterSortBy> sortByYear() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'year', Sort.asc);
-    });
-  }
+  QueryBuilder<Year, Year, QAfterSortBy> sortByYear() => QueryBuilder.apply(
+      this, (final query) => query.addSortBy(r'year', Sort.asc));
 
-  QueryBuilder<Year, Year, QAfterSortBy> sortByYearDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'year', Sort.desc);
-    });
-  }
+  QueryBuilder<Year, Year, QAfterSortBy> sortByYearDesc() => QueryBuilder.apply(
+      this, (final query) => query.addSortBy(r'year', Sort.desc));
 }
 
 extension YearQuerySortThenBy on QueryBuilder<Year, Year, QSortThenBy> {
-  QueryBuilder<Year, Year, QAfterSortBy> thenById() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.asc);
-    });
-  }
+  QueryBuilder<Year, Year, QAfterSortBy> thenById() => QueryBuilder.apply(
+      this, (final query) => query.addSortBy(r'id', Sort.asc));
 
-  QueryBuilder<Year, Year, QAfterSortBy> thenByIdDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.desc);
-    });
-  }
+  QueryBuilder<Year, Year, QAfterSortBy> thenByIdDesc() => QueryBuilder.apply(
+      this, (final query) => query.addSortBy(r'id', Sort.desc));
 
-  QueryBuilder<Year, Year, QAfterSortBy> thenByYear() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'year', Sort.asc);
-    });
-  }
+  QueryBuilder<Year, Year, QAfterSortBy> thenByYear() => QueryBuilder.apply(
+      this, (final query) => query.addSortBy(r'year', Sort.asc));
 
-  QueryBuilder<Year, Year, QAfterSortBy> thenByYearDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'year', Sort.desc);
-    });
-  }
+  QueryBuilder<Year, Year, QAfterSortBy> thenByYearDesc() => QueryBuilder.apply(
+      this, (final query) => query.addSortBy(r'year', Sort.desc));
 }
 
 extension YearQueryWhereDistinct on QueryBuilder<Year, Year, QDistinct> {
   QueryBuilder<Year, Year, QDistinct> distinctByYear(
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'year', caseSensitive: caseSensitive);
-    });
-  }
+          {final bool caseSensitive = true}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) =>
+              query.addDistinctBy(r'year', caseSensitive: caseSensitive));
 }
 
 extension YearQueryProperty on QueryBuilder<Year, Year, QQueryProperty> {
-  QueryBuilder<Year, int, QQueryOperations> idProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'id');
-    });
-  }
+  QueryBuilder<Year, int, QQueryOperations> idProperty() =>
+      QueryBuilder.apply(this, (final query) => query.addPropertyName(r'id'));
 
-  QueryBuilder<Year, String, QQueryOperations> yearProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'year');
-    });
-  }
+  QueryBuilder<Year, String, QQueryOperations> yearProperty() =>
+      QueryBuilder.apply(this, (final query) => query.addPropertyName(r'year'));
 }

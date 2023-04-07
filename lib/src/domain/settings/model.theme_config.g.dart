@@ -27,9 +27,9 @@ const ThemeConfigSchema = Schema(
 );
 
 int _themeConfigEstimateSize(
-  ThemeConfig object,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
+  final ThemeConfig object,
+  final List<int> offsets,
+  final Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
   bytesCount += 3 + object.themeMode.name.length * 3;
@@ -37,19 +37,19 @@ int _themeConfigEstimateSize(
 }
 
 void _themeConfigSerialize(
-  ThemeConfig object,
-  IsarWriter writer,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
+  final ThemeConfig object,
+  final IsarWriter writer,
+  final List<int> offsets,
+  final Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.themeMode.name);
 }
 
 ThemeConfig _themeConfigDeserialize(
-  Id id,
-  IsarReader reader,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
+  final Id id,
+  final IsarReader reader,
+  final List<int> offsets,
+  final Map<Type, List<int>> allOffsets,
 ) {
   final object = ThemeConfig(
     themeMode: _ThemeConfigthemeModeValueEnumMap[
@@ -60,10 +60,10 @@ ThemeConfig _themeConfigDeserialize(
 }
 
 P _themeConfigDeserializeProp<P>(
-  IsarReader reader,
-  int propertyId,
-  int offset,
-  Map<Type, List<int>> allOffsets,
+  final IsarReader reader,
+  final int propertyId,
+  final int offset,
+  final Map<Type, List<int>> allOffsets,
 ) {
   switch (propertyId) {
     case 0:
@@ -90,139 +90,129 @@ extension ThemeConfigQueryFilter
     on QueryBuilder<ThemeConfig, ThemeConfig, QFilterCondition> {
   QueryBuilder<ThemeConfig, ThemeConfig, QAfterFilterCondition>
       themeModeEqualTo(
-    ThemeMode value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'themeMode',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final ThemeMode value, {
+    final bool caseSensitive = true,
+  }) =>
+          QueryBuilder.apply(
+              this,
+              (final query) => query.addFilterCondition(FilterCondition.equalTo(
+                    property: r'themeMode',
+                    value: value,
+                    caseSensitive: caseSensitive,
+                  )));
 
-  QueryBuilder<ThemeConfig, ThemeConfig, QAfterFilterCondition>
-      themeModeGreaterThan(
-    ThemeMode value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'themeMode',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+  QueryBuilder<ThemeConfig, ThemeConfig,
+      QAfterFilterCondition> themeModeGreaterThan(
+    final ThemeMode value, {
+    final bool include = false,
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.greaterThan(
+                include: include,
+                property: r'themeMode',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
-  QueryBuilder<ThemeConfig, ThemeConfig, QAfterFilterCondition>
-      themeModeLessThan(
-    ThemeMode value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'themeMode',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+  QueryBuilder<ThemeConfig, ThemeConfig,
+      QAfterFilterCondition> themeModeLessThan(
+    final ThemeMode value, {
+    final bool include = false,
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.lessThan(
+                include: include,
+                property: r'themeMode',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<ThemeConfig, ThemeConfig, QAfterFilterCondition>
       themeModeBetween(
-    ThemeMode lower,
-    ThemeMode upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'themeMode',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final ThemeMode lower,
+    final ThemeMode upper, {
+    final bool includeLower = true,
+    final bool includeUpper = true,
+    final bool caseSensitive = true,
+  }) =>
+          QueryBuilder.apply(
+              this,
+              (final query) => query.addFilterCondition(FilterCondition.between(
+                    property: r'themeMode',
+                    lower: lower,
+                    includeLower: includeLower,
+                    upper: upper,
+                    includeUpper: includeUpper,
+                    caseSensitive: caseSensitive,
+                  )));
+
+  QueryBuilder<ThemeConfig, ThemeConfig,
+      QAfterFilterCondition> themeModeStartsWith(
+    final String value, {
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.startsWith(
+                property: r'themeMode',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
+
+  QueryBuilder<ThemeConfig, ThemeConfig,
+      QAfterFilterCondition> themeModeEndsWith(
+    final String value, {
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.endsWith(
+                property: r'themeMode',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
+
+  QueryBuilder<ThemeConfig, ThemeConfig,
+      QAfterFilterCondition> themeModeContains(final String value,
+          {final bool caseSensitive = true}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.contains(
+                property: r'themeMode',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<ThemeConfig, ThemeConfig, QAfterFilterCondition>
-      themeModeStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'themeMode',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+      themeModeMatches(final String pattern,
+              {final bool caseSensitive = true}) =>
+          QueryBuilder.apply(
+              this,
+              (final query) => query.addFilterCondition(FilterCondition.matches(
+                    property: r'themeMode',
+                    wildcard: pattern,
+                    caseSensitive: caseSensitive,
+                  )));
 
   QueryBuilder<ThemeConfig, ThemeConfig, QAfterFilterCondition>
-      themeModeEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'themeMode',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+      themeModeIsEmpty() => QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.equalTo(
+                property: r'themeMode',
+                value: '',
+              )));
 
   QueryBuilder<ThemeConfig, ThemeConfig, QAfterFilterCondition>
-      themeModeContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'themeMode',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ThemeConfig, ThemeConfig, QAfterFilterCondition>
-      themeModeMatches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'themeMode',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ThemeConfig, ThemeConfig, QAfterFilterCondition>
-      themeModeIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'themeMode',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<ThemeConfig, ThemeConfig, QAfterFilterCondition>
-      themeModeIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'themeMode',
-        value: '',
-      ));
-    });
-  }
+      themeModeIsNotEmpty() => QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.greaterThan(
+                property: r'themeMode',
+                value: '',
+              )));
 }
 
 extension ThemeConfigQueryObject

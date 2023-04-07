@@ -60,9 +60,9 @@ const ArtistSchema = CollectionSchema(
 );
 
 int _artistEstimateSize(
-  Artist object,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
+  final Artist object,
+  final List<int> offsets,
+  final Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
   bytesCount += 3 + object.name.length * 3;
@@ -70,19 +70,19 @@ int _artistEstimateSize(
 }
 
 void _artistSerialize(
-  Artist object,
-  IsarWriter writer,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
+  final Artist object,
+  final IsarWriter writer,
+  final List<int> offsets,
+  final Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.name);
 }
 
 Artist _artistDeserialize(
-  Id id,
-  IsarReader reader,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
+  final Id id,
+  final IsarReader reader,
+  final List<int> offsets,
+  final Map<Type, List<int>> allOffsets,
 ) {
   final object = Artist(
     name: reader.readString(offsets[0]),
@@ -91,10 +91,10 @@ Artist _artistDeserialize(
 }
 
 P _artistDeserializeProp<P>(
-  IsarReader reader,
-  int propertyId,
-  int offset,
-  Map<Type, List<int>> allOffsets,
+  final IsarReader reader,
+  final int propertyId,
+  final int offset,
+  final Map<Type, List<int>> allOffsets,
 ) {
   switch (propertyId) {
     case 0:
@@ -104,492 +104,431 @@ P _artistDeserializeProp<P>(
   }
 }
 
-Id _artistGetId(Artist object) {
-  return object.id;
-}
+Id _artistGetId(final Artist object) => object.id;
 
-List<IsarLinkBase<dynamic>> _artistGetLinks(Artist object) {
-  return [object.tracks];
-}
+List<IsarLinkBase<dynamic>> _artistGetLinks(final Artist object) =>
+    [object.tracks];
 
-void _artistAttach(IsarCollection<dynamic> col, Id id, Artist object) {
+void _artistAttach(
+    final IsarCollection<dynamic> col, final Id id, final Artist object) {
   object.tracks.attach(col, col.isar.collection<Track>(), r'tracks', id);
 }
 
 extension ArtistByIndex on IsarCollection<Artist> {
-  Future<Artist?> getByName(String name) {
-    return getByIndex(r'name', [name]);
-  }
+  Future<Artist?> getByName(final String name) => getByIndex(r'name', [name]);
 
-  Artist? getByNameSync(String name) {
-    return getByIndexSync(r'name', [name]);
-  }
+  Artist? getByNameSync(final String name) => getByIndexSync(r'name', [name]);
 
-  Future<bool> deleteByName(String name) {
-    return deleteByIndex(r'name', [name]);
-  }
+  Future<bool> deleteByName(final String name) =>
+      deleteByIndex(r'name', [name]);
 
-  bool deleteByNameSync(String name) {
-    return deleteByIndexSync(r'name', [name]);
-  }
+  bool deleteByNameSync(final String name) =>
+      deleteByIndexSync(r'name', [name]);
 
-  Future<List<Artist?>> getAllByName(List<String> nameValues) {
-    final values = nameValues.map((e) => [e]).toList();
+  Future<List<Artist?>> getAllByName(final List<String> nameValues) {
+    final values = nameValues.map((final e) => [e]).toList();
     return getAllByIndex(r'name', values);
   }
 
-  List<Artist?> getAllByNameSync(List<String> nameValues) {
-    final values = nameValues.map((e) => [e]).toList();
+  List<Artist?> getAllByNameSync(final List<String> nameValues) {
+    final values = nameValues.map((final e) => [e]).toList();
     return getAllByIndexSync(r'name', values);
   }
 
-  Future<int> deleteAllByName(List<String> nameValues) {
-    final values = nameValues.map((e) => [e]).toList();
+  Future<int> deleteAllByName(final List<String> nameValues) {
+    final values = nameValues.map((final e) => [e]).toList();
     return deleteAllByIndex(r'name', values);
   }
 
-  int deleteAllByNameSync(List<String> nameValues) {
-    final values = nameValues.map((e) => [e]).toList();
+  int deleteAllByNameSync(final List<String> nameValues) {
+    final values = nameValues.map((final e) => [e]).toList();
     return deleteAllByIndexSync(r'name', values);
   }
 
-  Future<Id> putByName(Artist object) {
-    return putByIndex(r'name', object);
-  }
+  Future<Id> putByName(final Artist object) => putByIndex(r'name', object);
 
-  Id putByNameSync(Artist object, {bool saveLinks = true}) {
-    return putByIndexSync(r'name', object, saveLinks: saveLinks);
-  }
+  Id putByNameSync(final Artist object, {final bool saveLinks = true}) =>
+      putByIndexSync(r'name', object, saveLinks: saveLinks);
 
-  Future<List<Id>> putAllByName(List<Artist> objects) {
-    return putAllByIndex(r'name', objects);
-  }
+  Future<List<Id>> putAllByName(final List<Artist> objects) =>
+      putAllByIndex(r'name', objects);
 
-  List<Id> putAllByNameSync(List<Artist> objects, {bool saveLinks = true}) {
-    return putAllByIndexSync(r'name', objects, saveLinks: saveLinks);
-  }
+  List<Id> putAllByNameSync(final List<Artist> objects,
+          {final bool saveLinks = true}) =>
+      putAllByIndexSync(r'name', objects, saveLinks: saveLinks);
 }
 
 extension ArtistQueryWhereSort on QueryBuilder<Artist, Artist, QWhere> {
-  QueryBuilder<Artist, Artist, QAfterWhere> anyId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(const IdWhereClause.any());
-    });
-  }
+  QueryBuilder<Artist, Artist, QAfterWhere> anyId() => QueryBuilder.apply(
+      this, (final query) => query.addWhereClause(const IdWhereClause.any()));
 }
 
 extension ArtistQueryWhere on QueryBuilder<Artist, Artist, QWhereClause> {
-  QueryBuilder<Artist, Artist, QAfterWhereClause> idEqualTo(Id id) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: id,
-        upper: id,
-      ));
-    });
-  }
+  QueryBuilder<Artist, Artist, QAfterWhereClause> idEqualTo(final Id id) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addWhereClause(IdWhereClause.between(
+                lower: id,
+                upper: id,
+              )));
 
-  QueryBuilder<Artist, Artist, QAfterWhereClause> idNotEqualTo(Id id) {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
-            )
-            .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
-            );
-      } else {
-        return query
-            .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
-            )
-            .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
-            );
-      }
-    });
-  }
+  QueryBuilder<Artist, Artist, QAfterWhereClause> idNotEqualTo(final Id id) =>
+      QueryBuilder.apply(this, (final query) {
+        if (query.whereSort == Sort.asc) {
+          return query
+              .addWhereClause(
+                IdWhereClause.lessThan(upper: id, includeUpper: false),
+              )
+              .addWhereClause(
+                IdWhereClause.greaterThan(lower: id, includeLower: false),
+              );
+        } else {
+          return query
+              .addWhereClause(
+                IdWhereClause.greaterThan(lower: id, includeLower: false),
+              )
+              .addWhereClause(
+                IdWhereClause.lessThan(upper: id, includeUpper: false),
+              );
+        }
+      });
 
-  QueryBuilder<Artist, Artist, QAfterWhereClause> idGreaterThan(Id id,
-      {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IdWhereClause.greaterThan(lower: id, includeLower: include),
-      );
-    });
-  }
+  QueryBuilder<Artist, Artist, QAfterWhereClause> idGreaterThan(final Id id,
+          {final bool include = false}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addWhereClause(
+                IdWhereClause.greaterThan(lower: id, includeLower: include),
+              ));
 
-  QueryBuilder<Artist, Artist, QAfterWhereClause> idLessThan(Id id,
-      {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IdWhereClause.lessThan(upper: id, includeUpper: include),
-      );
-    });
-  }
+  QueryBuilder<Artist, Artist, QAfterWhereClause> idLessThan(final Id id,
+          {final bool include = false}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addWhereClause(
+                IdWhereClause.lessThan(upper: id, includeUpper: include),
+              ));
 
   QueryBuilder<Artist, Artist, QAfterWhereClause> idBetween(
-    Id lowerId,
-    Id upperId, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: lowerId,
-        includeLower: includeLower,
-        upper: upperId,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
+    final Id lowerId,
+    final Id upperId, {
+    final bool includeLower = true,
+    final bool includeUpper = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addWhereClause(IdWhereClause.between(
+                lower: lowerId,
+                includeLower: includeLower,
+                upper: upperId,
+                includeUpper: includeUpper,
+              )));
 
-  QueryBuilder<Artist, Artist, QAfterWhereClause> nameEqualTo(String name) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'name',
-        value: [name],
-      ));
-    });
-  }
+  QueryBuilder<Artist, Artist, QAfterWhereClause> nameEqualTo(
+          final String name) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addWhereClause(IndexWhereClause.equalTo(
+                indexName: r'name',
+                value: [name],
+              )));
 
-  QueryBuilder<Artist, Artist, QAfterWhereClause> nameNotEqualTo(String name) {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'name',
-              lower: [],
-              upper: [name],
-              includeUpper: false,
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'name',
-              lower: [name],
-              includeLower: false,
-              upper: [],
-            ));
-      } else {
-        return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'name',
-              lower: [name],
-              includeLower: false,
-              upper: [],
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'name',
-              lower: [],
-              upper: [name],
-              includeUpper: false,
-            ));
-      }
-    });
-  }
+  QueryBuilder<Artist, Artist, QAfterWhereClause> nameNotEqualTo(
+          final String name) =>
+      QueryBuilder.apply(this, (final query) {
+        if (query.whereSort == Sort.asc) {
+          return query
+              .addWhereClause(IndexWhereClause.between(
+                indexName: r'name',
+                lower: [],
+                upper: [name],
+                includeUpper: false,
+              ))
+              .addWhereClause(IndexWhereClause.between(
+                indexName: r'name',
+                lower: [name],
+                includeLower: false,
+                upper: [],
+              ));
+        } else {
+          return query
+              .addWhereClause(IndexWhereClause.between(
+                indexName: r'name',
+                lower: [name],
+                includeLower: false,
+                upper: [],
+              ))
+              .addWhereClause(IndexWhereClause.between(
+                indexName: r'name',
+                lower: [],
+                upper: [name],
+                includeUpper: false,
+              ));
+        }
+      });
 }
 
 extension ArtistQueryFilter on QueryBuilder<Artist, Artist, QFilterCondition> {
-  QueryBuilder<Artist, Artist, QAfterFilterCondition> idEqualTo(Id value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
+  QueryBuilder<Artist, Artist, QAfterFilterCondition> idEqualTo(
+          final Id value) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.equalTo(
+                property: r'id',
+                value: value,
+              )));
 
   QueryBuilder<Artist, Artist, QAfterFilterCondition> idGreaterThan(
-    Id value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
+    final Id value, {
+    final bool include = false,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.greaterThan(
+                include: include,
+                property: r'id',
+                value: value,
+              )));
 
   QueryBuilder<Artist, Artist, QAfterFilterCondition> idLessThan(
-    Id value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
+    final Id value, {
+    final bool include = false,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.lessThan(
+                include: include,
+                property: r'id',
+                value: value,
+              )));
 
   QueryBuilder<Artist, Artist, QAfterFilterCondition> idBetween(
-    Id lower,
-    Id upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'id',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
+    final Id lower,
+    final Id upper, {
+    final bool includeLower = true,
+    final bool includeUpper = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.between(
+                property: r'id',
+                lower: lower,
+                includeLower: includeLower,
+                upper: upper,
+                includeUpper: includeUpper,
+              )));
 
   QueryBuilder<Artist, Artist, QAfterFilterCondition> nameEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String value, {
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.equalTo(
+                property: r'name',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Artist, Artist, QAfterFilterCondition> nameGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String value, {
+    final bool include = false,
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.greaterThan(
+                include: include,
+                property: r'name',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Artist, Artist, QAfterFilterCondition> nameLessThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String value, {
+    final bool include = false,
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.lessThan(
+                include: include,
+                property: r'name',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Artist, Artist, QAfterFilterCondition> nameBetween(
-    String lower,
-    String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'name',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String lower,
+    final String upper, {
+    final bool includeLower = true,
+    final bool includeUpper = true,
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.between(
+                property: r'name',
+                lower: lower,
+                includeLower: includeLower,
+                upper: upper,
+                includeUpper: includeUpper,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Artist, Artist, QAfterFilterCondition> nameStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String value, {
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.startsWith(
+                property: r'name',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Artist, Artist, QAfterFilterCondition> nameEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+    final String value, {
+    final bool caseSensitive = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.endsWith(
+                property: r'name',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
-  QueryBuilder<Artist, Artist, QAfterFilterCondition> nameContains(String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+  QueryBuilder<Artist, Artist, QAfterFilterCondition> nameContains(
+          final String value,
+          {final bool caseSensitive = true}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.contains(
+                property: r'name',
+                value: value,
+                caseSensitive: caseSensitive,
+              )));
 
   QueryBuilder<Artist, Artist, QAfterFilterCondition> nameMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'name',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
+          final String pattern,
+          {final bool caseSensitive = true}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.matches(
+                property: r'name',
+                wildcard: pattern,
+                caseSensitive: caseSensitive,
+              )));
 
-  QueryBuilder<Artist, Artist, QAfterFilterCondition> nameIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'name',
-        value: '',
-      ));
-    });
-  }
+  QueryBuilder<Artist, Artist, QAfterFilterCondition> nameIsEmpty() =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.equalTo(
+                property: r'name',
+                value: '',
+              )));
 
-  QueryBuilder<Artist, Artist, QAfterFilterCondition> nameIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'name',
-        value: '',
-      ));
-    });
-  }
+  QueryBuilder<Artist, Artist, QAfterFilterCondition> nameIsNotEmpty() =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.greaterThan(
+                property: r'name',
+                value: '',
+              )));
 }
 
 extension ArtistQueryObject on QueryBuilder<Artist, Artist, QFilterCondition> {}
 
 extension ArtistQueryLinks on QueryBuilder<Artist, Artist, QFilterCondition> {
   QueryBuilder<Artist, Artist, QAfterFilterCondition> tracks(
-      FilterQuery<Track> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'tracks');
-    });
-  }
+          final FilterQuery<Track> q) =>
+      QueryBuilder.apply(this, (final query) => query.link(q, r'tracks'));
 
   QueryBuilder<Artist, Artist, QAfterFilterCondition> tracksLengthEqualTo(
-      int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'tracks', length, true, length, true);
-    });
-  }
+          final int length) =>
+      QueryBuilder.apply(
+          this,
+          (final query) =>
+              query.linkLength(r'tracks', length, true, length, true));
 
-  QueryBuilder<Artist, Artist, QAfterFilterCondition> tracksIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'tracks', 0, true, 0, true);
-    });
-  }
+  QueryBuilder<Artist, Artist, QAfterFilterCondition> tracksIsEmpty() =>
+      QueryBuilder.apply(
+          this, (final query) => query.linkLength(r'tracks', 0, true, 0, true));
 
-  QueryBuilder<Artist, Artist, QAfterFilterCondition> tracksIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'tracks', 0, false, 999999, true);
-    });
-  }
+  QueryBuilder<Artist, Artist, QAfterFilterCondition> tracksIsNotEmpty() =>
+      QueryBuilder.apply(this,
+          (final query) => query.linkLength(r'tracks', 0, false, 999999, true));
 
   QueryBuilder<Artist, Artist, QAfterFilterCondition> tracksLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'tracks', 0, true, length, include);
-    });
-  }
+    final int length, {
+    final bool include = false,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) =>
+              query.linkLength(r'tracks', 0, true, length, include));
 
   QueryBuilder<Artist, Artist, QAfterFilterCondition> tracksLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'tracks', length, include, 999999, true);
-    });
-  }
+    final int length, {
+    final bool include = false,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) =>
+              query.linkLength(r'tracks', length, include, 999999, true));
 
   QueryBuilder<Artist, Artist, QAfterFilterCondition> tracksLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(
-          r'tracks', lower, includeLower, upper, includeUpper);
-    });
-  }
+    final int lower,
+    final int upper, {
+    final bool includeLower = true,
+    final bool includeUpper = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.linkLength(
+              r'tracks', lower, includeLower, upper, includeUpper));
 }
 
 extension ArtistQuerySortBy on QueryBuilder<Artist, Artist, QSortBy> {
-  QueryBuilder<Artist, Artist, QAfterSortBy> sortByName() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'name', Sort.asc);
-    });
-  }
+  QueryBuilder<Artist, Artist, QAfterSortBy> sortByName() => QueryBuilder.apply(
+      this, (final query) => query.addSortBy(r'name', Sort.asc));
 
-  QueryBuilder<Artist, Artist, QAfterSortBy> sortByNameDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'name', Sort.desc);
-    });
-  }
+  QueryBuilder<Artist, Artist, QAfterSortBy> sortByNameDesc() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addSortBy(r'name', Sort.desc));
 }
 
 extension ArtistQuerySortThenBy on QueryBuilder<Artist, Artist, QSortThenBy> {
-  QueryBuilder<Artist, Artist, QAfterSortBy> thenById() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.asc);
-    });
-  }
+  QueryBuilder<Artist, Artist, QAfterSortBy> thenById() => QueryBuilder.apply(
+      this, (final query) => query.addSortBy(r'id', Sort.asc));
 
-  QueryBuilder<Artist, Artist, QAfterSortBy> thenByIdDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.desc);
-    });
-  }
+  QueryBuilder<Artist, Artist, QAfterSortBy> thenByIdDesc() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addSortBy(r'id', Sort.desc));
 
-  QueryBuilder<Artist, Artist, QAfterSortBy> thenByName() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'name', Sort.asc);
-    });
-  }
+  QueryBuilder<Artist, Artist, QAfterSortBy> thenByName() => QueryBuilder.apply(
+      this, (final query) => query.addSortBy(r'name', Sort.asc));
 
-  QueryBuilder<Artist, Artist, QAfterSortBy> thenByNameDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'name', Sort.desc);
-    });
-  }
+  QueryBuilder<Artist, Artist, QAfterSortBy> thenByNameDesc() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addSortBy(r'name', Sort.desc));
 }
 
 extension ArtistQueryWhereDistinct on QueryBuilder<Artist, Artist, QDistinct> {
   QueryBuilder<Artist, Artist, QDistinct> distinctByName(
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'name', caseSensitive: caseSensitive);
-    });
-  }
+          {final bool caseSensitive = true}) =>
+      QueryBuilder.apply(
+          this,
+          (final query) =>
+              query.addDistinctBy(r'name', caseSensitive: caseSensitive));
 }
 
 extension ArtistQueryProperty on QueryBuilder<Artist, Artist, QQueryProperty> {
-  QueryBuilder<Artist, int, QQueryOperations> idProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'id');
-    });
-  }
+  QueryBuilder<Artist, int, QQueryOperations> idProperty() =>
+      QueryBuilder.apply(this, (final query) => query.addPropertyName(r'id'));
 
-  QueryBuilder<Artist, String, QQueryOperations> nameProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'name');
-    });
-  }
+  QueryBuilder<Artist, String, QQueryOperations> nameProperty() =>
+      QueryBuilder.apply(this, (final query) => query.addPropertyName(r'name'));
 }
