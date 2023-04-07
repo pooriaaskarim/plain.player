@@ -78,6 +78,11 @@ class AudioRepository implements LocalRepository {
     return db.folders.where().findAll();
   }
 
+  Future<List<Artist>> getArtists() async {
+    final Isar db = await openDb;
+    return db.artists.where().findAll();
+  }
+
   Future<List<Genre>> getGenres() async {
     final Isar db = await openDb;
     return db.genres.where().findAll();
