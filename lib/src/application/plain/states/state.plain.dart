@@ -1,7 +1,11 @@
 import 'package:equatable/equatable.dart';
 
-import '../../domain/configuration/model.configurations.dart';
-import '../../domain/settings/model.settings.dart';
+import '../../../domain/configuration/model.configurations.dart';
+import '../../../domain/settings/model.settings.dart';
+
+part 'state.app_launch.dart';
+part 'state.default.dart';
+part 'state.loading.dart';
 
 abstract class PlainState extends Equatable {
   /// PlainBloc's State.
@@ -12,7 +16,7 @@ abstract class PlainState extends Equatable {
 
   /// Returns [PlainState]:[AppLaunchState].
   /// Launches Plain app with a given [defaultSettings].
-  factory PlainState.appLaunchState({
+  factory PlainState.appLaunch({
     required final Settings defaultSettings,
   }) =>
       AppLaunchState._(defaultSettings: defaultSettings);
@@ -29,7 +33,7 @@ abstract class PlainState extends Equatable {
       );
 
   /// Returns [PlainState]:[LoadingState].
-  factory PlainState.loadingState({
+  factory PlainState.loading({
     required final Settings settings,
     final Configurations? configuration,
   }) =>
@@ -51,27 +55,4 @@ abstract class PlainState extends Equatable {
         settings,
         configuration,
       ];
-}
-
-class AppLaunchState extends PlainState {
-  /// Plain's Launch State.
-  const AppLaunchState._({
-    required final Settings defaultSettings,
-  }) : super(settings: defaultSettings);
-}
-
-class DefaultState extends PlainState {
-  /// Plain's Default State.
-  const DefaultState._({
-    required super.settings,
-    super.configuration,
-  });
-}
-
-class LoadingState extends PlainState {
-  /// Plain's Loading State.
-  const LoadingState._({
-    required super.settings,
-    super.configuration,
-  });
 }

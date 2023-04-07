@@ -6,23 +6,21 @@ import 'package:just_audio/just_audio.dart';
 
 import '../../domain/settings/model.settings.dart';
 import '../../infrastructure/exceptions/exceptions.configuration.dart';
-import '../../infrastructure/repositories/repository.audio.dart';
 import '../../infrastructure/repositories/repository.configurations.dart';
 import '../../infrastructure/repositories/repository.settings.dart';
-import 'event.plain.dart';
-import 'state.plain.dart';
+import '../audio_library/cubit.audio_library.dart';
+import 'events/event.plain.dart';
+import 'states/state.plain.dart';
 
 class PlainBloc extends Bloc<PlainEvent, PlainState> {
   PlainBloc({
     required this.audioPlayer,
     required final SettingsRepository settingsRepository,
     required final ConfigurationsRepository configurationsRepository,
-    required final AudioRepository audioRepository,
   })  : _settingsRepository = settingsRepository,
         _configurationsRepository = configurationsRepository,
-        _audioRepository = audioRepository,
         super(
-          PlainState.appLaunchState(
+          PlainState.appLaunch(
             defaultSettings: Settings.defaultSettings(),
           ),
         ) {
@@ -34,47 +32,15 @@ class PlainBloc extends Bloc<PlainEvent, PlainState> {
   final AudioPlayer audioPlayer;
   late final SettingsRepository _settingsRepository;
   late final ConfigurationsRepository _configurationsRepository;
-  late final AudioRepository _audioRepository;
 
-  FutureOr<void> _launchApp(final event, final emit) async {
-    // final playlist = ConcatenatingAudioSource(
-    //   useLazyPreparation: true,
-    //
-    //   shuffleOrder: DefaultShuffleOrder(),
-    //
-    //   children: [
-    //     // AudioSource.uri(
-    //     //   Uri.parse(
-    //     //     'https://ups.music-fa.com/tagdl/6e41/Mohammadreza%20Shajaryan%20-%20Gholame%20Chashm%20(320).mp3',
-    //     //   ),
-    //     // ),
-    //     // AudioSource.uri(Uri.parse(
-    //     //     'https://archive.org/download/skitarii-in-the-rectory-of-the-morbid-priesthood/Skitarii%20-%20In%20The%20Rectory%20Of%20The%20Morbid%20Priesthood%20-%2002%20Mycelial%20Miscreancy.wav')),
-    //     AudioSource.uri(
-    //       Uri.parse(
-    //         'https://archive.org/download/LhasaDeSela./Lhasa%20de%20Sela..mp3',
-    //
-    //       ),
-    //     ),
-    //   ],
-    // );
-    // await audioPlayer.setAudioSource(
-    //   playlist,
-    //   // initialIndex: 0,
-    //   initialPosition: Duration.zero,
-    //   preload: false,
-    //   // preload: false,
-    // );
-    // // await state.audioPlayer.load();
-    // // await state.player.play();
-  }
+  FutureOr<void> _launchApp(final event, final emit) async {}
 
   FutureOr<void> _loadSettings(
     final OnLoadSettings event,
     final Emitter<PlainState> emit,
   ) async {
     emit(
-      PlainState.loadingState(
+      PlainState.loading(
         settings: state.settings,
         configuration: state.configuration,
       ),
