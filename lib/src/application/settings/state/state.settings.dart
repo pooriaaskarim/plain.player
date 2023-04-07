@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 
-import '../../domain/settings/model.settings.dart';
+import '../../../domain/settings/model.settings.dart';
+
+part 'state.default.dart';
 
 abstract class SettingsState extends Equatable {
   const SettingsState({required this.settings});
@@ -10,14 +12,6 @@ abstract class SettingsState extends Equatable {
       DefaultState._(settings: settings);
 
   final Settings settings;
-  @override
-  List<Object?> get props => [
-        settings,
-      ];
-}
-
-class DefaultState extends SettingsState {
-  const DefaultState._({required super.settings});
   @override
   List<Object?> get props => [
         settings,

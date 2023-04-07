@@ -6,8 +6,8 @@ import '../../domain/settings/model.theme_config.dart';
 import '../../infrastructure/exceptions/exceptions.configuration.dart';
 import '../../infrastructure/repositories/repository.settings.dart';
 import '../plain/bloc.plain.dart';
-import '../plain/event.plain.dart';
-import 'state.settings.dart';
+import '../plain/events/event.plain.dart';
+import 'state/state.settings.dart';
 
 class SettingsCubit extends Cubit<SettingsState> {
   SettingsCubit({
