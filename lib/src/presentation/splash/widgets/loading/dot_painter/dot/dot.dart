@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../application/splash/state.splash.dart';
+import '../../../../../../application/splash/state/state.splash.dart';
 import 'dot.error.dart';
 import 'dot.initializing.dart';
 import 'dot.loading.dart';
@@ -23,7 +23,7 @@ abstract class Dot {
     required final AnimationController dotAnimationController,
   }) {
     switch (state.runtimeType) {
-      case AppLaunchState:
+      case InitialState:
         return InitializingDot(
           logoColor: logoColor,
           loadColor: loadColor,

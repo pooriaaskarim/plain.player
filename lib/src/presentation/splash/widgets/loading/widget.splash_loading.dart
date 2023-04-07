@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../application/splash/cubit.splash.dart';
-import '../../../../application/splash/state.splash.dart';
+import '../../../../application/splash/state/state.splash.dart';
 import 'bar_painter/painter.bar.dart';
 import 'dot_painter/painter.dot.dart';
 import 'logo/widget.logo.dart';

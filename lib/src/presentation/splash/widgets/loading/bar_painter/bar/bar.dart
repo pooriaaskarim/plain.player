@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../application/splash/state.splash.dart';
+import '../../../../../../application/splash/state/state.splash.dart';
 import '../../../../../../infrastructure/utils/app.utils.dart';
 import 'bar.error.dart';
 import 'bar.initializing.dart';
@@ -25,7 +25,7 @@ abstract class Bar {
     required final AnimationController barAnimationController,
   }) {
     switch (state.runtimeType) {
-      case AppLaunchState:
+      case InitialState:
         return InitializingBar(
           logoColor: logoColor,
           loadColor: loadColor,

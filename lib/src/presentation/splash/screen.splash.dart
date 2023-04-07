@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../application/plain/bloc.plain.dart';
 import '../../application/splash/cubit.splash.dart';
-import '../../application/splash/state.splash.dart';
+import '../../application/splash/state/state.splash.dart';
 import '../../infrastructure/repositories/repository.configurations.dart';
 import '../../infrastructure/repositories/repository.settings.dart';
 import '../../infrastructure/utils/app.utils.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../application/splash/state.splash.dart';
+import '../../../../../application/splash/state/state.splash.dart';
 import 'bar/bar.dart';
 
 class BarPainter extends CustomPainter {
