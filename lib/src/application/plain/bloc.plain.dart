@@ -15,6 +15,7 @@ import 'states/state.plain.dart';
 class PlainBloc extends Bloc<PlainEvent, PlainState> {
   PlainBloc({
     required this.audioPlayer,
+    required this.audioLibraryHandler,
     required final SettingsRepository settingsRepository,
     required final ConfigurationsRepository configurationsRepository,
   })  : _settingsRepository = settingsRepository,
@@ -30,6 +31,7 @@ class PlainBloc extends Bloc<PlainEvent, PlainState> {
   }
 
   final AudioPlayer audioPlayer;
+  final AudioLibraryCubit audioLibraryHandler;
   late final SettingsRepository _settingsRepository;
   late final ConfigurationsRepository _configurationsRepository;
 
