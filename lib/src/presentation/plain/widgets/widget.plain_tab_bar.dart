@@ -20,9 +20,9 @@ class PlainTabBarState extends State<PlainTabBar> {
   @override
   Widget build(final BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    const double tabHeight = AppSizes.size_56Pt;
-    const double inactiveIconSize = AppSizes.size_32Pt;
-    const double activeIconSize = AppSizes.size_24Pt;
+    const double tabHeight = AppSizes.points_56;
+    const double inactiveIconSize = AppSizes.points_32;
+    const double activeIconSize = AppSizes.points_24;
 
     return SizedBox(
       width: screenWidth,

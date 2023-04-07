@@ -53,17 +53,17 @@ class AppTextButtonThemeData extends TextButtonThemeData {
                     MaterialState.disabled,
                   }.contains,
                 )) {
-                  return AppElevations.elevationLevel_0;
+                  return AppElevations.level_0;
                 }
                 if (states.any(
                   {
                     MaterialState.hovered,
                   }.contains,
                 )) {
-                  return AppElevations.elevationLevel_2;
+                  return AppElevations.level_2;
                 }
                 //focused, pressed and enabled states
-                return AppElevations.elevationLevel_1;
+                return AppElevations.level_1;
               },
             ),
             textStyle: MaterialStateProperty.resolveWith<TextStyle?>(

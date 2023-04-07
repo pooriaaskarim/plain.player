@@ -29,7 +29,7 @@ class SettingsScreen extends StatelessWidget {
           child: BlocBuilder<SettingsCubit, SettingsState>(
             builder: (final context, final state) => Container(
               alignment: Alignment.center,
-              margin: const EdgeInsetsDirectional.all(AppSizes.size_4Pt),
+              margin: const EdgeInsetsDirectional.all(AppSizes.points_4),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

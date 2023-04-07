@@ -12,13 +12,13 @@ class AppTabBarThemeData extends TabBarTheme {
           indicator: UnderlineTabIndicator(
             insets: EdgeInsets.zero,
             borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(AppSizes.size_4Pt),
-              topRight: Radius.circular(AppSizes.size_4Pt),
-              bottomLeft: Radius.circular(AppSizes.size_0Pt),
-              bottomRight: Radius.circular(AppSizes.size_0Pt),
+              topLeft: Radius.circular(AppSizes.points_4),
+              topRight: Radius.circular(AppSizes.points_4),
+              bottomLeft: Radius.circular(AppSizes.points_0),
+              bottomRight: Radius.circular(AppSizes.points_0),
             ),
             borderSide: BorderSide(
-              width: AppSizes.size_4Pt,
+              width: AppSizes.points_4,
               color: colorScheme.primary,
             ),
           ),

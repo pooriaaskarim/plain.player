@@ -7,13 +7,13 @@ class AppUtils {
   AppUtils._();
 
   ///returns a SizedBox of height [size] with a default of AppUtils.mediumSize
-  static Widget verticalSpacer({final double size = AppSizes.size_16Pt}) =>
+  static Widget verticalSpacer({final double size = AppSizes.points_16}) =>
       SizedBox(
         height: size,
       );
 
   ///returns a SizedBox of width [size] with a default of AppUtils.mediumSize
-  static Widget horizontalSpacer({final double size = AppSizes.size_16Pt}) =>
+  static Widget horizontalSpacer({final double size = AppSizes.points_16}) =>
       SizedBox(
         width: size,
       );

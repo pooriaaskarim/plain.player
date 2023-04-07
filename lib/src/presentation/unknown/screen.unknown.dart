@@ -14,13 +14,13 @@ class UnknownScreen extends StatelessWidget {
         ),
         body: Container(
           alignment: Alignment.center,
-          margin: const EdgeInsetsDirectional.all(AppSizes.size_4Pt),
+          margin: const EdgeInsetsDirectional.all(AppSizes.points_4),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(
                 Icons.info,
-                size: AppSizes.size_32Pt * 2,
+                size: AppSizes.points_32 * 2,
               ),
               Text(
                 'Nothing Here!',

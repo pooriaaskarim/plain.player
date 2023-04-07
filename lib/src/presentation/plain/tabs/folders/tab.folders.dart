@@ -80,8 +80,8 @@ class _FoldersTabState extends State<FoldersTab>
                     shrinkWrap: true,
                     itemBuilder: (final context, final index) => Padding(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: AppSizes.size_4Pt,
-                        vertical: AppSizes.size_4Pt,
+                        horizontal: AppSizes.points_4,
+                        vertical: AppSizes.points_4,
                       ),
                       child: ElevatedButton(
                         onPressed: () {},
@@ -109,7 +109,7 @@ class _FoldersTabState extends State<FoldersTab>
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.all(
-                                        AppSizes.size_4Pt,
+                                        AppSizes.points_4,
                                       ),
                                       child: ScrollingText(
                                         text:
@@ -123,7 +123,7 @@ class _FoldersTabState extends State<FoldersTab>
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(
-                                        AppSizes.size_4Pt,
+                                        AppSizes.points_4,
                                       ),
                                       child: ScrollingText(
                                         text: folders[index]
@@ -182,7 +182,7 @@ class _FoldersTabState extends State<FoldersTab>
                               },
                               icon: const Icon(
                                 Icons.delete,
-                                size: AppSizes.size_24Pt,
+                                size: AppSizes.points_24,
                               ),
                             ),
                           ],

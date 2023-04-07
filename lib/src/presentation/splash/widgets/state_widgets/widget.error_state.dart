@@ -39,7 +39,7 @@ class ErrorStateWidget extends StatelessWidget {
       padding: EdgeInsets.zero,
       icon: Icon(
         Icons.error,
-        size: AppSizes.size_48Pt,
+        size: AppSizes.points_48,
         color: themeData.colorScheme.error,
       ),
     );

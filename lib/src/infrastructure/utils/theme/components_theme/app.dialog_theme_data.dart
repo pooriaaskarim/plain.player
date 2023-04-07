@@ -18,7 +18,7 @@ class AppDialogThemeData extends DialogTheme {
           ),
           alignment: AlignmentDirectional.centerStart,
           backgroundColor: colorScheme.surface,
-          elevation: AppElevations.elevationLevel_3,
+          elevation: AppElevations.level_3,
           iconColor: colorScheme.secondary,
         );
 }

@@ -8,7 +8,7 @@ class Loading extends StatefulWidget {
   /// Loading Widget
   const Loading({
     this.color,
-    this.radius = AppSizes.size_24Pt,
+    this.radius = AppSizes.points_24,
     super.key,
   });
 
