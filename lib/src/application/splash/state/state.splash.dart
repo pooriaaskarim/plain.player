@@ -1,13 +1,18 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
+part 'state.error.dart';
+part 'state.initial.dart';
+part 'state.loading.dart';
+part 'state.success.dart';
+
 abstract class SplashState extends Equatable {
   /// A [widget] Widget?  can be provided to show on
   /// SplashScreen.
   const SplashState({
     this.widget,
   });
-  factory SplashState.initial({final Widget? widget}) => AppLaunchState._(
+  factory SplashState.initial({final Widget? widget}) => InitialState._(
         widget: widget,
       );
   factory SplashState.loading({
@@ -26,47 +31,6 @@ abstract class SplashState extends Equatable {
   /// Current [SplashState]'s [widget].
   final Widget? widget;
 
-  @override
-  List<Object?> get props => [
-        widget,
-      ];
-}
-
-class AppLaunchState extends SplashState {
-  const AppLaunchState._({
-    super.widget,
-  });
-  @override
-  List<Object?> get props => [
-        widget,
-      ];
-}
-
-class LoadingState extends SplashState {
-  const LoadingState._({
-    super.widget,
-  });
-
-  @override
-  List<Object?> get props => [
-        widget,
-      ];
-}
-
-class SuccessState extends SplashState {
-  const SuccessState._({
-    super.widget,
-  });
-  @override
-  List<Object?> get props => [
-        widget,
-      ];
-}
-
-class ErrorState extends SplashState {
-  const ErrorState._({
-    super.widget,
-  });
   @override
   List<Object?> get props => [
         widget,
