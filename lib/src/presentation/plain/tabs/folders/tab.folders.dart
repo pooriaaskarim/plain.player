@@ -5,7 +5,7 @@ import '../../../../application/audio_library/cubit.audio_library.dart';
 import '../../../../application/audio_library/state/state.audio_library.dart';
 import '../../../../application/plain/bloc.plain.dart';
 import '../../../../domain/audio_library/model.folder.dart';
-import '../../../../infrastructure/utils/app.utils.dart';
+import '../../../../infrastructure/utils/app.sizes.dart';
 import '../../../shared/widgets/widget.loading.dart';
 import '../../../shared/widgets/widget.scrolling_text.dart';
 import '../i.plain.tab.dart';
@@ -80,8 +80,8 @@ class _FoldersTabState extends State<FoldersTab>
                     shrinkWrap: true,
                     itemBuilder: (final context, final index) => Padding(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: AppUtils.size_4Pt,
-                        vertical: AppUtils.size_4Pt,
+                        horizontal: AppSizes.size_4Pt,
+                        vertical: AppSizes.size_4Pt,
                       ),
                       child: ElevatedButton(
                         onPressed: () {},
@@ -109,7 +109,7 @@ class _FoldersTabState extends State<FoldersTab>
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.all(
-                                        AppUtils.size_4Pt,
+                                        AppSizes.size_4Pt,
                                       ),
                                       child: ScrollingText(
                                         text:
@@ -123,7 +123,7 @@ class _FoldersTabState extends State<FoldersTab>
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(
-                                        AppUtils.size_4Pt,
+                                        AppSizes.size_4Pt,
                                       ),
                                       child: ScrollingText(
                                         text: folders[index]
@@ -182,7 +182,7 @@ class _FoldersTabState extends State<FoldersTab>
                               },
                               icon: const Icon(
                                 Icons.delete,
-                                size: AppUtils.size_24Pt,
+                                size: AppSizes.size_24Pt,
                               ),
                             ),
                           ],

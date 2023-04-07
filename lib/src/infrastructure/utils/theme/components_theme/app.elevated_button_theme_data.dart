@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils/app.utils.dart';
+import '../../app.elevations.dart';
 import '../app.fonts.dart';
+import '../app.opacities.dart';
 
 class AppElevatedButtonThemeData extends ElevatedButtonThemeData {
   AppElevatedButtonThemeData.from(
@@ -16,7 +17,7 @@ class AppElevatedButtonThemeData extends ElevatedButtonThemeData {
                   }.contains,
                 )) {
                   return colorScheme.primary
-                      .withOpacity(AppUtils.disabledStateLayerOpacity);
+                      .withOpacity(AppOpacities.disabledStateLayerOpacity);
                 }
                 if (states.any(
                   {
@@ -24,7 +25,7 @@ class AppElevatedButtonThemeData extends ElevatedButtonThemeData {
                   }.contains,
                 )) {
                   return colorScheme.primary
-                      .withOpacity(AppUtils.hoverStateLayerOpacity);
+                      .withOpacity(AppOpacities.hoverStateLayerOpacity);
                 }
                 if (states.any(
                   {
@@ -32,7 +33,7 @@ class AppElevatedButtonThemeData extends ElevatedButtonThemeData {
                   }.contains,
                 )) {
                   return colorScheme.primary
-                      .withOpacity(AppUtils.focusStateLayerOpacity);
+                      .withOpacity(AppOpacities.focusStateLayerOpacity);
                 }
                 if (states.any(
                   {
@@ -40,7 +41,7 @@ class AppElevatedButtonThemeData extends ElevatedButtonThemeData {
                   }.contains,
                 )) {
                   return colorScheme.primary
-                      .withOpacity(AppUtils.pressStateLayerOpacity);
+                      .withOpacity(AppOpacities.pressStateLayerOpacity);
                 }
                 //default: enabled state
                 return colorScheme.surface;
@@ -53,17 +54,17 @@ class AppElevatedButtonThemeData extends ElevatedButtonThemeData {
                     MaterialState.disabled,
                   }.contains,
                 )) {
-                  return AppUtils.elevationLevel_0;
+                  return AppElevations.elevationLevel_0;
                 }
                 if (states.any(
                   {
                     MaterialState.hovered,
                   }.contains,
                 )) {
-                  return AppUtils.elevationLevel_2;
+                  return AppElevations.elevationLevel_2;
                 }
                 //focused, pressed and enabled states
-                return AppUtils.elevationLevel_1;
+                return AppElevations.elevationLevel_1;
               },
             ),
             textStyle: MaterialStateProperty.resolveWith<TextStyle?>(

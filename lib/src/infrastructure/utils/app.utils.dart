@@ -1,40 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:just_audio/just_audio.dart';
 
+import 'app.sizes.dart';
+
 class AppUtils {
   AppUtils._();
-  static const double _baseSize = 8.0;
-  static const double size_0Pt = 0.0;
-  static const double size_4Pt = _baseSize * 0.5;
-  static const double size_8Pt = _baseSize * 1.0;
-  static const double size_16Pt = _baseSize * 2.0;
-  static const double size_24Pt = _baseSize * 3.0;
-  static const double size_32Pt = _baseSize * 4.0;
-  static const double size_40Pt = _baseSize * 5.0;
-  static const double size_48Pt = _baseSize * 6.0;
-  static const double size_56Pt = _baseSize * 7.0;
-  static const double size_64Pt = _baseSize * 8.0;
-
-  static const double hoverStateLayerOpacity = 8 / 100;
-  static const double focusStateLayerOpacity = 12 / 100;
-  static const double pressStateLayerOpacity = 24 / 100;
-  static const double dragStateLayerOpacity = 16 / 100;
-  static const double disabledStateLayerOpacity = 12 / 100;
-
-  static const double elevationLevel_0 = 0.0;
-  static const double elevationLevel_1 = 1.0;
-  static const double elevationLevel_2 = 3.0;
-  static const double elevationLevel_3 = 6.0;
-  static const double elevationLevel_4 = 8.0;
-  static const double elevationLevel_5 = 12.0;
 
   ///returns a SizedBox of height [size] with a default of AppUtils.mediumSize
-  static Widget verticalSpacer({final double size = size_16Pt}) => SizedBox(
+  static Widget verticalSpacer({final double size = AppSizes.size_16Pt}) =>
+      SizedBox(
         height: size,
       );
 
   ///returns a SizedBox of width [size] with a default of AppUtils.mediumSize
-  static Widget horizontalSpacer({final double size = size_16Pt}) => SizedBox(
+  static Widget horizontalSpacer({final double size = AppSizes.size_16Pt}) =>
+      SizedBox(
         width: size,
       );
 

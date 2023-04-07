@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils/app.utils.dart';
+import '../../app.elevations.dart';
 import '../../app.sizes.dart';
 import '../app.fonts.dart';
 
@@ -10,8 +10,8 @@ class AppAppbarThemeData extends AppBarTheme {
           actionsIconTheme: IconThemeData(color: colorScheme.onSurfaceVariant),
           centerTitle: true,
           color: colorScheme.surface.withOpacity(0.7),
-          elevation: AppUtils.elevationLevel_0,
-          scrolledUnderElevation: AppUtils.elevationLevel_2,
+          elevation: AppElevations.elevationLevel_0,
+          scrolledUnderElevation: AppElevations.elevationLevel_2,
           foregroundColor: colorScheme.onSurface,
           iconTheme: IconThemeData(
             color: colorScheme.onSurfaceVariant,

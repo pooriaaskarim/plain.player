@@ -6,6 +6,7 @@ import '../../application/splash/cubit.splash.dart';
 import '../../application/splash/state/state.splash.dart';
 import '../../infrastructure/repositories/repository.configurations.dart';
 import '../../infrastructure/repositories/repository.settings.dart';
+import '../../infrastructure/utils/app.sizes.dart';
 import '../../infrastructure/utils/app.utils.dart';
 import 'widgets/loading/widget.splash_loading.dart';
 
@@ -33,7 +34,7 @@ class SplashScreen extends StatelessWidget {
               previous.runtimeType != current.runtimeType,
           builder: (final context, final state) {
             final Widget verticalSpacer =
-                AppUtils.verticalSpacer(size: AppUtils.size_64Pt);
+                AppUtils.verticalSpacer(size: AppSizes.size_64Pt);
 
             return Scaffold(
               body: Column(
@@ -70,10 +71,10 @@ class SplashScreen extends StatelessWidget {
       Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.symmetric(
-          vertical: AppUtils.size_0Pt,
-          horizontal: AppUtils.size_16Pt,
+          vertical: AppSizes.size_0Pt,
+          horizontal: AppSizes.size_16Pt,
         ),
-        height: AppUtils.size_48Pt,
+        height: AppSizes.size_48Pt,
         width: MediaQuery.of(context).size.width,
         child: state.widget ?? AppUtils.emptyWidget,
       );

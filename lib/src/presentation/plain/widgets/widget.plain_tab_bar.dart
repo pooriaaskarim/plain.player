@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import '../../../infrastructure/routes/route_names.dart';
-import '../../../infrastructure/utils/app.utils.dart';
+import '../../../infrastructure/routes/app.route_names.dart';
+import '../../../infrastructure/utils/app.sizes.dart';
 
 class PlainTabBar extends StatefulWidget {
   const PlainTabBar({
@@ -20,9 +20,9 @@ class PlainTabBarState extends State<PlainTabBar> {
   @override
   Widget build(final BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    const double tabHeight = AppUtils.size_56Pt;
-    const double inactiveIconSize = AppUtils.size_32Pt;
-    const double activeIconSize = AppUtils.size_24Pt;
+    const double tabHeight = AppSizes.size_56Pt;
+    const double inactiveIconSize = AppSizes.size_32Pt;
+    const double activeIconSize = AppSizes.size_24Pt;
 
     return SizedBox(
       width: screenWidth,

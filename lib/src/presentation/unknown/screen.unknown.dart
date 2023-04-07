@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../infrastructure/utils/app.utils.dart';
+import '../../infrastructure/utils/app.sizes.dart';
 
 class UnknownScreen extends StatelessWidget {
   const UnknownScreen({super.key});
@@ -14,13 +14,13 @@ class UnknownScreen extends StatelessWidget {
         ),
         body: Container(
           alignment: Alignment.center,
-          margin: const EdgeInsetsDirectional.all(AppUtils.size_4Pt),
+          margin: const EdgeInsetsDirectional.all(AppSizes.size_4Pt),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(
                 Icons.info,
-                size: AppUtils.size_32Pt * 2,
+                size: AppSizes.size_32Pt * 2,
               ),
               Text(
                 'Nothing Here!',

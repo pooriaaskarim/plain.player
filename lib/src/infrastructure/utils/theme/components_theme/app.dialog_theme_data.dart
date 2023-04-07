@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils/app.utils.dart';
+import '../../app.elevations.dart';
 import '../app.fonts.dart';
 
 class AppDialogThemeData extends DialogTheme {
@@ -18,7 +18,7 @@ class AppDialogThemeData extends DialogTheme {
           ),
           alignment: AlignmentDirectional.centerStart,
           backgroundColor: colorScheme.surface,
-          elevation: AppUtils.elevationLevel_3,
+          elevation: AppElevations.elevationLevel_3,
           iconColor: colorScheme.secondary,
         );
 }

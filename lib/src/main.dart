@@ -8,8 +8,8 @@ import 'application/plain/states/state.plain.dart';
 import 'infrastructure/repositories/repository.audio.dart';
 import 'infrastructure/repositories/repository.configurations.dart';
 import 'infrastructure/repositories/repository.settings.dart';
-import 'infrastructure/utils/routes/app.route_names.dart';
-import 'infrastructure/utils/routes/app.routes.dart';
+import 'infrastructure/routes/app.route_names.dart';
+import 'infrastructure/routes/app.routes.dart';
 import 'infrastructure/utils/theme/app.theme.dart';
 import 'presentation/splash/screen.splash.dart';
 

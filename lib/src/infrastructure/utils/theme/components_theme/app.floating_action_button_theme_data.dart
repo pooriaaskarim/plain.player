@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils/app.utils.dart';
+import '../../app.elevations.dart';
 import '../../app.sizes.dart';
 import '../app.fonts.dart';
+import '../app.opacities.dart';
 
 class AppFloatingActionButtonThemeData extends FloatingActionButtonThemeData {
   AppFloatingActionButtonThemeData.from(
@@ -11,16 +12,16 @@ class AppFloatingActionButtonThemeData extends FloatingActionButtonThemeData {
           backgroundColor: colorScheme.primaryContainer,
           foregroundColor: colorScheme.onPrimaryContainer,
           focusColor: colorScheme.onPrimaryContainer
-              .withOpacity(AppUtils.focusStateLayerOpacity),
+              .withOpacity(AppOpacities.focusStateLayerOpacity),
           hoverColor: colorScheme.onPrimaryContainer
-              .withOpacity(AppUtils.hoverStateLayerOpacity),
+              .withOpacity(AppOpacities.hoverStateLayerOpacity),
           splashColor: colorScheme.onPrimaryContainer
-              .withOpacity(AppUtils.pressStateLayerOpacity),
-          elevation: AppUtils.elevationLevel_3,
-          hoverElevation: AppUtils.elevationLevel_4,
-          focusElevation: AppUtils.elevationLevel_3,
-          disabledElevation: AppUtils.elevationLevel_1,
-          highlightElevation: AppUtils.elevationLevel_3,
+              .withOpacity(AppOpacities.pressStateLayerOpacity),
+          elevation: AppElevations.elevationLevel_3,
+          hoverElevation: AppElevations.elevationLevel_4,
+          focusElevation: AppElevations.elevationLevel_3,
+          disabledElevation: AppElevations.elevationLevel_1,
+          highlightElevation: AppElevations.elevationLevel_3,
           iconSize: AppSizes.size_32Pt,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSizes.size_56Pt),

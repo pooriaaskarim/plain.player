@@ -2,13 +2,13 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import '../../../infrastructure/utils/app.utils.dart';
+import '../../../infrastructure/utils/app.sizes.dart';
 
 class Loading extends StatefulWidget {
   /// Loading Widget
   const Loading({
     this.color,
-    this.radius = AppUtils.size_24Pt,
+    this.radius = AppSizes.size_24Pt,
     super.key,
   });
 

@@ -6,6 +6,7 @@ import '../../application/settings/cubit.settings.dart';
 import '../../application/settings/state/state.settings.dart';
 import '../../domain/settings/model.theme_config.dart';
 import '../../infrastructure/repositories/repository.settings.dart';
+import '../../infrastructure/utils/app.sizes.dart';
 import '../../infrastructure/utils/app.utils.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -28,7 +29,7 @@ class SettingsScreen extends StatelessWidget {
           child: BlocBuilder<SettingsCubit, SettingsState>(
             builder: (final context, final state) => Container(
               alignment: Alignment.center,
-              margin: const EdgeInsetsDirectional.all(AppUtils.size_4Pt),
+              margin: const EdgeInsetsDirectional.all(AppSizes.size_4Pt),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

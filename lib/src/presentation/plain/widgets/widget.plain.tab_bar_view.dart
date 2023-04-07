@@ -27,7 +27,7 @@ class PlainTabBarView extends StatelessWidget {
         PlayerTab(
           audioPlayer: BlocProvider.of<PlainBloc>(context).audioPlayer,
         ),
-        FoldersTab(),
+        const FoldersTab(),
         // SizedBox.shrink(),
       ];
 }

@@ -7,7 +7,7 @@ import '../../domain/settings/model.settings.dart';
 import '../../infrastructure/exceptions/exceptions.configuration.dart';
 import '../../infrastructure/repositories/repository.configurations.dart';
 import '../../infrastructure/repositories/repository.settings.dart';
-import '../../infrastructure/routes/route_names.dart';
+import '../../infrastructure/routes/app.route_names.dart';
 import '../../infrastructure/utils/app.utils.dart';
 import '../../presentation/splash/widgets/state_widgets/widget.error_state.dart';
 import '../../presentation/splash/widgets/state_widgets/widget.first_launch.dart';
