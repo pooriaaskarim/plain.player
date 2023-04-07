@@ -6,8 +6,6 @@ import '../../../domain/settings/model.settings.dart';
 part 'event.app_launch.dart';
 part 'event.load_configurations.dart';
 part 'event.load_settings.dart';
-part 'event.manage_audio_library.dart';
-part 'event.start_app.dart';
 
 abstract class PlainEvent extends Equatable {
   const PlainEvent();
@@ -36,8 +34,6 @@ abstract class PlainEvent extends Equatable {
     final bool dismissDatabase = false,
   }) =>
       OnLoadConfigurations._(dismissDatabase: dismissDatabase);
-  // factory PlainEvent.startApp() => const OnStartApp._();
-  // factory PlainEvent.manageAudioLibrary() => const OnManageAudioLibrary._();
 
   @override
   List<Object?> get props => [];
