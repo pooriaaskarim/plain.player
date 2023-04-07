@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../application/plain/bloc.plain.dart';
 import '../tabs/folders/tab.folders.dart';
-import '../tabs/plain.tab.i.dart';
+import '../tabs/i.plain.tab.dart';
 import '../tabs/player/tab.player.dart';
 
 class PlainTabBarView extends StatelessWidget {
