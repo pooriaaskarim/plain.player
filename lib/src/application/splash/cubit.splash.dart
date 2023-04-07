@@ -12,8 +12,8 @@ import '../../infrastructure/utils/app.utils.dart';
 import '../../presentation/splash/widgets/state_widgets/widget.error_state.dart';
 import '../../presentation/splash/widgets/state_widgets/widget.first_launch.dart';
 import '../plain/bloc.plain.dart';
-import '../plain/event.plain.dart' as plain_event;
-import 'state.splash.dart';
+import '../plain/events/event.plain.dart' as plain_event;
+import 'state/state.splash.dart';
 
 class SplashCubit extends Cubit<SplashState> {
   SplashCubit({
