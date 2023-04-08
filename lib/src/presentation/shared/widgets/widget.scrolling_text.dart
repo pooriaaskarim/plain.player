@@ -35,7 +35,7 @@ class _ScrollingTextState extends State<ScrollingText> {
   void initState() {
     super.initState();
     _availableCharacters =
-        widget.size.width ~/ (widget.textStyle.fontSize! / 1.9);
+        widget.size.width ~/ (widget.textStyle.fontSize! / 1.8);
     _currentPosition = 0;
     _scrollCount = 0;
     _isScrolling = false;
@@ -49,6 +49,9 @@ class _ScrollingTextState extends State<ScrollingText> {
   Future<void> startScrolling() async {
     _isScrolling = true;
     await Future.delayed(_scrollInterval, () async {
+      if (_currentPosition == 0 && _scrollCount != 0) {
+        await AppUtils.fakeDelay();
+      }
       if (_currentPosition + _availableCharacters < widget.text.length) {
         _currentPosition++;
       } else {
