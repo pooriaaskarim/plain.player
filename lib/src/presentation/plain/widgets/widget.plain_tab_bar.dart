@@ -20,11 +20,24 @@ class PlainTabBarState extends State<PlainTabBar> {
   @override
   Widget build(final BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    const double tabHeight = AppSizes.points_56;
+    const double tabHeight = AppSizes.points_48;
     const double inactiveIconSize = AppSizes.points_32;
     const double activeIconSize = AppSizes.points_24;
 
-    return SizedBox(
+    return Container(
+      padding: EdgeInsets.zero,
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(
+            width: 1,
+            style: BorderStyle.solid,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
+          right: BorderSide.none,
+          left: BorderSide.none,
+          bottom: BorderSide.none,
+        ),
+      ),
       width: screenWidth,
       child: Row(
         mainAxisSize: MainAxisSize.max,
@@ -33,6 +46,7 @@ class PlainTabBarState extends State<PlainTabBar> {
           SizedBox(
             width: screenWidth - (1.5 * inactiveIconSize),
             child: TabBar(
+              indicatorSize: TabBarIndicatorSize.tab,
               automaticIndicatorColorAdjustment: true,
               physics: const NeverScrollableScrollPhysics(),
               controller: widget.tabController,
