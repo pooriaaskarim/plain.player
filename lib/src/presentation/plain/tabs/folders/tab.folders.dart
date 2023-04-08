@@ -60,7 +60,8 @@ class _FoldersTabState extends State<FoldersTab>
           ),
           body: isLoadingFolders
               ? Center(
-                  child: Loading(color: Theme.of(context).colorScheme.primary))
+                  child: Loading(color: Theme.of(context).colorScheme.primary),
+                )
               : (folders.isNotEmpty)
                   ? FoldersList(
                       folders: folders,
