@@ -14,7 +14,6 @@ class FoldersList extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => ListView.builder(
-        shrinkWrap: true,
         primary: true,
         scrollDirection: Axis.vertical,
         itemBuilder: (final context, final index) => Padding(

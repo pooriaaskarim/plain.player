@@ -76,7 +76,7 @@ class _PlainScreenState extends State<PlainScreen>
       _hasFAB
           ? AnimatedSlide(
               duration: animationDuration,
-              offset: _showFAB ? Offset.zero : const Offset(0, 0.5),
+              offset: _showFAB ? Offset.zero : const Offset(0, 1),
               child: AnimatedOpacity(
                 duration: animationDuration,
                 opacity: _showFAB ? 1 : 0,

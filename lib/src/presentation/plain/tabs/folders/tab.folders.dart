@@ -58,15 +58,14 @@ class _FoldersTabState extends State<FoldersTab>
           appBar: AppBar(
             title: Text('${folders.length} Folders'),
           ),
-          body: Center(
-            child: isLoadingFolders
-                ? Loading(color: Theme.of(context).colorScheme.primary)
-                : (folders.isNotEmpty)
-                    ? FoldersList(
-                        folders: folders,
-                      )
-                    : const Text('No folders added'),
-          ),
+          body: isLoadingFolders
+              ? Center(
+                  child: Loading(color: Theme.of(context).colorScheme.primary))
+              : (folders.isNotEmpty)
+                  ? FoldersList(
+                      folders: folders,
+                    )
+                  : const Center(child: Text('No folders added')),
         );
       },
     );
