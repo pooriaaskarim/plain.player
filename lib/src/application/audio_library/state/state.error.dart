@@ -9,5 +9,6 @@ class ErrorState extends AudioLibraryState {
     super.isLoadingFolders = false,
     super.isLoadingGenres = false,
     super.isLoadingTracks = false,
+    super.isScanning = false,
   });
 }

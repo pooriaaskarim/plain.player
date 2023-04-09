@@ -17,6 +17,7 @@ abstract class AudioLibraryState extends Equatable {
     this.isLoadingFolders = false,
     this.isLoadingGenres = false,
     this.isLoadingTracks = false,
+    this.isScanning = true,
   });
 
   factory AudioLibraryState.defaultState({
@@ -27,6 +28,7 @@ abstract class AudioLibraryState extends Equatable {
     final bool isLoadingFolders = false,
     final bool isLoadingArtists = false,
     final bool isLoadingTracks = false,
+    final bool isScanning = false,
   }) =>
       DefaultState._(
         folders: folders,
@@ -36,6 +38,7 @@ abstract class AudioLibraryState extends Equatable {
         isLoadingFolders: isLoadingFolders,
         isLoadingGenres: isLoadingGenres,
         isLoadingTracks: isLoadingTracks,
+        isScanning: isScanning,
       );
   factory AudioLibraryState.loading({
     required final List<Folder> folders,
@@ -45,6 +48,7 @@ abstract class AudioLibraryState extends Equatable {
     final bool isLoadingFolders = false,
     final bool isLoadingArtists = false,
     final bool isLoadingTracks = false,
+    final bool isScanning = false,
   }) =>
       LoadingState._(
         folders: folders,
@@ -54,6 +58,7 @@ abstract class AudioLibraryState extends Equatable {
         isLoadingFolders: isLoadingFolders,
         isLoadingGenres: isLoadingGenres,
         isLoadingTracks: isLoadingTracks,
+        isScanning: isScanning,
       );
   factory AudioLibraryState.error({
     required final List<Folder> folders,
@@ -63,6 +68,7 @@ abstract class AudioLibraryState extends Equatable {
     final bool isLoadingFolders = false,
     final bool isLoadingArtists = false,
     final bool isLoadingTracks = false,
+    final bool isScanning = false,
   }) =>
       ErrorState._(
         folders: folders,
@@ -72,6 +78,7 @@ abstract class AudioLibraryState extends Equatable {
         isLoadingFolders: isLoadingFolders,
         isLoadingGenres: isLoadingGenres,
         isLoadingTracks: isLoadingTracks,
+        isScanning: isScanning,
       );
 
   final List<Artist>? artists;
@@ -81,6 +88,7 @@ abstract class AudioLibraryState extends Equatable {
   final bool isLoadingFolders;
   final bool isLoadingArtists;
   final bool isLoadingTracks;
+  final bool isScanning;
   @override
   List<Object?> get props => [
         artists,
@@ -90,5 +98,6 @@ abstract class AudioLibraryState extends Equatable {
         isLoadingFolders,
         isLoadingGenres,
         isLoadingTracks,
+        isScanning,
       ];
 }
