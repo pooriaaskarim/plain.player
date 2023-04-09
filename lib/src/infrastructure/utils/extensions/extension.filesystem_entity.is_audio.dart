@@ -26,6 +26,8 @@ extension IsAudio on FileSystemEntity {
         'audio/raw',
         'audio/webm',
       ];
+  bool get isDirectory =>
+      FileSystemEntity.typeSync(path) == FileSystemEntityType.directory;
   bool get isAudio =>
       lookupMimeType(path) != null &&
       lookupMimeType(path)!.toLowerCase().startsWith('audio/');
