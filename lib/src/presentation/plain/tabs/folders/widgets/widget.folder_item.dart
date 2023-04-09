@@ -4,6 +4,7 @@ import '../../../../../domain/audio_library/model.folder.dart';
 import '../../../../../infrastructure/utils/app.sizes.dart';
 import '../../../../shared/widgets/widget.scrolling_text.dart';
 import 'dialog.delete_folder.dart';
+import 'dialog.folder_content.dart';
 
 class FolderItem extends StatelessWidget {
   const FolderItem({
@@ -22,7 +23,7 @@ class FolderItem extends StatelessWidget {
       onPressed: () {
         showDialog(
           context: context,
-          builder: (final context) => ShowFolderDialog(folder: folder),
+          builder: (final context) => FolderContentDialog(folder: folder),
         );
       },
       style: ButtonStyle(
@@ -100,36 +101,4 @@ class FolderItem extends StatelessWidget {
       ),
     );
   }
-}
-
-class ShowFolderDialog extends StatelessWidget {
-  const ShowFolderDialog({
-    required this.folder,
-    super.key,
-  });
-
-  final Folder folder;
-
-  @override
-  Widget build(final BuildContext context) => Dialog.fullscreen(
-        child: Scaffold(
-          appBar: AppBar(
-            title: ScrollingText(
-              text: folder.path.split('/').last,
-              textStyle: Theme.of(context).appBarTheme.titleTextStyle!,
-              size: MediaQuery.of(context).size,
-            ),
-          ),
-          body: ListView.builder(
-            shrinkWrap: true,
-            itemCount: folder.directory.listSync().length,
-            itemBuilder: (final context, final index) => OutlinedButton(
-              onPressed: null,
-              child: Text(
-                folder.directory.listSync()[index].path.split('/').last,
-              ),
-            ),
-          ),
-        ),
-      );
 }

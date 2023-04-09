@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../application/plain/bloc.plain.dart';
 import 'widgets/widget.plain.tab_bar_view.dart';
 import 'widgets/widget.plain_tab_bar.dart';
 
@@ -36,6 +38,7 @@ class _PlainScreenState extends State<PlainScreen>
         _showFAB = true;
         setState(() {});
       });
+    BlocProvider.of<PlainBloc>(context).tabController = _tabController;
     plainTabBarView = PlainTabBarView(tabController: _tabController);
     plainTabBar = PlainTabBar(
       key: tabBarKey,
@@ -52,6 +55,7 @@ class _PlainScreenState extends State<PlainScreen>
   @override
   Widget build(final BuildContext context) {
     const Duration animationDuration = Duration(milliseconds: 300);
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
         statusBarIconBrightness:
@@ -69,7 +73,7 @@ class _PlainScreenState extends State<PlainScreen>
     );
   }
 
-  AnimatedSlide? _getFloatingActionButton(
+  Widget? _getFloatingActionButton(
     final Duration animationDuration,
     final BuildContext context,
   ) =>

@@ -43,15 +43,43 @@ class _PlayerTabState extends State<PlayerTab>
   @override
   Widget build(final BuildContext context) {
     super.build(context);
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        PlainButtonWidget(
-          audioPlayer: widget.audioPlayer,
+    int willPopCount = 0;
+
+    return Scaffold(
+      body: WillPopScope(
+        onWillPop: () async {
+          willPopCount++;
+          if (willPopCount == 2) {
+            return true;
+          }
+          await ScaffoldMessenger.of(context)
+              .showSnackBar(
+                SnackBar(
+                  duration: const Duration(seconds: 2),
+                  behavior: SnackBarBehavior.floating,
+                  content: Text(
+                    'Press back again to close app.',
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                  ),
+                ),
+              )
+              .closed
+              .then((final value) => willPopCount = 0);
+          return false;
+        },
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            PlainButtonWidget(
+              audioPlayer: widget.audioPlayer,
+            ),
+            SeekingBarWidget(audioPlayer: widget.audioPlayer),
+          ],
         ),
-        SeekingBarWidget(audioPlayer: widget.audioPlayer),
-      ],
+      ),
     );
   }
 
