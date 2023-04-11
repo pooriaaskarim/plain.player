@@ -34,7 +34,6 @@ class PlainBloc extends Bloc<PlainEvent, PlainState> {
   final AudioLibraryCubit audioLibraryHandler;
   final SettingsRepository _settingsRepository;
   final ConfigurationsRepository _configurationsRepository;
-  late final TabController tabController;
 
   FutureOr<void> _launchApp(final event, final emit) async {}
 
