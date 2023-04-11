@@ -16,6 +16,9 @@ class FoldersList extends StatelessWidget {
   Widget build(final BuildContext context) => ListView.builder(
         primary: true,
         scrollDirection: Axis.vertical,
+        physics: (folders.length > 7)
+            ? const AlwaysScrollableScrollPhysics()
+            : const FixedExtentScrollPhysics(),
         itemBuilder: (final context, final index) => Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: AppSizes.points_0,

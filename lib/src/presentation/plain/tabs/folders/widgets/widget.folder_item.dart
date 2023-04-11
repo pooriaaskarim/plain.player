@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../../../domain/audio_library/model.folder.dart';
 import '../../../../../infrastructure/utils/app.sizes.dart';
 import '../../../../shared/widgets/widget.scrolling_text.dart';
+import '../tab.folders.dart';
 import 'dialog.delete_folder.dart';
-import 'dialog.folder_content.dart';
 
 class FolderItem extends StatelessWidget {
   const FolderItem({
@@ -21,10 +21,10 @@ class FolderItem extends StatelessWidget {
             );
     return ElevatedButton(
       onPressed: () {
-        showDialog(
-          context: context,
-          builder: (final context) => FolderContentDialog(folder: folder),
-        );
+        FoldersTab.of(context)
+          ..currentFolder = folder
+          ..showFAB = false
+          ..setState(() {});
       },
       style: ButtonStyle(
         shape: MaterialStateProperty.all(
@@ -33,7 +33,10 @@ class FolderItem extends StatelessWidget {
         side: MaterialStateProperty.all(
           BorderSide(
             width: 1,
-            color: Theme.of(context).colorScheme.tertiary,
+            color: Theme.of(context)
+                .colorScheme
+                .onTertiaryContainer
+                .withOpacity(.8),
           ),
         ),
       ),
@@ -44,7 +47,10 @@ class FolderItem extends StatelessWidget {
             Icons.folder,
             opticalSize: AppSizes.points_32,
             size: AppSizes.points_32,
-            color: Theme.of(context).colorScheme.tertiary,
+            color: Theme.of(context)
+                .colorScheme
+                .onTertiaryContainer
+                .withOpacity(.8),
           ),
           Expanded(
             child: LayoutBuilder(
@@ -74,6 +80,7 @@ class FolderItem extends StatelessWidget {
                       text:
                           folder.directory.absolute.path.replaceFirst('/', ''),
                       textStyle: textStyle,
+                      maxLines: 2,
                       size: Size(
                         constraints.maxWidth,
                         constraints.maxHeight,
@@ -93,7 +100,7 @@ class FolderItem extends StatelessWidget {
               );
             },
             icon: const Icon(
-              Icons.clear,
+              Icons.delete,
               size: AppSizes.points_24,
             ),
           ),

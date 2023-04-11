@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../application/audio_library/cubit.audio_library.dart';
@@ -6,7 +7,9 @@ import '../../../../application/audio_library/state/state.audio_library.dart';
 import '../../../../application/plain/bloc.plain.dart';
 import '../../../../domain/audio_library/model.folder.dart';
 import '../../../shared/widgets/widget.loading.dart';
+import '../../screen.plain.dart';
 import '../i.plain.tab.dart';
+import 'widgets/widget.folder_content_list.dart';
 import 'widgets/widget.folders_list.dart';
 
 class FoldersTab extends PlainTab {
@@ -134,10 +137,7 @@ class FoldersTabState extends PlainTabState<FoldersTab> {
       ),
     );
   }
-}
 
-class _FoldersTabState extends State<FoldersTab>
-    with AutomaticKeepAliveClientMixin {
   @override
   AppBar? get appBar => AppBar(
         title: Text(appBarTitle),
