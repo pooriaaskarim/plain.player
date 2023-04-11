@@ -9,13 +9,99 @@ import '../../../shared/widgets/widget.loading.dart';
 import '../i.plain.tab.dart';
 import 'widgets/widget.folders_list.dart';
 
-class FoldersTab extends StatefulWidget implements PlainTab {
-  const FoldersTab({super.key});
+class FoldersTab extends PlainTab {
+  const FoldersTab({
+    required super.key,
+  });
+  static FoldersTabState of(final BuildContext context) {
+    assert(context != null);
+    assert(context.findAncestorWidgetOfExactType<FoldersTab>() != null);
+
+    final FoldersTabData data =
+        context.dependOnInheritedWidgetOfExactType<FoldersTabData>()!;
+    return data.state;
+  }
 
   @override
-  State<FoldersTab> createState() => _FoldersTabState();
+  PlainTabState<FoldersTab> createState() => FoldersTabState();
+}
+
+class FoldersTabState extends PlainTabState<FoldersTab> {
+  bool showFAB = true;
+  final Duration _dismissFABAnimationDuration =
+      const Duration(milliseconds: 300);
+  final GlobalKey<FolderContentListState> _foldersContentListKey =
+      GlobalKey<FolderContentListState>();
+  Folder? currentFolder;
+  String? get contentTitle => currentFolder?.path.split('/').last;
+  String get appBarTitle => contentTitle ?? 'Folders';
+  PlainScreenState? parentState;
   @override
-  Widget? floatingActionButton(final BuildContext context) {
+  void initState() {
+    BlocProvider.of<PlainBloc>(context).audioLibraryHandler.loadFolders();
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    parentState = PlainScreen.of(context);
+
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(final BuildContext context) {
+    super.build(context);
+
+    return BlocBuilder<AudioLibraryCubit, AudioLibraryState>(
+      builder: (final _, final state) {
+        final List<Folder> folders = state.folders;
+        final bool isLoadingFolders = state.isLoadingFolders;
+        return NotificationListener<UserScrollNotification>(
+          onNotification: (final notification) {
+            _dismissFABOnFoldersListScroll(notification);
+            return true;
+          },
+          child: isLoadingFolders
+              ? Center(
+                  child: Loading(color: Theme.of(context).colorScheme.primary),
+                )
+              : (folders.isNotEmpty)
+                  ? FoldersTabData(
+                      state: this,
+                      child: (currentFolder != null)
+                          ? FolderContentList(
+                              key: _foldersContentListKey,
+                              folder: currentFolder!,
+                            )
+                          : FoldersList(
+                              folders: folders,
+                            ),
+                    )
+                  : const Center(child: Text('No folders added')),
+        );
+      },
+    );
+  }
+
+  void _dismissFABOnFoldersListScroll(
+      final UserScrollNotification notification) {
+    if (currentFolder == null) {
+      final ScrollDirection direction = notification.direction;
+
+      if (direction == ScrollDirection.reverse) {
+        showFAB = false;
+      } else if (direction == ScrollDirection.forward) {
+        showFAB = true;
+      } else if (direction == ScrollDirection.idle) {
+        setState(() {});
+        parentState?.setState(() {});
+      }
+    }
+  }
+
+  @override
+  Widget? get floatingActionButton {
     Future<void> onPressed() async {
       await BlocProvider.of<PlainBloc>(context)
           .audioLibraryHandler
@@ -28,16 +114,24 @@ class FoldersTab extends StatefulWidget implements PlainTab {
     }
 
     return BlocBuilder<AudioLibraryCubit, AudioLibraryState>(
-      builder: (final context, final state) => state.folders.isEmpty
-          ? FloatingActionButton.extended(
-              onPressed: onPressed,
-              label: const Text('Add a Folder'),
-              icon: const Icon(Icons.add),
-            )
-          : FloatingActionButton(
-              onPressed: onPressed,
-              child: const Icon(Icons.add),
-            ),
+      builder: (final _, final state) => AnimatedSlide(
+        duration: _dismissFABAnimationDuration,
+        offset: showFAB ? Offset.zero : const Offset(0, 1),
+        child: AnimatedOpacity(
+          duration: _dismissFABAnimationDuration,
+          opacity: showFAB ? 1 : 0,
+          child: state.folders.isEmpty
+              ? FloatingActionButton.extended(
+                  onPressed: onPressed,
+                  label: const Text('Add a Folder'),
+                  icon: const Icon(Icons.add),
+                )
+              : FloatingActionButton(
+                  onPressed: onPressed,
+                  child: const Icon(Icons.add),
+                ),
+        ),
+      ),
     );
   }
 }
@@ -45,38 +139,20 @@ class FoldersTab extends StatefulWidget implements PlainTab {
 class _FoldersTabState extends State<FoldersTab>
     with AutomaticKeepAliveClientMixin {
   @override
-  Widget build(final BuildContext context) {
-    super.build(context);
-    BlocProvider.of<PlainBloc>(context).audioLibraryHandler.loadFolders();
+  AppBar? get appBar => AppBar(
+        title: Text(appBarTitle),
+      );
 
-    return BlocBuilder<AudioLibraryCubit, AudioLibraryState>(
-      builder: (final context, final state) {
-        final List<Folder> folders = state.folders;
-        final bool isLoadingFolders = state.isLoadingFolders;
-
-        return Scaffold(
-          appBar: AppBar(
-            title: Text('${folders.length} Folders'),
-          ),
-          body: WillPopScope(
-            onWillPop: () async {
-              BlocProvider.of<PlainBloc>(context).tabController.animateTo(0);
-              return false;
-            },
-            child: isLoadingFolders
-                ? Center(
-                    child:
-                        Loading(color: Theme.of(context).colorScheme.primary),
-                  )
-                : (folders.isNotEmpty)
-                    ? FoldersList(
-                        folders: folders,
-                      )
-                    : const Center(child: Text('No folders added')),
-          ),
-        );
-      },
-    );
+  @override
+  Future<bool> get onWillPop async {
+    if (currentFolder != null) {
+      _foldersContentListKey.currentState!.handleDirectory(
+        _foldersContentListKey.currentState!.currentDirectory.parent,
+      );
+    } else {
+      PlainScreen.of(context).tabController.animateTo(0);
+    }
+    return false;
   }
 
   @override
