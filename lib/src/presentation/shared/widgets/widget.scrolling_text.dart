@@ -35,7 +35,8 @@ class _ScrollingTextState extends State<ScrollingText> {
   void initState() {
     super.initState();
     _availableCharacters =
-        widget.size.width ~/ (widget.textStyle.fontSize! / 1.8);
+        (widget.size.width ~/ (widget.textStyle.fontSize! / 2)) *
+            widget.maxLines;
     _currentPosition = 0;
     _scrollCount = 0;
     _isScrolling = false;
@@ -96,7 +97,6 @@ class _ScrollingTextState extends State<ScrollingText> {
                   ),
                   style: widget.textStyle,
                   overflow: TextOverflow.visible,
-                  softWrap: true,
                   maxLines: widget.maxLines,
                 ),
               ),
