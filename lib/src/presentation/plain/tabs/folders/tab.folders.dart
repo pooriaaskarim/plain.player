@@ -159,6 +159,18 @@ class _FoldersTabState extends State<FoldersTab>
   bool get wantKeepAlive => true;
 }
 
+class FoldersTabData extends InheritedWidget {
+  const FoldersTabData({
+    required super.child,
+    required this.state,
+    super.key,
+  });
+
+  final FoldersTabState state;
+
+  @override
+  bool updateShouldNotify(covariant final InheritedWidget oldWidget) => false;
+}
 // ElevatedButton(
 // child: const Icon(Icons.add),
 // onPressed: () async {
