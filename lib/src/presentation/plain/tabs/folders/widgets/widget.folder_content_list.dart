@@ -61,7 +61,8 @@ class FolderContentListState extends State<FolderContentList> {
         (final a, final b) => a.path.compareTo(b.path),
       )
       ..removeWhere(
-          (final element) => element.path.split('/').last.startsWith('.'));
+        (final element) => element.path.split('/').last.startsWith('.'),
+      );
     if (currentDirectory.path != rootDirectory.path) {
       directoryTree.insert(0, currentDirectory.parent);
     }

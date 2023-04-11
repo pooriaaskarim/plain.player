@@ -17,8 +17,10 @@ class FoldersTab extends PlainTab {
     required super.key,
   });
   static FoldersTabState of(final BuildContext context) {
-    assert(context != null);
-    assert(context.findAncestorWidgetOfExactType<FoldersTab>() != null);
+    assert(
+      context.findAncestorWidgetOfExactType<FoldersTab>() != null,
+      'Could not find a FoldersTab Element in the context widget tree.',
+    );
 
     final FoldersTabData data =
         context.dependOnInheritedWidgetOfExactType<FoldersTabData>()!;
@@ -88,7 +90,8 @@ class FoldersTabState extends PlainTabState<FoldersTab> {
   }
 
   void _dismissFABOnFoldersListScroll(
-      final UserScrollNotification notification) {
+    final UserScrollNotification notification,
+  ) {
     if (currentFolder == null) {
       final ScrollDirection direction = notification.direction;
 

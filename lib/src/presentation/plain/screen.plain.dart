@@ -12,8 +12,10 @@ import 'widgets/widget.plain_tab_bar.dart';
 class PlainScreen extends StatefulWidget {
   const PlainScreen({super.key});
   static PlainScreenState of(final BuildContext context) {
-    assert(context != null);
-    assert(context.findAncestorWidgetOfExactType<PlainScreen>() != null);
+    assert(
+      context.findAncestorWidgetOfExactType<PlainScreen>() != null,
+      'Could not find a PlainScreen Element in the context widget tree.',
+    );
 
     final PlainScreenData data =
         context.dependOnInheritedWidgetOfExactType<PlainScreenData>()!;
