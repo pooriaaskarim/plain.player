@@ -31,7 +31,7 @@ class PlainTabBarState extends State<PlainTabBar> {
           top: BorderSide(
             width: 1,
             style: BorderStyle.solid,
-            color: Theme.of(context).colorScheme.onSurface,
+            color: Theme.of(context).colorScheme.primary,
           ),
           right: BorderSide.none,
           left: BorderSide.none,
