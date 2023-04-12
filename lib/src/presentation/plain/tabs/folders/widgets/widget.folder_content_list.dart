@@ -58,7 +58,7 @@ class FolderContentListState extends State<FolderContentList> {
   Widget build(final BuildContext context) {
     final List<FileSystemEntity> directoryTree = currentDirectory.listSync()
       ..sort(
-        (final a, final b) => a.path.compareTo(b.path),
+        (final a, final b) => a.isAudio ? 1 : 0,
       )
       ..removeWhere(
         (final element) => element.path.split('/').last.startsWith('.'),
