@@ -20,6 +20,29 @@ class FolderItem extends StatelessWidget {
               color: Theme.of(context).colorScheme.onBackground,
             );
     return ElevatedButton(
+      onLongPress: () => showDialog(
+        context: context,
+        builder: (final context) => ListView(
+          scrollDirection: Axis.vertical,
+          children: [
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.of(context).pop();
+                showDialog(
+                  context: context,
+                  builder: (final context) =>
+                      DeleteFolderDialog(folder: folder),
+                );
+              },
+              label: Text('Delete $folderName'),
+              icon: const Icon(
+                Icons.delete,
+                size: AppSizes.points_24,
+              ),
+            ),
+          ],
+        ),
+      ),
       onPressed: () {
         FoldersTab.of(context)
           ..currentFolder = folder
@@ -64,7 +87,7 @@ class FolderItem extends StatelessWidget {
                       AppSizes.points_4,
                     ),
                     child: ScrollingText(
-                      text: folder.path.split('/').last,
+                      text: folderName,
                       textStyle: textStyle!,
                       size: Size(
                         constraints.maxWidth,
@@ -91,21 +114,10 @@ class FolderItem extends StatelessWidget {
               ),
             ),
           ),
-          IconButton(
-            visualDensity: VisualDensity.compact,
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (final context) => DeleteFolderDialog(folder: folder),
-              );
-            },
-            icon: const Icon(
-              Icons.delete,
-              size: AppSizes.points_24,
-            ),
-          ),
         ],
       ),
     );
   }
+
+  String get folderName => folder.path.split('/').last;
 }
