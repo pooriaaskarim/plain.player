@@ -59,7 +59,7 @@ class FolderContentFolderItem extends StatelessWidget {
               builder: (final context, final constraints) {
                 final String label =
                     (directory.path == currentDirectory.parent.path)
-                        ? '../${directory.path.split('/').last}'
+                        ? '../${currentDirectory.path.split('/').last}'
                         : directory.path.split('/').last;
 
                 return Column(
