@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../app.elevations.dart';
+import '../app.elevations.dart';
 import '../app.fonts.dart';
 import '../app.opacities.dart';
 

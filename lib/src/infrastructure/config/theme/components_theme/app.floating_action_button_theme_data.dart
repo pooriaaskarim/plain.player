@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../app.elevations.dart';
-import '../../app.sizes.dart';
+import '../../../utils/app.sizes.dart';
+import '../app.elevations.dart';
 import '../app.fonts.dart';
 import '../app.opacities.dart';
 

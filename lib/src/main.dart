@@ -5,12 +5,12 @@ import 'package:just_audio/just_audio.dart';
 import 'application/audio_library/cubit.audio_library.dart';
 import 'application/plain/bloc.plain.dart';
 import 'application/plain/states/state.plain.dart';
+import 'infrastructure/config/routes/app.route_names.dart';
+import 'infrastructure/config/routes/app.routes.dart';
+import 'infrastructure/config/theme/app.theme.dart';
 import 'infrastructure/repositories/repository.audio.dart';
 import 'infrastructure/repositories/repository.configurations.dart';
 import 'infrastructure/repositories/repository.settings.dart';
-import 'infrastructure/routes/app.route_names.dart';
-import 'infrastructure/routes/app.routes.dart';
-import 'infrastructure/utils/theme/app.theme.dart';
 import 'presentation/splash/screen.splash.dart';
 
 void main() async {
@@ -47,12 +47,13 @@ class PlainApp extends StatelessWidget {
                 audioRepository:
                     RepositoryProvider.of<AudioRepository>(context),
               ),
+              lazy: true,
             ),
             BlocProvider(
               create: (final context) => PlainBloc(
                 audioPlayer: AudioPlayer(),
-                audioLibraryHandler:
-                    BlocProvider.of<AudioLibraryCubit>(context),
+                // audioLibraryHandler:
+                //     BlocProvider.of<AudioLibraryCubit>(context),
                 settingsRepository:
                     RepositoryProvider.of<SettingsRepository>(context),
                 configurationsRepository:
