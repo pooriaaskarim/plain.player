@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../application/audio_library/cubit.audio_library.dart';
 import '../../../../application/audio_library/state/state.audio_library.dart';
-import '../../../../application/plain/bloc.plain.dart';
 import '../../../../domain/audio_library/model.folder.dart';
+import '../../../../infrastructure/exceptions/exceptions.storage.dart';
 import '../../../shared/widgets/widget.loading.dart';
 import '../../screen.plain.dart';
 import '../i.plain.tab.dart';
@@ -37,13 +37,13 @@ class FoldersTabState extends PlainTabState<FoldersTab> {
       const Duration(milliseconds: 300);
   final GlobalKey<FolderContentListState> _foldersContentListKey =
       GlobalKey<FolderContentListState>();
-  Folder? currentFolder;
-  String? get contentTitle => currentFolder?.path.split('/').last;
+  Folder? openedFolder;
+  String? get contentTitle => openedFolder?.path.split('/').last;
   String get appBarTitle => contentTitle ?? 'Folders';
   PlainScreenState? parentState;
   @override
   void initState() {
-    BlocProvider.of<PlainBloc>(context).audioLibraryHandler.loadFolders();
+    BlocProvider.of<AudioLibraryCubit>(context).loadFolders();
     super.initState();
   }
 
@@ -74,10 +74,10 @@ class FoldersTabState extends PlainTabState<FoldersTab> {
               : (folders.isNotEmpty)
                   ? FoldersTabData(
                       state: this,
-                      child: (currentFolder != null)
+                      child: (openedFolder != null)
                           ? FolderContentList(
                               key: _foldersContentListKey,
-                              folder: currentFolder!,
+                              folder: openedFolder!,
                             )
                           : FoldersList(
                               folders: folders,
@@ -92,7 +92,7 @@ class FoldersTabState extends PlainTabState<FoldersTab> {
   void _dismissFABOnFoldersListScroll(
     final UserScrollNotification notification,
   ) {
-    if (currentFolder == null) {
+    if (openedFolder == null) {
       final ScrollDirection direction = notification.direction;
 
       if (direction == ScrollDirection.reverse) {
@@ -109,14 +109,41 @@ class FoldersTabState extends PlainTabState<FoldersTab> {
   @override
   Widget? get floatingActionButton {
     Future<void> onPressed() async {
-      await BlocProvider.of<PlainBloc>(context)
-          .audioLibraryHandler
-          .addFolder()
-          .then((final value) {
-        if (value != null) {
-          BlocProvider.of<PlainBloc>(context).audioLibraryHandler.loadFolders();
+      final audioLibraryCubit = BlocProvider.of<AudioLibraryCubit>(context);
+      final scaffoldMessengerState = ScaffoldMessenger.of(context);
+      int? folderID;
+      final String? folderPath = await audioLibraryCubit.chooseFolder();
+      if (folderPath == null) {
+        return;
+      } else {
+        final Folder folder = Folder(path: folderPath);
+        try {
+          folderID = await audioLibraryCubit.addFolder(folder);
+        } on StorageException catch (exception) {
+          if (exception is FolderIsSubDirectoryOfException ||
+              exception is FolderAlreadyExistsException) {
+            scaffoldMessengerState.showSnackBar(
+              SnackBar(
+                content: Text(exception.message),
+              ),
+            );
+          }
+          if (exception is FolderHasSubDirectoriesException) {
+            scaffoldMessengerState.showSnackBar(
+              SnackBar(
+                content: Text('${exception.message}'
+                    '\nOmitting sub-Directories'
+                    ' and replacing "${folderPath.split('/').last}"'),
+              ),
+            );
+            await audioLibraryCubit.deleteAllFolders(exception.subDirectories);
+            folderID = await audioLibraryCubit.addFolder(folder);
+          }
         }
-      });
+      }
+      if (folderID != null) {
+        await audioLibraryCubit.loadFolders();
+      }
     }
 
     return BlocBuilder<AudioLibraryCubit, AudioLibraryState>(
@@ -144,11 +171,23 @@ class FoldersTabState extends PlainTabState<FoldersTab> {
   @override
   AppBar? get appBar => AppBar(
         title: Text(appBarTitle),
+        actions: [
+          TextButton(
+            onPressed: () =>
+                BlocProvider.of<AudioLibraryCubit>(context).clear(),
+            child: const Text('Clear Db'),
+          ),
+          TextButton(
+            onPressed: () =>
+                BlocProvider.of<AudioLibraryCubit>(context).logDB(),
+            child: const Text('Log Db'),
+          ),
+        ],
       );
 
   @override
   Future<bool> get onWillPop async {
-    if (currentFolder != null) {
+    if (openedFolder != null) {
       _foldersContentListKey.currentState!.handleDirectory(
         _foldersContentListKey.currentState!.currentDirectory.parent,
       );
@@ -174,66 +213,3 @@ class FoldersTabData extends InheritedWidget {
   @override
   bool updateShouldNotify(covariant final InheritedWidget oldWidget) => false;
 }
-// ElevatedButton(
-// child: const Icon(Icons.add),
-// onPressed: () async {
-// final String? directory =
-//     await FilePicker.platform.getDirectoryPath();
-// if (directory != null) {
-// await audioRepository.clear();
-// await AppUtils.fakeDelay();
-// Set<String> mimes = {};
-// Set<String> mimesSup = {};
-//
-// await for (FileSystemEntity entity in Directory(directory)
-//     .list(recursive: true, followLinks: false)) {
-// // final FileSystemEntityType type =
-// //     await FileSystemEntity.type(entity.path);
-// mimes.add(lookupMimeType(entity.path) ?? '');
-// if (FileSystemEntity.isFileSync(entity.path) &&
-// entity.isSupportedAudio) {
-// debugPrint('mime: ${lookupMimeType(entity.path)}');
-// mimesSup.add(lookupMimeType(entity.path) ?? '');
-// try {
-// final tag =
-// await audiotagger.readTags(path: entity.path);
-// // debugPrint(tag?.genre ?? '');
-// int x = await audioRepository.saveTrack(
-// entity.path,
-// tag,
-// );
-// debugPrint(x.toString());
-// } catch (e) {
-// debugPrint('''
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//                           errrrrrrrrrrror:
-//                           ${entity.uri}
-//                           mime: ${lookupMimeType(entity.path)}
-//                           $e
-//
-//
-//
-//
-//                           ''');
-// continue;
-// }
-// } else {
-// debugPrint(
-// 'nooo: ${entity.uri}, mime: ${lookupMimeType(entity.path)}',
-// );
-// }
-// }
-// debugPrint(mimes.toString());
-// debugPrint(mimesSup.toString());
-// }
-// },
-// )
-// ],
