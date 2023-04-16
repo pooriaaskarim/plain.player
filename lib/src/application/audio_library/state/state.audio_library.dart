@@ -7,6 +7,7 @@ import '../../../domain/audio_library/model.genre.dart';
 part 'state.default.dart';
 part 'state.error.dart';
 part 'state.loading.dart';
+part 'state.scanning.dart';
 
 abstract class AudioLibraryState extends Equatable {
   const AudioLibraryState({
@@ -52,6 +53,28 @@ abstract class AudioLibraryState extends Equatable {
   }) =>
       LoadingState._(
         folders: folders,
+        genres: genres,
+        artists: artists,
+        isLoadingArtists: isLoadingArtists,
+        isLoadingFolders: isLoadingFolders,
+        isLoadingGenres: isLoadingGenres,
+        isLoadingTracks: isLoadingTracks,
+        isScanning: isScanning,
+      );
+  factory AudioLibraryState.scanning({
+    required final List<Folder> folders,
+    required final Stream<String> scanningStatus,
+    final List<Artist>? artists,
+    final List<Genre>? genres,
+    final bool isLoadingGenres = false,
+    final bool isLoadingFolders = false,
+    final bool isLoadingArtists = false,
+    final bool isLoadingTracks = false,
+    final bool isScanning = true,
+  }) =>
+      ScanningState._(
+        folders: folders,
+        scanningStatus: scanningStatus,
         genres: genres,
         artists: artists,
         isLoadingArtists: isLoadingArtists,
