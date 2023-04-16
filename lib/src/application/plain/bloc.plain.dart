@@ -8,14 +8,12 @@ import '../../domain/settings/model.settings.dart';
 import '../../infrastructure/exceptions/exceptions.configuration.dart';
 import '../../infrastructure/repositories/repository.configurations.dart';
 import '../../infrastructure/repositories/repository.settings.dart';
-import '../audio_library/cubit.audio_library.dart';
 import 'events/event.plain.dart';
 import 'states/state.plain.dart';
 
 class PlainBloc extends Bloc<PlainEvent, PlainState> {
   PlainBloc({
     required this.audioPlayer,
-    required this.audioLibraryHandler,
     required final SettingsRepository settingsRepository,
     required final ConfigurationsRepository configurationsRepository,
   })  : _settingsRepository = settingsRepository,
@@ -31,7 +29,6 @@ class PlainBloc extends Bloc<PlainEvent, PlainState> {
   }
 
   final AudioPlayer audioPlayer;
-  final AudioLibraryCubit audioLibraryHandler;
   final SettingsRepository _settingsRepository;
   final ConfigurationsRepository _configurationsRepository;
 
