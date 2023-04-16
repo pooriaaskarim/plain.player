@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import '../../../infrastructure/routes/app.route_names.dart';
+import '../../../infrastructure/config/routes/app.route_names.dart';
 import '../../../infrastructure/utils/app.sizes.dart';
 
 class PlainTabBar extends StatefulWidget {
