@@ -25,11 +25,11 @@ class Loading extends StatefulWidget {
 class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
   late AnimationController animationController;
   late final Color _color;
-
+  late bool isInitialBuild;
   @override
   void initState() {
-    _color = widget.color ?? Theme.of(context).colorScheme.primary;
     super.initState();
+    isInitialBuild = true;
     animationController = AnimationController(
       duration: const Duration(seconds: 1),
       animationBehavior: AnimationBehavior.preserve,
@@ -37,6 +37,15 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
       upperBound: 1,
       vsync: this,
     )..repeat();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (isInitialBuild) {
+      _color = widget.color ?? Theme.of(context).colorScheme.primary;
+      isInitialBuild = false;
+    }
   }
 
   @override
