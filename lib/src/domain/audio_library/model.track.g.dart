@@ -48,7 +48,21 @@ const TrackSchema = CollectionSchema(
   deserialize: _trackDeserialize,
   deserializeProp: _trackDeserializeProp,
   idName: r'id',
-  indexes: {},
+  indexes: {
+    r'path': IndexSchema(
+      id: 8756705481922369689,
+      name: r'path',
+      unique: true,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'path',
+          type: IndexType.hash,
+          caseSensitive: true,
+        )
+      ],
+    )
+  },
   links: {
     r'albumArtist': LinkSchema(
       id: 2041016560636448855,
@@ -60,6 +74,12 @@ const TrackSchema = CollectionSchema(
       id: 2737886399584499617,
       name: r'artist',
       target: r'Artist',
+      single: true,
+    ),
+    r'folder': LinkSchema(
+      id: 3243372430661350484,
+      name: r'folder',
+      target: r'Folder',
       single: true,
     ),
     r'genre': LinkSchema(
@@ -180,6 +200,7 @@ Id _trackGetId(final Track object) => object.id;
 List<IsarLinkBase<dynamic>> _trackGetLinks(final Track object) => [
       object.albumArtist,
       object.artist,
+      object.folder,
       object.genre,
       object.album,
       object.year
@@ -191,9 +212,54 @@ void _trackAttach(
   object.albumArtist
       .attach(col, col.isar.collection<AlbumArtist>(), r'albumArtist', id);
   object.artist.attach(col, col.isar.collection<Artist>(), r'artist', id);
+  object.folder.attach(col, col.isar.collection<Folder>(), r'folder', id);
   object.genre.attach(col, col.isar.collection<Genre>(), r'genre', id);
   object.album.attach(col, col.isar.collection<Album>(), r'album', id);
   object.year.attach(col, col.isar.collection<Year>(), r'year', id);
+}
+
+extension TrackByIndex on IsarCollection<Track> {
+  Future<Track?> getByPath(final String path) => getByIndex(r'path', [path]);
+
+  Track? getByPathSync(final String path) => getByIndexSync(r'path', [path]);
+
+  Future<bool> deleteByPath(final String path) =>
+      deleteByIndex(r'path', [path]);
+
+  bool deleteByPathSync(final String path) =>
+      deleteByIndexSync(r'path', [path]);
+
+  Future<List<Track?>> getAllByPath(final List<String> pathValues) {
+    final values = pathValues.map((final e) => [e]).toList();
+    return getAllByIndex(r'path', values);
+  }
+
+  List<Track?> getAllByPathSync(final List<String> pathValues) {
+    final values = pathValues.map((final e) => [e]).toList();
+    return getAllByIndexSync(r'path', values);
+  }
+
+  Future<int> deleteAllByPath(final List<String> pathValues) {
+    final values = pathValues.map((final e) => [e]).toList();
+    return deleteAllByIndex(r'path', values);
+  }
+
+  int deleteAllByPathSync(final List<String> pathValues) {
+    final values = pathValues.map((final e) => [e]).toList();
+    return deleteAllByIndexSync(r'path', values);
+  }
+
+  Future<Id> putByPath(final Track object) => putByIndex(r'path', object);
+
+  Id putByPathSync(final Track object, {final bool saveLinks = true}) =>
+      putByIndexSync(r'path', object, saveLinks: saveLinks);
+
+  Future<List<Id>> putAllByPath(final List<Track> objects) =>
+      putAllByIndex(r'path', objects);
+
+  List<Id> putAllByPathSync(final List<Track> objects,
+          {final bool saveLinks = true}) =>
+      putAllByIndexSync(r'path', objects, saveLinks: saveLinks);
 }
 
 extension TrackQueryWhereSort on QueryBuilder<Track, Track, QWhere> {
@@ -261,6 +327,49 @@ extension TrackQueryWhere on QueryBuilder<Track, Track, QWhereClause> {
                 upper: upperId,
                 includeUpper: includeUpper,
               )));
+
+  QueryBuilder<Track, Track, QAfterWhereClause> pathEqualTo(
+          final String path) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addWhereClause(IndexWhereClause.equalTo(
+                indexName: r'path',
+                value: [path],
+              )));
+
+  QueryBuilder<Track, Track, QAfterWhereClause> pathNotEqualTo(
+          final String path) =>
+      QueryBuilder.apply(this, (final query) {
+        if (query.whereSort == Sort.asc) {
+          return query
+              .addWhereClause(IndexWhereClause.between(
+                indexName: r'path',
+                lower: [],
+                upper: [path],
+                includeUpper: false,
+              ))
+              .addWhereClause(IndexWhereClause.between(
+                indexName: r'path',
+                lower: [path],
+                includeLower: false,
+                upper: [],
+              ));
+        } else {
+          return query
+              .addWhereClause(IndexWhereClause.between(
+                indexName: r'path',
+                lower: [path],
+                includeLower: false,
+                upper: [],
+              ))
+              .addWhereClause(IndexWhereClause.between(
+                indexName: r'path',
+                lower: [],
+                upper: [path],
+                includeUpper: false,
+              ));
+        }
+      });
 }
 
 extension TrackQueryFilter on QueryBuilder<Track, Track, QFilterCondition> {
@@ -995,6 +1104,14 @@ extension TrackQueryLinks on QueryBuilder<Track, Track, QFilterCondition> {
   QueryBuilder<Track, Track, QAfterFilterCondition> artistIsNull() =>
       QueryBuilder.apply(
           this, (final query) => query.linkLength(r'artist', 0, true, 0, true));
+
+  QueryBuilder<Track, Track, QAfterFilterCondition> folder(
+          final FilterQuery<Folder> q) =>
+      QueryBuilder.apply(this, (final query) => query.link(q, r'folder'));
+
+  QueryBuilder<Track, Track, QAfterFilterCondition> folderIsNull() =>
+      QueryBuilder.apply(
+          this, (final query) => query.linkLength(r'folder', 0, true, 0, true));
 
   QueryBuilder<Track, Track, QAfterFilterCondition> genre(
           final FilterQuery<Genre> q) =>

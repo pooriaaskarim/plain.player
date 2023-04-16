@@ -33,7 +33,7 @@ const GenreSchema = CollectionSchema(
       id: 7810252941268804523,
       name: r'genre',
       unique: true,
-      replace: true,
+      replace: false,
       properties: [
         IndexPropertySchema(
           name: r'genre',
@@ -86,7 +86,7 @@ Genre _genreDeserialize(
 ) {
   final object = Genre(
     genre: reader.readString(offsets[0]),
-  );
+  )..id = id;
   return object;
 }
 
@@ -111,6 +111,7 @@ List<IsarLinkBase<dynamic>> _genreGetLinks(final Genre object) =>
 
 void _genreAttach(
     final IsarCollection<dynamic> col, final Id id, final Genre object) {
+  object.id = id;
   object.tracks.attach(col, col.isar.collection<Track>(), r'tracks', id);
 }
 

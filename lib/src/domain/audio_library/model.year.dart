@@ -1,6 +1,5 @@
 import 'package:isar/isar.dart';
 
-import '../../infrastructure/utils/app.utils.dart';
 import 'model.track.dart';
 
 part 'model.year.g.dart';
@@ -10,12 +9,16 @@ class Year {
   Year({
     required this.year,
   });
-  Id get id => AppUtils.fastHash(year);
+  Id id = Isar.autoIncrement;
   @Index(
     unique: true,
     caseSensitive: false,
+    replace: false,
   )
   String year;
   @Backlink(to: 'year')
   IsarLinks<Track> tracks = IsarLinks<Track>();
+
+  @override
+  String toString() => year;
 }

@@ -17,8 +17,13 @@ const FolderSchema = CollectionSchema(
   name: r'Folder',
   id: 6793289488482879694,
   properties: {
-    r'path': PropertySchema(
+    r'isScanned': PropertySchema(
       id: 0,
+      name: r'isScanned',
+      type: IsarType.bool,
+    ),
+    r'path': PropertySchema(
+      id: 1,
       name: r'path',
       type: IsarType.string,
     )
@@ -33,7 +38,7 @@ const FolderSchema = CollectionSchema(
       id: 8756705481922369689,
       name: r'path',
       unique: true,
-      replace: true,
+      replace: false,
       properties: [
         IndexPropertySchema(
           name: r'path',
@@ -43,7 +48,15 @@ const FolderSchema = CollectionSchema(
       ],
     )
   },
-  links: {},
+  links: {
+    r'tracks': LinkSchema(
+      id: 2494375219613027664,
+      name: r'tracks',
+      target: r'Track',
+      single: false,
+      linkName: r'folder',
+    )
+  },
   embeddedSchemas: {},
   getId: _folderGetId,
   getLinks: _folderGetLinks,
@@ -67,7 +80,9 @@ void _folderSerialize(
   final List<int> offsets,
   final Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.path);
+  writer
+    ..writeBool(offsets[0], object.isScanned)
+    ..writeString(offsets[1], object.path);
 }
 
 Folder _folderDeserialize(
@@ -77,7 +92,8 @@ Folder _folderDeserialize(
   final Map<Type, List<int>> allOffsets,
 ) {
   final object = Folder(
-    path: reader.readString(offsets[0]),
+    isScanned: reader.readBoolOrNull(offsets[0]) ?? false,
+    path: reader.readString(offsets[1]),
   )..id = id;
   return object;
 }
@@ -90,6 +106,8 @@ P _folderDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
+      return (reader.readBoolOrNull(offset) ?? false) as P;
+    case 1:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -98,11 +116,13 @@ P _folderDeserializeProp<P>(
 
 Id _folderGetId(final Folder object) => object.id;
 
-List<IsarLinkBase<dynamic>> _folderGetLinks(final Folder object) => [];
+List<IsarLinkBase<dynamic>> _folderGetLinks(final Folder object) =>
+    [object.tracks];
 
 void _folderAttach(
     final IsarCollection<dynamic> col, final Id id, final Folder object) {
   object.id = id;
+  object.tracks.attach(col, col.isar.collection<Track>(), r'tracks', id);
 }
 
 extension FolderByIndex on IsarCollection<Folder> {
@@ -309,6 +329,15 @@ extension FolderQueryFilter on QueryBuilder<Folder, Folder, QFilterCondition> {
                 includeUpper: includeUpper,
               )));
 
+  QueryBuilder<Folder, Folder, QAfterFilterCondition> isScannedEqualTo(
+          final bool value) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.addFilterCondition(FilterCondition.equalTo(
+                property: r'isScanned',
+                value: value,
+              )));
+
   QueryBuilder<Folder, Folder, QAfterFilterCondition> pathEqualTo(
     final String value, {
     final bool caseSensitive = true,
@@ -432,9 +461,65 @@ extension FolderQueryFilter on QueryBuilder<Folder, Folder, QFilterCondition> {
 
 extension FolderQueryObject on QueryBuilder<Folder, Folder, QFilterCondition> {}
 
-extension FolderQueryLinks on QueryBuilder<Folder, Folder, QFilterCondition> {}
+extension FolderQueryLinks on QueryBuilder<Folder, Folder, QFilterCondition> {
+  QueryBuilder<Folder, Folder, QAfterFilterCondition> tracks(
+          final FilterQuery<Track> q) =>
+      QueryBuilder.apply(this, (final query) => query.link(q, r'tracks'));
+
+  QueryBuilder<Folder, Folder, QAfterFilterCondition> tracksLengthEqualTo(
+          final int length) =>
+      QueryBuilder.apply(
+          this,
+          (final query) =>
+              query.linkLength(r'tracks', length, true, length, true));
+
+  QueryBuilder<Folder, Folder, QAfterFilterCondition> tracksIsEmpty() =>
+      QueryBuilder.apply(
+          this, (final query) => query.linkLength(r'tracks', 0, true, 0, true));
+
+  QueryBuilder<Folder, Folder, QAfterFilterCondition> tracksIsNotEmpty() =>
+      QueryBuilder.apply(this,
+          (final query) => query.linkLength(r'tracks', 0, false, 999999, true));
+
+  QueryBuilder<Folder, Folder, QAfterFilterCondition> tracksLengthLessThan(
+    final int length, {
+    final bool include = false,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) =>
+              query.linkLength(r'tracks', 0, true, length, include));
+
+  QueryBuilder<Folder, Folder, QAfterFilterCondition> tracksLengthGreaterThan(
+    final int length, {
+    final bool include = false,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) =>
+              query.linkLength(r'tracks', length, include, 999999, true));
+
+  QueryBuilder<Folder, Folder, QAfterFilterCondition> tracksLengthBetween(
+    final int lower,
+    final int upper, {
+    final bool includeLower = true,
+    final bool includeUpper = true,
+  }) =>
+      QueryBuilder.apply(
+          this,
+          (final query) => query.linkLength(
+              r'tracks', lower, includeLower, upper, includeUpper));
+}
 
 extension FolderQuerySortBy on QueryBuilder<Folder, Folder, QSortBy> {
+  QueryBuilder<Folder, Folder, QAfterSortBy> sortByIsScanned() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addSortBy(r'isScanned', Sort.asc));
+
+  QueryBuilder<Folder, Folder, QAfterSortBy> sortByIsScannedDesc() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addSortBy(r'isScanned', Sort.desc));
+
   QueryBuilder<Folder, Folder, QAfterSortBy> sortByPath() => QueryBuilder.apply(
       this, (final query) => query.addSortBy(r'path', Sort.asc));
 
@@ -451,6 +536,14 @@ extension FolderQuerySortThenBy on QueryBuilder<Folder, Folder, QSortThenBy> {
       QueryBuilder.apply(
           this, (final query) => query.addSortBy(r'id', Sort.desc));
 
+  QueryBuilder<Folder, Folder, QAfterSortBy> thenByIsScanned() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addSortBy(r'isScanned', Sort.asc));
+
+  QueryBuilder<Folder, Folder, QAfterSortBy> thenByIsScannedDesc() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addSortBy(r'isScanned', Sort.desc));
+
   QueryBuilder<Folder, Folder, QAfterSortBy> thenByPath() => QueryBuilder.apply(
       this, (final query) => query.addSortBy(r'path', Sort.asc));
 
@@ -460,6 +553,10 @@ extension FolderQuerySortThenBy on QueryBuilder<Folder, Folder, QSortThenBy> {
 }
 
 extension FolderQueryWhereDistinct on QueryBuilder<Folder, Folder, QDistinct> {
+  QueryBuilder<Folder, Folder, QDistinct> distinctByIsScanned() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addDistinctBy(r'isScanned'));
+
   QueryBuilder<Folder, Folder, QDistinct> distinctByPath(
           {final bool caseSensitive = true}) =>
       QueryBuilder.apply(
@@ -471,6 +568,10 @@ extension FolderQueryWhereDistinct on QueryBuilder<Folder, Folder, QDistinct> {
 extension FolderQueryProperty on QueryBuilder<Folder, Folder, QQueryProperty> {
   QueryBuilder<Folder, int, QQueryOperations> idProperty() =>
       QueryBuilder.apply(this, (final query) => query.addPropertyName(r'id'));
+
+  QueryBuilder<Folder, bool, QQueryOperations> isScannedProperty() =>
+      QueryBuilder.apply(
+          this, (final query) => query.addPropertyName(r'isScanned'));
 
   QueryBuilder<Folder, String, QQueryOperations> pathProperty() =>
       QueryBuilder.apply(this, (final query) => query.addPropertyName(r'path'));

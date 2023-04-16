@@ -1,6 +1,5 @@
 import 'package:isar/isar.dart';
 
-import '../../infrastructure/utils/app.utils.dart';
 import 'model.track.dart';
 
 part 'model.genre.g.dart';
@@ -10,14 +9,17 @@ class Genre {
   Genre({
     required this.genre,
   });
-  Id get id => AppUtils.fastHash(genre);
+  Id id = Isar.autoIncrement;
 
   @Index(
     unique: true,
     caseSensitive: false,
-    replace: true,
+    replace: false,
   )
   String genre;
   @Backlink(to: 'genre')
   IsarLinks<Track> tracks = IsarLinks<Track>();
+
+  @override
+  String toString() => genre;
 }

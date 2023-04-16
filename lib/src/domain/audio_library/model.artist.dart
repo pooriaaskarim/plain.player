@@ -1,6 +1,5 @@
 import 'package:isar/isar.dart';
 
-import '../../infrastructure/utils/app.utils.dart';
 import 'model.track.dart';
 
 part 'model.artist.g.dart';
@@ -8,12 +7,15 @@ part 'model.artist.g.dart';
 @Collection()
 class Artist {
   Artist({required this.name});
-  Id get id => AppUtils.fastHash(name);
+  Id id = Isar.autoIncrement;
   @Index(
     unique: true,
+    replace: false,
   )
   String name;
-  // List albums;
   @Backlink(to: 'artist')
   IsarLinks<Track> tracks = IsarLinks<Track>();
+
+  @override
+  String toString() => name;
 }

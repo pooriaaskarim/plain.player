@@ -86,7 +86,7 @@ Artist _artistDeserialize(
 ) {
   final object = Artist(
     name: reader.readString(offsets[0]),
-  );
+  )..id = id;
   return object;
 }
 
@@ -111,6 +111,7 @@ List<IsarLinkBase<dynamic>> _artistGetLinks(final Artist object) =>
 
 void _artistAttach(
     final IsarCollection<dynamic> col, final Id id, final Artist object) {
+  object.id = id;
   object.tracks.attach(col, col.isar.collection<Track>(), r'tracks', id);
 }
 
