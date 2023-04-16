@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
+import '../../../../../infrastructure/config/theme/app.opacities.dart';
 import '../../../../../infrastructure/utils/app.sizes.dart';
 import '../../../../../infrastructure/utils/extensions/extension.filesystem_entity.is_audio.dart';
-import '../../../../../infrastructure/utils/theme/app.opacities.dart';
 import '../../../../shared/widgets/widget.scrolling_text.dart';
 
 class FolderContentAudioItem extends StatelessWidget {

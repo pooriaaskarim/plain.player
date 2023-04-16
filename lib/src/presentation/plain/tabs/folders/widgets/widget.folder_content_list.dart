@@ -108,7 +108,7 @@ class FolderContentListState extends State<FolderContentList> {
       if (rootDirectory.parent.path == fileSystemEntity.path) {
         WidgetsBinding.instance.addPostFrameCallback((final _) {
           _parentState
-            ?..currentFolder = null
+            ?..openedFolder = null
             ..showFAB = true
             ..setState(() {});
           _parentState?.parentState?.setState(() {});
@@ -120,11 +120,11 @@ class FolderContentListState extends State<FolderContentList> {
   }
 
   Future<void> _handleAudio(final FileSystemEntity fileSystemEntity) async {
+    final plainScreenState = PlainScreen.of(context);
     if (fileSystemEntity.isSupportedAudio) {
-      await BlocProvider.of<PlainBloc>(context)
-          .audioPlayer
-          .setUrl(fileSystemEntity.path);
-      PlainScreen.of(context).tabController.animateTo(0);
+      final plainBloc = BlocProvider.of<PlainBloc>(context);
+      await plainBloc.audioPlayer.setUrl(fileSystemEntity.path);
+      plainScreenState.tabController.animateTo(0);
 
       return;
     } else {
