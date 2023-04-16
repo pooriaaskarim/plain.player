@@ -42,14 +42,13 @@ class PlayerTabState extends PlainTabState<PlayerTab> {
   FloatingActionButton? get floatingActionButton => FloatingActionButton(
         highlightElevation: 6,
         onPressed: () async {
+          final plainBloc = BlocProvider.of<PlainBloc>(context);
           final FilePickerResult? file = await FilePicker.platform.pickFiles(
             allowMultiple: false,
             type: FileType.audio,
           );
           if (file != null) {
-            await BlocProvider.of<PlainBloc>(context)
-                .audioPlayer
-                .setUrl(file.files.first.path!);
+            await plainBloc.audioPlayer.setUrl(file.files.first.path!);
           }
         },
         child: const Icon(
