@@ -1,13 +1,19 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:audiotagger/audiotagger.dart';
+import 'package:audiotagger/models/tag.dart';
 import 'package:bloc/bloc.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:mime/mime.dart';
 
 import '../../domain/audio_library/model.artist.dart';
 import '../../domain/audio_library/model.folder.dart';
 import '../../domain/audio_library/model.genre.dart';
 import '../../domain/audio_library/model.track.dart';
 import '../../infrastructure/repositories/repository.audio.dart';
+import '../../infrastructure/utils/extensions/extension.filesystem_entity.is_audio.dart';
 import 'state/state.audio_library.dart';
 
 class AudioLibraryCubit extends Cubit<AudioLibraryState> {
@@ -16,6 +22,121 @@ class AudioLibraryCubit extends Cubit<AudioLibraryState> {
         super(AudioLibraryState.defaultState(folders: const []));
 
   final AudioRepository _audioRepository;
+  final Audiotagger audiotagger = Audiotagger();
+
+  void logFolder(final Folder folder) {
+    _audioRepository.logFolder(folder);
+  }
+
+  void logDB() {
+    _audioRepository.logDB();
+  }
+
+  Future<void> clear() async {
+    await _audioRepository.clear();
+    await loadFolders();
+  }
+
+  Future<void> clearFolder(final Folder folder) async {
+    await _audioRepository.clearFolder(folder);
+    await _audioRepository.cleanUpDB();
+  }
+
+  Future<void> scanFolder(final Folder folder) async {
+    final StreamController<String> scanningStatus = StreamController<String>()
+      ..add('Reading Folder...');
+    emit(
+      AudioLibraryState.scanning(
+        scanningStatus: scanningStatus.stream,
+        folders: state.folders,
+        artists: state.artists,
+        genres: state.genres,
+        isScanning: true,
+      ),
+    );
+    final List<FileSystemEntity> audioFilesInFolder =
+        await _getSupportedAudioList(folder);
+    if (!state.isScanning) {
+      emit(
+        AudioLibraryState.defaultState(
+          folders: state.folders,
+          artists: state.artists,
+          genres: state.genres,
+        ),
+      );
+      return;
+    }
+
+    scanningStatus.add('Preparing to index...');
+    await _audioRepository.clearFolder(folder);
+    await _audioRepository.cleanUpDB();
+
+    int scannedItems = 0;
+    final int totalItems = audioFilesInFolder.length;
+
+    for (final FileSystemEntity entity in audioFilesInFolder) {
+      if (!state.isScanning) {
+        emit(
+          AudioLibraryState.defaultState(
+            folders: state.folders,
+            artists: state.artists,
+            genres: state.genres,
+          ),
+        );
+
+        break;
+      }
+
+      Tag? tag;
+      try {
+        tag = await audiotagger.readTags(path: entity.path);
+      } catch (e) {
+        debugPrint('''
+
+                          errrrrrrrrrrror:
+                          ${entity.uri}
+                        mime: ${lookupMimeType(entity.path)}
+                        $e
+    
+                 ''');
+      }
+      scannedItems++;
+      final Track track = (tag == null)
+          ? (Track(path: entity.path)..folder.value = folder)
+          : Track.fromTag(
+              path: entity.path,
+              tag: tag,
+            )
+        ..folder.value = folder;
+      await _audioRepository.saveTrack(track, log: true);
+      folder.tracks.add(track);
+      scanningStatus.add('$scannedItems scanned out of $totalItems\n');
+    }
+    await _audioRepository
+        .saveFolder(folder..isScanned = scannedItems == totalItems);
+    emit(
+      AudioLibraryState.defaultState(
+        folders: state.folders,
+        artists: state.artists,
+        genres: state.genres,
+      ),
+    );
+    debugPrint('''
+---Folder----${folder.id}---- 
+      name: ${folder.name}
+      isScanned: ${folder.isScanned}
+      totalTracks: ${folder.totalTracks}''');
+
+    await scanningStatus.close();
+  }
+
+  Future<List<FileSystemEntity>> _getSupportedAudioList(
+    final Folder folder,
+  ) =>
+      folder.directory
+          .list(recursive: true, followLinks: false)
+          .where((final entity) => entity.isSupportedAudio)
+          .toList();
 
   Future<List<Track>> getTracks() async {
     emit(
@@ -73,15 +194,30 @@ class AudioLibraryCubit extends Cubit<AudioLibraryState> {
     );
   }
 
-  Future<int?> addFolder() async {
-    final String? folderPath = await FilePicker.platform.getDirectoryPath();
-    return (folderPath != null)
-        ? await _audioRepository.addFolder(Folder(path: folderPath))
-        : null;
+  Future<int?> addFolder(final Folder folder) =>
+      _audioRepository.addFolder(folder);
+
+  Future<String?> chooseFolder() => FilePicker.platform.getDirectoryPath();
+
+  Future<bool> deleteFolder(final Folder folder) async {
+    await _audioRepository.clearFolder(folder);
+    final bool isDeleted = await _audioRepository.deleteFolder(folder);
+    await _audioRepository.cleanUpDB();
+    return isDeleted;
   }
 
-  Future<bool> deleteFolder(final Folder folder) async =>
-      _audioRepository.deleteFolder(folder);
+  Future<int> deleteAllFolders(final List<Folder> folders) async {
+    int count = 0;
+    for (final folder in folders) {
+      await _audioRepository.clearFolder(folder);
+      await _audioRepository.deleteFolder(folder);
+      count++;
+    }
+    await _audioRepository.cleanUpDB();
+    debugPrint(count.toString());
+    return count;
+  }
+
   Future<void> loadFolders() async {
     emit(
       AudioLibraryState.loading(
