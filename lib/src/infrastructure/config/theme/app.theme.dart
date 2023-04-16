@@ -5,6 +5,7 @@ import 'components_theme/app.app_bar_theme_data.dart';
 import 'components_theme/app.dialog_theme_data.dart';
 import 'components_theme/app.elevated_button_theme_data.dart';
 import 'components_theme/app.floating_action_button_theme_data.dart';
+import 'components_theme/app.snack_bar_theme_data.dart';
 import 'components_theme/app.tab_bar_theme_data.dart';
 import 'components_theme/app.text_button_theme_data.dart';
 
@@ -25,6 +26,7 @@ class AppTheme {
     ),
     primaryColorDark: AppThemeData.darkColorScheme.primary,
     primaryColorLight: AppThemeData.lightColorScheme.primary,
+    snackBarTheme: const AppSnackBarThemeData(),
     tabBarTheme: AppTabBarThemeData.from(AppThemeData.lightColorScheme),
     textButtonTheme: AppTextButtonThemeData(AppThemeData.lightColorScheme),
     textTheme: AppThemeData.textTheme,
@@ -46,6 +48,7 @@ class AppTheme {
     primaryColor: AppThemeData.darkColorScheme.primary,
     primaryColorDark: AppThemeData.darkColorScheme.primary,
     primaryColorLight: AppThemeData.lightColorScheme.primary,
+    snackBarTheme: const AppSnackBarThemeData(),
     tabBarTheme: AppTabBarThemeData.from(AppThemeData.darkColorScheme),
     textButtonTheme: AppTextButtonThemeData(AppThemeData.darkColorScheme),
     textTheme: AppThemeData.textTheme,
