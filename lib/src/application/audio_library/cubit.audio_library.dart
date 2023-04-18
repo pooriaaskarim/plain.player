@@ -8,6 +8,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:mime/mime.dart';
 
+import '../../domain/audio_library/model.album.dart';
 import '../../domain/audio_library/model.artist.dart';
 import '../../domain/audio_library/model.folder.dart';
 import '../../domain/audio_library/model.genre.dart';
@@ -48,10 +49,11 @@ class AudioLibraryCubit extends Cubit<AudioLibraryState> {
     emit(
       AudioLibraryState.scanning(
         scanningStatus: scanningStatus.stream,
-        folders: state.folders,
-        artists: state.artists,
-        genres: state.genres,
         isScanning: true,
+        albums: state.albums,
+        artists: state.artists,
+        folders: state.folders,
+        genres: state.genres,
       ),
     );
     final List<FileSystemEntity> audioFilesInFolder =
@@ -59,8 +61,9 @@ class AudioLibraryCubit extends Cubit<AudioLibraryState> {
     if (!state.isScanning) {
       emit(
         AudioLibraryState.defaultState(
-          folders: state.folders,
+          albums: state.albums,
           artists: state.artists,
+          folders: state.folders,
           genres: state.genres,
         ),
       );
@@ -78,8 +81,9 @@ class AudioLibraryCubit extends Cubit<AudioLibraryState> {
       if (!state.isScanning) {
         emit(
           AudioLibraryState.defaultState(
-            folders: state.folders,
+            albums: state.albums,
             artists: state.artists,
+            folders: state.folders,
             genres: state.genres,
           ),
         );
@@ -116,8 +120,9 @@ class AudioLibraryCubit extends Cubit<AudioLibraryState> {
         .saveFolder(folder..isScanned = scannedItems == totalItems);
     emit(
       AudioLibraryState.defaultState(
-        folders: state.folders,
+        albums: state.albums,
         artists: state.artists,
+        folders: state.folders,
         genres: state.genres,
       ),
     );
@@ -142,35 +147,39 @@ class AudioLibraryCubit extends Cubit<AudioLibraryState> {
     emit(
       AudioLibraryState.loading(
         isLoadingTracks: true,
-        folders: state.folders,
+        albums: state.albums,
         artists: state.artists,
+        folders: state.folders,
         genres: state.genres,
       ),
     );
     final List<Track> tracks = await _audioRepository.getTracks();
     AudioLibraryState.defaultState(
-      folders: state.folders,
+      albums: state.albums,
       artists: state.artists,
+      folders: state.folders,
       genres: state.genres,
     );
     return tracks;
   }
 
-  Future<void> loadGenres() async {
+  Future<void> loadAlbums() async {
     emit(
       AudioLibraryState.loading(
-        isLoadingGenres: true,
-        folders: state.folders,
+        isLoadingAlbums: true,
+        albums: state.albums,
         artists: state.artists,
+        folders: state.folders,
         genres: state.genres,
       ),
     );
-    final List<Genre> genres = await _audioRepository.getGenres();
+    final List<Album> albums = await _audioRepository.getAlbums();
     emit(
       AudioLibraryState.defaultState(
-        folders: state.folders,
+        albums: albums,
         artists: state.artists,
-        genres: genres,
+        folders: state.folders,
+        genres: state.genres,
       ),
     );
   }
@@ -179,17 +188,40 @@ class AudioLibraryCubit extends Cubit<AudioLibraryState> {
     emit(
       AudioLibraryState.loading(
         isLoadingArtists: true,
-        folders: state.folders,
+        albums: state.albums,
         artists: state.artists,
+        folders: state.folders,
         genres: state.genres,
       ),
     );
     final List<Artist> artists = await _audioRepository.getArtists();
     emit(
       AudioLibraryState.defaultState(
-        folders: state.folders,
+        albums: state.albums,
         artists: artists,
+        folders: state.folders,
         genres: state.genres,
+      ),
+    );
+  }
+
+  Future<void> loadGenres() async {
+    emit(
+      AudioLibraryState.loading(
+        isLoadingGenres: true,
+        albums: state.albums,
+        artists: state.artists,
+        folders: state.folders,
+        genres: state.genres,
+      ),
+    );
+    final List<Genre> genres = await _audioRepository.getGenres();
+    emit(
+      AudioLibraryState.defaultState(
+        albums: state.albums,
+        artists: state.artists,
+        folders: state.folders,
+        genres: genres,
       ),
     );
   }
@@ -197,7 +229,8 @@ class AudioLibraryCubit extends Cubit<AudioLibraryState> {
   Future<int?> addFolder(final Folder folder) =>
       _audioRepository.addFolder(folder);
 
-  Future<String?> chooseFolder() => FilePicker.platform.getDirectoryPath();
+  Future<String?> chooseFolderFromFS() =>
+      FilePicker.platform.getDirectoryPath();
 
   Future<bool> deleteFolder(final Folder folder) async {
     await _audioRepository.clearFolder(folder);
@@ -222,16 +255,18 @@ class AudioLibraryCubit extends Cubit<AudioLibraryState> {
     emit(
       AudioLibraryState.loading(
         isLoadingFolders: true,
-        folders: state.folders,
+        albums: state.albums,
         artists: state.artists,
+        folders: state.folders,
         genres: state.genres,
       ),
     );
     final List<Folder> folders = await _audioRepository.getFolders();
     emit(
       AudioLibraryState.defaultState(
-        folders: folders,
+        albums: state.albums,
         artists: state.artists,
+        folders: folders,
         genres: state.genres,
       ),
     );
