@@ -112,7 +112,7 @@ class FoldersTabState extends PlainTabState<FoldersTab> {
       final audioLibraryCubit = BlocProvider.of<AudioLibraryCubit>(context);
       final scaffoldMessengerState = ScaffoldMessenger.of(context);
       int? folderID;
-      final String? folderPath = await audioLibraryCubit.chooseFolder();
+      final String? folderPath = await audioLibraryCubit.chooseFolderFromFS();
       if (folderPath == null) {
         return;
       } else {

@@ -4,7 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../application/plain/bloc.plain.dart';
+import 'tabs/albums/tab.albums.dart';
+import 'tabs/artists/tab.artists.dart';
 import 'tabs/folders/tab.folders.dart';
+import 'tabs/genres/tab.genres.dart';
 import 'tabs/i.plain.tab.dart';
 import 'tabs/player/tab.player.dart';
 import 'widgets/widget.plain_tab_bar.dart';
@@ -29,8 +32,12 @@ class PlainScreen extends StatefulWidget {
 class PlainScreenState extends State<PlainScreen>
     with TickerProviderStateMixin {
   late TabController tabController;
+  final GlobalKey<AlbumsTabState> _albumsTabKey = GlobalKey<AlbumsTabState>();
+  final GlobalKey<ArtistsTabState> _artistsTabKey =
+      GlobalKey<ArtistsTabState>();
   final GlobalKey<FoldersTabState> _foldersTabKey =
       GlobalKey<FoldersTabState>();
+  final GlobalKey<GenresTabState> _genresTabKey = GlobalKey<GenresTabState>();
   final GlobalKey<PlayerTabState> _playerTabKey = GlobalKey<PlayerTabState>();
   late List<PlainTab> _tabViewList;
   late PlainTabBar _plainTabBar;
@@ -40,14 +47,11 @@ class PlainScreenState extends State<PlainScreen>
   void initState() {
     super.initState();
     tabController = TabController(
-      length: 2,
+      length: 5,
       vsync: this,
       initialIndex: 0,
     )..addListener(() {
         _tabBarKey.currentState?.setState(() {});
-        _foldersTabKey.currentState
-          ?..showFAB = true
-          ..setState(() {});
 
         setState(() {});
       });
@@ -59,6 +63,9 @@ class PlainScreenState extends State<PlainScreen>
       FoldersTab(
         key: _foldersTabKey,
       ),
+      AlbumsTab(key: _albumsTabKey),
+      ArtistsTab(key: _artistsTabKey),
+      GenresTab(key: _genresTabKey),
     ];
     _plainTabBar = PlainTabBar(
       key: _tabBarKey,
