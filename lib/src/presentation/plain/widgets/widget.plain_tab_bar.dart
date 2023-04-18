@@ -71,6 +71,33 @@ class PlainTabBarState extends State<PlainTabBar> {
                   iconMargin: EdgeInsets.zero,
                   text: _isActive(1) ? 'Folders' : null,
                 ),
+                Tab(
+                  icon: Icon(
+                    Icons.disc_full,
+                    size: _isActive(2) ? activeIconSize : inactiveIconSize,
+                  ),
+                  height: tabHeight,
+                  iconMargin: EdgeInsets.zero,
+                  text: _isActive(2) ? 'Albums' : null,
+                ),
+                Tab(
+                  icon: Icon(
+                    Icons.person,
+                    size: _isActive(3) ? activeIconSize : inactiveIconSize,
+                  ),
+                  height: tabHeight,
+                  iconMargin: EdgeInsets.zero,
+                  text: _isActive(3) ? 'Artists' : null,
+                ),
+                Tab(
+                  icon: Icon(
+                    Icons.discount,
+                    size: _isActive(4) ? activeIconSize : inactiveIconSize,
+                  ),
+                  height: tabHeight,
+                  iconMargin: EdgeInsets.zero,
+                  text: _isActive(4) ? 'Genres' : null,
+                ),
               ],
             ),
           ),
