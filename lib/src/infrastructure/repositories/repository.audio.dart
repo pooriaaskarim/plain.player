@@ -331,6 +331,12 @@ $track
     return db.folders.where().findAll();
   }
 
+  ///Return all [Album]s in the database
+  Future<List<Album>> getAlbums() async {
+    final Isar db = await openDb;
+    return db.albums.where().findAll();
+  }
+
   ///Return all [Artist]s in the database
   Future<List<Artist>> getArtists() async {
     final Isar db = await openDb;
