@@ -1,9 +1,10 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio/just_audio.dart';
 
 import '../../../../application/plain/bloc.plain.dart';
+import '../../../../infrastructure/utils/app.sizes.dart';
+import '../../../../infrastructure/utils/app.utils.dart';
 import '../i.plain.tab.dart';
 import 'widgets/plain_button/widget.plain_button.dart';
 import 'widgets/seeking_bar/widget.seeking_bar.dart';
@@ -28,12 +29,14 @@ class PlayerTabState extends PlainTabState<PlayerTab> {
 
     return Column(
       mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
+        SeekingBarWidget(audioPlayer: widget.audioPlayer),
+        AppUtils.verticalSpacer(size: AppSizes.points_24),
         PlainButtonWidget(
           audioPlayer: widget.audioPlayer,
         ),
-        SeekingBarWidget(audioPlayer: widget.audioPlayer),
+        AppUtils.verticalSpacer(size: AppSizes.points_40),
       ],
     );
   }
@@ -42,19 +45,69 @@ class PlayerTabState extends PlainTabState<PlayerTab> {
   FloatingActionButton? get floatingActionButton => FloatingActionButton(
         highlightElevation: 6,
         onPressed: () async {
+          final TextEditingController tc = TextEditingController();
           final plainBloc = BlocProvider.of<PlainBloc>(context);
-          final FilePickerResult? file = await FilePicker.platform.pickFiles(
-            allowMultiple: false,
-            type: FileType.audio,
+          await showDialog(
+            context: context,
+            builder: (final context) => Dialog(
+              child: SizedBox(
+                width: 100,
+                height: 200,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(
+                      height: 50,
+                      width: 200,
+                      child: TextField(
+                        decoration: const InputDecoration.collapsed(
+                          hintText: 'Enter valid URL',
+                        ),
+                        controller: tc,
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        await plainBloc.audioPlayer.setUrl(tc.text);
+                      },
+                      child: const Text('Open'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           );
-          if (file != null) {
-            await plainBloc.audioPlayer.setUrl(file.files.first.path!);
-          }
+          // final FilePickerResult? file = await FilePicker.platform.pickFiles(
+          //   allowMultiple: false,
+          //   type: FileType.audio,
+          // );
+          // if (file != null) {
+          //   await plainBloc.audioPlayer.setUrl(file.files.first.path!);
+          // }
         },
         child: const Icon(
           Icons.audiotrack,
         ),
       );
+  // @override
+  // FloatingActionButton? get floatingActionButton => FloatingActionButton(
+  //       highlightElevation: 6,
+  //       onPressed: () async {
+  //         final plainBloc = BlocProvider.of<PlainBloc>(context);
+  //         final FilePickerResult? file = await FilePicker.platform.pickFiles(
+  //           allowMultiple: false,
+  //           type: FileType.audio,
+  //         );
+  //         if (file != null) {
+  //           await plainBloc.audioPlayer.setUrl(file.files.first.path!);
+  //         }
+  //       },
+  //       child: const Icon(
+  //         Icons.audiotrack,
+  //       ),
+  //     );
 
   @override
   AppBar? get appBar => null;
