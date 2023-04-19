@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../../../infrastructure/utils/app.sizes.dart';
+
 class CustomThumbShape extends SliderComponentShape {
   CustomThumbShape({
     required this.isTouched,
-    this.thumbWidth = 5,
+    this.thumbWidth = AppSizes.points_4,
   });
 
   bool isTouched;
   final double thumbWidth;
 
   final Color _thumbColorFallBack = Colors.blue;
-  final double _trackHeightFallBack = 20.0;
+  final double _trackHeightFallBack = 2 * AppSizes.points_40;
   @override
   Size getPreferredSize(final bool isEnabled, final bool isDiscrete) =>
       isEnabled ? Size.fromRadius(thumbWidth) : Size.zero;
@@ -43,7 +45,8 @@ class CustomThumbShape extends SliderComponentShape {
       ..layout();
     final Offset textOffset = Offset(
       _getLabelDx(center, labelPainter, parentBox.size.width),
-      center.dy - ((sliderTheme.trackHeight ?? _trackHeightFallBack) * 0.7),
+      (center.dy - ((sliderTheme.trackHeight ?? _trackHeightFallBack) / 2)) -
+          AppSizes.points_32,
     );
     final Offset p1 = Offset(
       center.dx,
@@ -70,7 +73,7 @@ class CustomThumbShape extends SliderComponentShape {
     final TextPainter labelPainter,
     final double trackWidth,
   ) {
-    const double safeArea = 5;
+    const double safeArea = AppSizes.points_4;
     final dx = center.dx - (labelPainter.size.width / 2);
     if (dx < 0) {
       return safeArea;
@@ -79,21 +82,5 @@ class CustomThumbShape extends SliderComponentShape {
       return trackWidth - labelPainter.size.width - safeArea;
     }
     return dx;
-  }
-
-  String? getThumbPosition(final double value, final Offset center) {
-    // if (max == null) {
-    //   return null;
-    // } else {
-    debugPrint(value.toString());
-    final Duration position = Duration(microseconds: (value).toInt());
-    // (min + (max! - min) * value).round());
-    //Get position time string as HH:MM:SS
-    String buffer = position.toString().split('.').first.padLeft(8, '0');
-    //Cut out HH int HH:MM:SS if doesn't exceed an hour
-    if (buffer.split(':').first == '00') {
-      buffer = buffer.substring(3, 8);
-    }
-    return buffer;
   }
 }

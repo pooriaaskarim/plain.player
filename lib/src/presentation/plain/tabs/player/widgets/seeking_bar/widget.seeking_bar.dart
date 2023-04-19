@@ -23,8 +23,8 @@ class SeekingBarWidget extends StatefulWidget {
 class _SeekingBarWidgetState extends State<SeekingBarWidget> {
   bool _isTouched = false;
   double? _sliderTouchedPosition;
-  final double _activeTrackHeight = 120;
-  final double _inactiveTrackHeight = 1;
+  final double _activeTrackHeight = 2 * AppSizes.points_48;
+  final double _inactiveTrackHeight = AppSizes.points_4;
 
   bool get hasBuffer => !_isTouched && widget.audioPlayer.hasBuffer;
 
