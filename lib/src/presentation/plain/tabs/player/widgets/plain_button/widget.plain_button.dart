@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
+import '../../../../../../infrastructure/utils/app.sizes.dart';
 import 'plain_button/plain_button.dart';
 
 class PlainButtonWidget extends StatefulWidget {
@@ -47,20 +48,6 @@ class PlainButtonWidgetState extends State<PlainButtonWidget>
 
   @override
   void didChangeDependencies() {
-    _backgroundColor = widget.backgroundColor ?? Theme.of(context).primaryColor;
-    _size = widget.size ?? 100.0;
-    _elevation = widget.elevation ?? 1;
-
-    buttonStyle = ButtonStyle(
-      alignment: Alignment.center,
-      animationDuration: Duration.zero,
-      backgroundColor: MaterialStateProperty.all(_backgroundColor),
-      elevation: MaterialStateProperty.all(_elevation),
-      fixedSize: MaterialStateProperty.all(Size(_size, _size)),
-      overlayColor: MaterialStateProperty.all(Colors.transparent),
-      shape: MaterialStateProperty.all(const CircleBorder()),
-    );
-
     super.didChangeDependencies();
   }
 
@@ -73,7 +60,18 @@ class PlainButtonWidgetState extends State<PlainButtonWidget>
   @override
   Widget build(final BuildContext context) {
     final GlobalKey<TooltipState> tooltipKey = GlobalKey<TooltipState>();
-
+    _backgroundColor = widget.backgroundColor ?? Theme.of(context).primaryColor;
+    _size = widget.size ?? 2 * AppSizes.points_40;
+    _elevation = widget.elevation ?? 1;
+    buttonStyle = ButtonStyle(
+      alignment: Alignment.center,
+      animationDuration: Duration.zero,
+      backgroundColor: MaterialStateProperty.all(_backgroundColor),
+      elevation: MaterialStateProperty.all(_elevation),
+      fixedSize: MaterialStateProperty.all(Size(_size, _size)),
+      overlayColor: MaterialStateProperty.all(Colors.transparent),
+      shape: MaterialStateProperty.all(const CircleBorder()),
+    );
     return StreamBuilder<PlayerState>(
       stream: widget.audioPlayer.playerStateStream,
       builder: (final context, final snapshot) {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
+import '../../../../../../../../infrastructure/utils/app.sizes.dart';
+import '../../../../../../../shared/widgets/widget.loading.dart';
 import '../plain_button.dart';
 
 class LoadingPaused implements PlainButton {
@@ -28,9 +30,10 @@ class LoadingPaused implements PlainButton {
         alignment: AlignmentDirectional.center,
         fit: StackFit.passthrough,
         children: [
-          CircularProgressIndicator(
-            color: Theme.of(context).colorScheme.onPrimary,
-            strokeWidth: 2,
+          Loading(
+            color: Theme.of(context).colorScheme.primary,
+            radius: AppSizes.points_40,
+
           ),
           Icon(
             Icons.pause,

@@ -30,7 +30,7 @@ class Paused implements PlainButton {
 
   @override
   Widget widget(final BuildContext context) => Icon(
-        Icons.pause,
+        Icons.play_arrow_sharp,
         color: Theme.of(context).colorScheme.onPrimary,
       );
 }

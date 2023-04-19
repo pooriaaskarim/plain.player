@@ -31,7 +31,7 @@ class Playing implements PlainButton {
 
   @override
   Widget widget(final BuildContext context) => Icon(
-        Icons.play_arrow_sharp,
+        Icons.pause,
         color: Theme.of(context).colorScheme.onPrimary,
       );
 }
