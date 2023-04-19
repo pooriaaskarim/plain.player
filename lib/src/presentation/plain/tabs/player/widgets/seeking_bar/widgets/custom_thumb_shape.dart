@@ -3,21 +3,17 @@ import 'package:flutter/material.dart';
 class CustomThumbShape extends SliderComponentShape {
   CustomThumbShape({
     required this.isTouched,
-    required this.min,
-    this.max,
     this.thumbWidth = 5,
   });
 
   bool isTouched;
-  final double min;
-  final double? max;
   final double thumbWidth;
 
   final Color _thumbColorFallBack = Colors.blue;
   final double _trackHeightFallBack = 20.0;
   @override
   Size getPreferredSize(final bool isEnabled, final bool isDiscrete) =>
-      Size.fromRadius(thumbWidth);
+      isEnabled ? Size.fromRadius(thumbWidth) : Size.zero;
 
   @override
   void paint(
@@ -40,17 +36,13 @@ class CustomThumbShape extends SliderComponentShape {
       ..style = PaintingStyle.stroke
       ..strokeWidth = thumbWidth;
 
-    final TextSpan textSpan = TextSpan(
-      style: sliderTheme.valueIndicatorTextStyle,
-      text: getThumbPosition(value),
-    );
     labelPainter
-      ..text = textSpan
+      ..text = labelPainter.text
       ..textAlign = TextAlign.center
       ..textDirection = textDirection
       ..layout();
     final Offset textOffset = Offset(
-      center.dx - (labelPainter.width / 2),
+      _getLabelDx(center, labelPainter, parentBox.size.width),
       center.dy - ((sliderTheme.trackHeight ?? _trackHeightFallBack) * 0.7),
     );
     final Offset p1 = Offset(
@@ -62,7 +54,9 @@ class CustomThumbShape extends SliderComponentShape {
       center.dy - (sliderTheme.trackHeight ?? _trackHeightFallBack) / 2,
     );
 
-    canvas.drawLine(p1, p2, paint);
+    if (value > 0) {
+      canvas.drawLine(p1, p2, paint);
+    }
     if (isTouched) {
       labelPainter.paint(
         canvas,
@@ -71,19 +65,35 @@ class CustomThumbShape extends SliderComponentShape {
     }
   }
 
-  String? getThumbPosition(final double value) {
-    if (max == null) {
-      return null;
-    } else {
-      final Duration position =
-          Duration(microseconds: (min + (max! - min) * value).round());
-      //Get position time string as HH:MM:SS
-      String buffer = position.toString().split('.').first.padLeft(8, '0');
-      //Cut out HH int HH:MM:SS if doesn't exceed an hour
-      if (buffer.split(':').first == '00') {
-        buffer = buffer.substring(3, 8);
-      }
-      return buffer;
+  double _getLabelDx(
+    final Offset center,
+    final TextPainter labelPainter,
+    final double trackWidth,
+  ) {
+    const double safeArea = 5;
+    final dx = center.dx - (labelPainter.size.width / 2);
+    if (dx < 0) {
+      return safeArea;
     }
+    if (dx > (trackWidth - labelPainter.size.width)) {
+      return trackWidth - labelPainter.size.width - safeArea;
+    }
+    return dx;
+  }
+
+  String? getThumbPosition(final double value, final Offset center) {
+    // if (max == null) {
+    //   return null;
+    // } else {
+    debugPrint(value.toString());
+    final Duration position = Duration(microseconds: (value).toInt());
+    // (min + (max! - min) * value).round());
+    //Get position time string as HH:MM:SS
+    String buffer = position.toString().split('.').first.padLeft(8, '0');
+    //Cut out HH int HH:MM:SS if doesn't exceed an hour
+    if (buffer.split(':').first == '00') {
+      buffer = buffer.substring(3, 8);
+    }
+    return buffer;
   }
 }

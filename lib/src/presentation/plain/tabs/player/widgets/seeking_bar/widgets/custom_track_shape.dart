@@ -5,19 +5,15 @@ class CustomTrackShape extends SliderTrackShape {
   /// ACTIVE and INACTIVE which get painted on Canvas by
   /// [paintLeftSegment] and [paintRightSegment] based on
   /// TextDirection of context,
-  /// and a BUFFER that is painted if [hasBuffer] is true
-  /// BUFFER's position is calculated from the nullable [secondaryValue]
+  /// BUFFER's position is painted based on the nullable secondaryOffset
+  /// from [paint] function which should be passed to the relevant Seekbar
 
   const CustomTrackShape({
-    required this.hasBuffer,
-    required this.min,
-    this.max,
-    this.secondaryValue,
+    required this.activeTrackHeight,
+    required this.inactiveTrackHeight,
   });
-  final bool hasBuffer;
-  final double min;
-  final double? max;
-  final double? secondaryValue;
+  final double activeTrackHeight;
+  final double inactiveTrackHeight;
   final Color _secondaryActiveTrackColorFallBack = Colors.indigo;
 
   @override
@@ -30,7 +26,8 @@ class CustomTrackShape extends SliderTrackShape {
   }) {
     final double overlayWidth =
         sliderTheme.overlayShape!.getPreferredSize(isEnabled, isDiscrete).width;
-    final double trackHeight = sliderTheme.trackHeight ?? 20;
+    final double trackHeight =
+        isEnabled ? activeTrackHeight : inactiveTrackHeight;
     final double trackLeft = offset.dx + overlayWidth / 2;
     final double trackTop =
         offset.dy + (parentBox.size.height - trackHeight) / 2;
@@ -54,9 +51,9 @@ class CustomTrackShape extends SliderTrackShape {
     final bool isEnabled = true,
     final bool isDiscrete = true,
   }) {
-    if (sliderTheme.trackHeight == 0) {
-      return;
-    }
+    // if (sliderTheme.trackHeight == 0) {
+    //   return;
+    // }
     final Rect trackRectangle = getPreferredRect(
       parentBox: parentBox,
       offset: offset,
@@ -73,13 +70,14 @@ class CustomTrackShape extends SliderTrackShape {
       sliderThemeData: sliderTheme,
       textDirection: textDirection,
     );
-    if (hasBuffer) {
+    if (secondaryOffset != null) {
       paintBufferSegment(
         canvas: context.canvas,
-        thumbCenter: thumbCenter,
-        trackRectangle: trackRectangle,
+        secondaryOffset: secondaryOffset,
         sliderThemeData: sliderTheme,
         textDirection: textDirection,
+        thumbCenter: thumbCenter,
+        trackRectangle: trackRectangle,
       );
     }
     paintRightSegment(
@@ -119,6 +117,7 @@ class CustomTrackShape extends SliderTrackShape {
   Rect getBufferSegment({
     required final Offset thumbCenter,
     required final Rect trackRectangle,
+    required final Offset? secondaryOffset,
     required final TextDirection textDirection,
     final int verticalPadding = 5,
   }) {
@@ -128,15 +127,13 @@ class CustomTrackShape extends SliderTrackShape {
         bufferSegment = Rect.fromLTRB(
           thumbCenter.dx,
           trackRectangle.top + verticalPadding,
-          (getBufferedPositionToDurationRatio() ?? 0) *
-              (trackRectangle.longestSide),
+          secondaryOffset?.dx ?? 0,
           trackRectangle.bottom - verticalPadding,
         );
         break;
       case TextDirection.rtl:
         bufferSegment = Rect.fromLTRB(
-          (getBufferedPositionToDurationRatio() ?? 0) *
-              (trackRectangle.longestSide),
+          secondaryOffset?.dx ?? 0,
           trackRectangle.top + verticalPadding,
           thumbCenter.dx,
           trackRectangle.bottom - verticalPadding,
@@ -159,6 +156,7 @@ class CustomTrackShape extends SliderTrackShape {
   void paintBufferSegment({
     required final Canvas canvas,
     required final Offset thumbCenter,
+    required final Offset? secondaryOffset,
     required final Rect trackRectangle,
     required final SliderThemeData sliderThemeData,
     required final TextDirection textDirection,
@@ -166,9 +164,10 @@ class CustomTrackShape extends SliderTrackShape {
   }) =>
       canvas.drawRect(
         getBufferSegment(
+          secondaryOffset: secondaryOffset,
+          textDirection: textDirection,
           thumbCenter: thumbCenter,
           trackRectangle: trackRectangle,
-          textDirection: textDirection,
         ),
         getBufferSegmentPaint(sliderThemeData: sliderThemeData),
       );
@@ -263,8 +262,8 @@ class CustomTrackShape extends SliderTrackShape {
     }
   }
 
-  num? getBufferedPositionToDurationRatio() =>
-      (max == null || secondaryValue == null)
-          ? null
-          : secondaryValue! / (max! - min);
+  // num? getBufferedPositionToDurationRatio() =>
+  //     (max == null || secondaryValue == null)
+  //         ? null
+  //         : secondaryValue! / (max! - min);
 }

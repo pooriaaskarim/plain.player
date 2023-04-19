@@ -4,20 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../../../../infrastructure/utils/app.utils.dart';
+import '../../../../../../infrastructure/utils/app.sizes.dart';
+import '../../../../../../infrastructure/utils/extensions/extension.just_audio.dart';
 import 'widgets/custom_thumb_shape.dart';
 import 'widgets/custom_track_shape.dart';
 
 class SeekingBarWidget extends StatefulWidget {
   const SeekingBarWidget({
     required this.audioPlayer,
-    this.activeTrackHeight = 120.0,
-    this.inactiveTrackHeight = 1.0,
     super.key,
   });
   final AudioPlayer audioPlayer;
-  final double activeTrackHeight;
-  final double inactiveTrackHeight;
 
   @override
   State<SeekingBarWidget> createState() => _SeekingBarWidgetState();
@@ -26,13 +23,10 @@ class SeekingBarWidget extends StatefulWidget {
 class _SeekingBarWidgetState extends State<SeekingBarWidget> {
   bool _isTouched = false;
   double? _sliderTouchedPosition;
-  @override
-  void initState() {
-    super.initState();
-  }
+  final double _activeTrackHeight = 120;
+  final double _inactiveTrackHeight = 1;
 
-  bool get hasBuffer =>
-      !_isTouched && widget.audioPlayer.bufferedPosition.inSeconds != 0;
+  bool get hasBuffer => !_isTouched && widget.audioPlayer.hasBuffer;
 
   bool get isActive {
     switch (widget.audioPlayer.processingState) {
@@ -49,16 +43,12 @@ class _SeekingBarWidgetState extends State<SeekingBarWidget> {
   SliderThemeData _getSliderTheme({
     required final BuildContext context,
     required final bool isTouched,
-    required final bool hasBuffer,
-    required final double min,
-    final double? max,
-    final double? secondaryValue,
   }) =>
       SliderThemeData(
         activeTrackColor:
             Theme.of(context).colorScheme.primary.withOpacity(0.7),
         disabledActiveTrackColor:
-            Theme.of(context).colorScheme.primary.withOpacity(0.5),
+            Theme.of(context).colorScheme.primary.withOpacity(0.7),
         inactiveTrackColor:
             Theme.of(context).colorScheme.secondary.withOpacity(0.5),
         overlayShape: SliderComponentShape.noOverlay,
@@ -67,64 +57,64 @@ class _SeekingBarWidgetState extends State<SeekingBarWidget> {
         thumbColor: Theme.of(context).colorScheme.inversePrimary,
         thumbShape: CustomThumbShape(
           isTouched: isTouched,
-          min: min,
-          max: max,
         ),
-        trackHeight:
-            isActive ? widget.activeTrackHeight : widget.inactiveTrackHeight,
+        trackHeight: _activeTrackHeight,
         trackShape: CustomTrackShape(
-          hasBuffer: hasBuffer,
-          secondaryValue: secondaryValue,
-          min: min,
-          max: max,
+          activeTrackHeight: _activeTrackHeight,
+          inactiveTrackHeight: _inactiveTrackHeight,
         ),
         valueIndicatorTextStyle: Theme.of(context).textTheme.labelLarge,
       );
 
   @override
   Widget build(final BuildContext context) {
-    const Duration minDuration = Duration.zero;
+    final double minPosition = Duration.zero.inMicroseconds.toDouble();
 
+    final sliderTheme = _getSliderTheme(
+      context: context,
+      isTouched: _isTouched,
+    );
     return StreamBuilder<Map<String, Duration?>>(
-      stream: Rx.combineLatest2<Duration, Duration, Map<String, Duration?>>(
+      stream: Rx.combineLatest2<Duration, Duration?, Map<String, Duration?>>(
         widget.audioPlayer.positionStream,
         widget.audioPlayer.bufferedPositionStream,
-        (final position, final duration) => {
+        (final position, final bufferPosition) => {
           'position': position,
-          'bufferPosition': duration,
+          'bufferPosition': hasBuffer ? bufferPosition : null,
         },
       ),
       builder: (final context, final positionsMapSnapshot) {
-        AppUtils.debugPrintAudioPlayerDetails(widget.audioPlayer);
-
-        final double minPosition = minDuration.inMicroseconds.toDouble();
+        // AppUtils.debugPrintAudioPlayerDetails(widget.audioPlayer);
         final double? duration =
             widget.audioPlayer.duration?.inMicroseconds.toDouble();
         final double? position =
-            positionsMapSnapshot.data?['position']?.inMicroseconds.toDouble();
+            positionsMapSnapshot.data?['position']!.inMicroseconds.toDouble();
+        final double? bufferPosition = positionsMapSnapshot
+            .data?['bufferPosition']?.inMicroseconds
+            .toDouble();
 
-        return Column(
+        return Stack(
+          alignment: AlignmentDirectional.bottomEnd,
           children: [
             SliderTheme(
-              data: _getSliderTheme(
-                context: context,
-                hasBuffer: hasBuffer,
-                isTouched: _isTouched,
-                min: minPosition,
-                max: duration,
-                secondaryValue: positionsMapSnapshot
-                    .data?['bufferPosition']?.inMicroseconds
-                    .toDouble(),
-              ),
+              data: sliderTheme,
               child: Slider(
+                label: _isTouched
+                    ? _getPositionAsTimeString(_sliderTouchedPosition)
+                    : '',
+                secondaryTrackValue: (duration != null) ? bufferPosition : null,
                 min: minPosition,
-                max: duration ?? 0.0,
+                max: duration ?? 1,
                 onChangeStart: (final value) {
-                  _isTouched = true;
+                  setState(() {
+                    _isTouched = true;
+                  });
                 },
                 onChangeEnd: (final value) {
-                  _isTouched = false;
-                  _sliderTouchedPosition = null;
+                  setState(() {
+                    _isTouched = false;
+                    _sliderTouchedPosition = null;
+                  });
                   widget.audioPlayer
                       .seek(Duration(microseconds: value.toInt()));
                 },
@@ -142,9 +132,43 @@ class _SeekingBarWidgetState extends State<SeekingBarWidget> {
                 // temporary [hopefully!] fix
               ),
             ),
+            if (isActive)
+              Padding(
+                padding: const EdgeInsets.all(AppSizes.points_8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text(
+                      '${_getPositionAsTimeString(position)}',
+                      style: Theme.of(context).textTheme.labelLarge,
+                    ),
+                    Text(
+                      '${_getPositionAsTimeString(duration)}',
+                      style: Theme.of(context).textTheme.labelLarge,
+                    ),
+                  ],
+                ),
+              ),
           ],
         );
       },
     );
+  }
+
+  String? _getPositionAsTimeString(
+    final double? position,
+  ) {
+    String? buffer;
+    if (position != null) {
+      final Duration positionTime = Duration(microseconds: position.round());
+      //Get position time string as HH:MM:SS
+      buffer = positionTime.toString().split('.').first.padLeft(8, '0');
+      //Cut out HH int HH:MM:SS if doesn't exceed an hour
+      if (buffer.split(':').first == '00') {
+        buffer = buffer.substring(3, 8);
+      }
+    }
+    return buffer;
   }
 }
